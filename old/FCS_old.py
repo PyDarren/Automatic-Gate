@@ -136,75 +136,8 @@ import datetime
 import re
 import xlrd
 import os
+import copy
 import pandas as pd
-import numpy as np
-
-
-def __check_equally(cls, my_list):
-    my_list = [element for element in my_list if element is not None]
-    iterator = iter(my_list)
-    try:
-        first = next(iterator)
-    except StopIteration:
-        return True
-    return all(first == rest for rest in iterator)
-
-
-def check_channel_equally(cls, channel_num, channel_name, print_str="通道"):
-    """
-    检查fcs文件之间是否通道/染色通道一致
-    """
-    channel = {}
-    for num in set(channel_num):
-        num_index = [index for index in range(0, len(channel_num)) if channel_num[index] == num]
-        channel[num] = num_index
-    # 检查通道数量是否一致
-    if len(channel) == 1:
-        print("")
-        for key in channel.keys():
-            tmp_channel_name = [channel_name[index] for index in channel[key]]
-            if cls.__check_equally(tmp_channel_name):
-                print("所有的fcs文件%s一致" % print_str)
-                return True
-            else:
-                print("所有的fcs文件,%s数量一致但不相等" % print_str)
-                return False
-    elif len(channel) != 1:
-        print("")
-        for key in channel.keys():
-            tmp_channel_name = [channel_name[index] for index in channel[key]]
-            current_file = "|".join([cls.__fcs_file[index].split("/")[-1][0:-4] for index in channel[key]])
-            if cls.__check_equally(tmp_channel_name):
-                print("%s数量%d且一致的文件有:%s" % (print_str, key, current_file))
-            else:
-                print("%s数量%d但不一致的文件有:%s" % (print_str, key, current_file))
-        return False
-
-
-# def panel_rename(cls):
-#     """
-#     根据panel表，修改fcs文件marker name
-#     """
-#     # 先检查是不是所有的fcs文件染色通道一致
-#     if check_channel_equally(Fcs.__stain_channel_num, Fcs.__stain_channel_name, print_str="染色通道"):
-#         panel_file = cls.__fcs_object[0].file_dir + "/panel.xlsx"
-#         cls.export_panel_tuple(panel_file)
-#         for fcs in cls.__fcs_object:
-#             # 传入的是嵌套元组
-#             fcs.marker_rename(*cls.panel_tuple)  # 传入panel表中的（通道名字，marker名字）
-
-
-def merge():
-    """
-    合并fcs文件
-    """
-    pass
-
-
-def data_generator(data):
-    for row in range(0, len(data)):
-        for column in range(0, len(data[0])):
-            yield data[column][row]
 
 
 class HeaderBef(object):
@@ -294,12 +227,11 @@ class Header(object):
         if "$SPILLOVER" in self.info.keys():
             print("The File has compensation Matrix!")
 
-        # # 判断analysis部分是否不为空
-        # if self.info["$NEXTDATA"] != "0":
-        #     sys.stderr.write("Some other data exist in the file but hasn't been parsed.\n")
+        # 判断analysis部分是否不为空
+        if self.info["$NEXTDATA"] != "0":
+            sys.stderr.write("Some other data exist in the file but hasn't been parsed.\n")
 
-        print("%s events were detected; Each event is characterized by %s parameters" %
-              (self.info["$TOT"], self.info["$PAR"]))
+        print("%s events were detected; Each event is characterized by %s parameters" % (self.info["$TOT"], self.info["$PAR"]))
 
 
 class Parameter(object):
@@ -314,9 +246,9 @@ class Parameter(object):
     # 限定Parameter对象只能绑定par_short_name($PnN), par_name($PnS),
     # par_range($PnR), par_bits($PnB), par_amp($PnE)等属性
     __slots__ = ("par_short_name", "par_name", "par_range", "par_bits", "par_amp",
-                 "nb_bytes", "fmt", "data", "txt_position")
+                 "nb_bytes", "fmt", "data")
 
-    def __init__(self, par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data, txt_position):
+    def __init__(self, par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data):
         self.par_short_name = par_short_name
         self.par_name = par_name
         self.par_range = par_range
@@ -325,15 +257,21 @@ class Parameter(object):
         self.nb_bytes = nb_bytes
         self.fmt = fmt  # unpack模式
         self.data = data
-        self.txt_position = txt_position
 
 
 class Fcs(object):
-    panel_tuple = None
+    __count = 0  # 计数，总共有多少个fcs文件
+    __fcs_file = []
+    __fcs_object = []
+
+    __channel_num = []
+    __channel_name = []
+    __stain_channel_num = []
+    __stain_channel_name = []
 
     def __init__(self, file):
         """
-        fcs文件属性，主要由header_bef, header, pars三个部分构成
+        fcs文件属性，主要由header_bef, header, data三个部分构成
         """
         self.file_dir = "/".join(file.split('/')[0:-1])
         self.file_name = file.split('/')[-1]
@@ -344,36 +282,28 @@ class Fcs(object):
         self.stain_channels_index = []
         self.read(file)
 
+        # 记录fcs对象信息
+        Fcs.__add_class_attribute(self=self)
+
     def read(self, file):
         f = open(file, 'rb')
-        self.header_bef = HeaderBef(f.read(58), self.file_name)
+        txt = f.read()
+        f.close()
 
-        f.seek(self.header_bef.position["head_start"])  # 定位到header起始位置
-        self.header = Header(f.read(self.header_bef.position["head_end"]+1-self.header_bef.position["head_start"]),
-                             self.file_name)
+        header_bef_txt = txt[0:58]
+        self.header_bef = HeaderBef(header_bef_txt, self.file_name)
+
+        header_txt = txt[self.header_bef.position["head_start"]:self.header_bef.position["head_end"]+1]
+        self.header = Header(header_txt, self.file_name)
 
         self.__get_parameter()
-        self.stain_channels_index = self.get_stain_channels(self.pars)
+        self.__get_stain_channels()
 
-        # 如果存在$BEGINDATA，$ENDDATA， 判断header_bef中data位置与header中$BEGINDATA，$ENDDATA是否一致
-        if "$BEGINDATA" in self.header.info.keys():
-            if self.header_bef.position["data_start"] != self.header.info["$BEGINDATA"]:
-                value_1 = self.header_bef.position["data_start"]
-                value_2 = int(self.header.info["$BEGINDATA"])
-                self.header_bef.position["data_start"] = max(value_1, value_2)
-        if "$ENDDATA" in self.header.info.keys():
-            if self.header_bef.position["data_end"] != self.header.info["$ENDDATA"]:
-                value_1 = self.header_bef.position["data_end"]
-                value_2 = int(self.header.info["$ENDDATA"])
-                self.header_bef.position["data_end"] = max(value_1, value_2)
-
-        f.seek(self.header_bef.position["data_start"])  # 定位到data起始位置
         t_start = datetime.datetime.now()
-        self.__get_data(f)
+        data_txt = txt[self.header_bef.position["data_start"]:self.header_bef.position["data_end"]+1]
+        self.__get_data(data_txt)
         t_end = datetime.datetime.now()
         print("read %s elapse %s" % (self.header.info["$FIL"], (t_end - t_start)))
-
-        f.close()
 
     def __get_parameter(self):
         """
@@ -402,7 +332,6 @@ class Fcs(object):
         if header.info["$DATATYPE"] != "F":
             raise NotImplementedError
 
-        data_len = 0
         for i in range(1, int(header.info["$PAR"]) + 1):
             par_short_name = header.info["$P%dN" % i] if "$P"+str(i)+"N" in header.info else None
             par_name = header.info["$P%dS" % i] if "$P"+str(i)+"S" in header.info else None
@@ -424,85 +353,80 @@ class Fcs(object):
             else:
                 raise ValueError("不是有效的Bit整数")
             fmt = endianness + c_type  # unpack模式
-            # data = [0]*int(header.info["$TOT"])
-            data = []
-
-            start = data_len
-            data_len = data_len+nb_bytes
-            txt_position = (start, data_len)
-
-            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data, txt_position)
+            data = [0]*int(header.info["$TOT"])
+            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data)
             self.pars.append(par)
 
-    @ staticmethod
-    def get_stain_channels(pars):
+    def __get_stain_channels(self):
         """
         找出染色的通道
         :return: 返回染色通道的索引
         """
-        stain_channels_index = []
-        for i in range(0, len(pars)):
-            channel_name = pars[i].par_name
+        for i in range(0, len(self.pars)):
+            channel_name = self.pars[i].par_name
             if channel_name is None:
                 continue
             # 判断channel_name是否是 数字+字母+_marker的模式
-            elif re.match(r"\d+.+_", channel_name):
+            elif re.match("\d+.+_", channel_name):
                 # 判断channel_name中是否包含DNA|cisplatin|barcode字符
                 if re.search("DNA|cisplatin|barcode", channel_name):
                     continue
                 else:
-                    stain_channels_index.append(i+1)
-        return stain_channels_index
+                    self.stain_channels_index.append(i+1)
 
-    def __get_data(self, f):
+    def __get_data(self, data_txt):
         """
         fcs_data得到的是字节Byte形式存储的,数据存储以字节为单位，数据传输通常以位bit为单位，通常一字节是8位bit
         len(fcs_data)给出有多少字节
         """
         # unpack data
-        row_bytes = sum([par.nb_bytes for par in self.pars])
-        row_fmt = [par.fmt for par in self.pars]
-        row_fmt = ">"+re.sub(">", "", ''.join(row_fmt))
+        data_len = 0
+        for row in range(0, int(self.header.info["$TOT"])):
+            for column in range(0, int(self.header.info["$PAR"])):
+                par = self.pars[column]
+                nb_bytes = int(par.nb_bytes)
+                # 二进制数据根据每个通道的存储字节来转换成常规数值
+                value = struct.unpack(par.fmt, data_txt[data_len:data_len + nb_bytes])[0]
+                data_len = data_len + nb_bytes
+                self.pars[column].data[row] = value
 
-        event_num = int(self.header.info["$TOT"])
-        par_num = int(self.header.info["$PAR"])
+    def __creat_dir(self, folder_name):
+        # 在原有fcs路径下创建指定文件夹
+        save_dir = self.file_dir + "/" + folder_name
+        # excel文件夹不存在时创建
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        return save_dir
 
-        for row in range(0, event_num):
-            # 一行二进制数据根据每个通道的存储字节来转换成常规数值
-            row_values = struct.unpack(row_fmt, f.read(int(row_bytes)))
-            [self.pars[i].data.append(row_values[i]) for i in range(0, par_num)]
-
-    @staticmethod
-    def write_to(file, pars, to="fcs"):
+    def fcs2excel(self, folder_name="Excel"):
         """
-        将pars文件信息写出到csv中或fcs中
-        默认写入到fcs文件中
+        将fcs文件信息写出到excel中
         """
-        if to == "csv":
-            # 写入抬头信息
-            marker_name = [re.sub("^.+?_", "", par.par_name) if par.par_name is not None else par.par_short_name
-                           for par in pars]
-            marker_name = [marker_name[i] if marker_name[i] != "" else pars[i].par_short_name for i in
-                           range(0, len(pars))]
+        pars = self.pars
 
-            data = [par.data for par in pars]
-            df = pd.DataFrame(data).T
-            df.columns = marker_name
-            df.to_csv(file, index=False)
-        elif to == "fcs":
-            channel_name = [par.par_short_name for par in pars]
-            marker_name = [par.par_name for par in pars]
-            data = [par.data for par in pars]
-            Write(file, channel_name, marker_name, data)
+        t_start = datetime.datetime.now()
+        # 写入抬头信息
+        marker_name = [re.sub("^.+?_", "", par.par_name) if par.par_name is not None else par.par_short_name for par in pars]
+        marker_name = [marker_name[i] if marker_name[i] != "" else pars[i].par_short_name for i in range(0, len(pars))]
 
-    @staticmethod
-    def delete_channel(pars, *args):
+        data = [par.data for par in pars]
+        df = pd.DataFrame(data).T
+        df.columns = marker_name
+        print(df.head())
+        # 绝对路径
+        save_dir = self.__creat_dir(folder_name)
+        file = save_dir + "/" + self.file_name[0:-4] + ".csv"  # 去掉文件后缀.fcs
+        df.to_csv(file, index=False)
+        t_end = datetime.datetime.now()
+        print("write %s to excel elapse %s" % (self.file_name, (t_end - t_start)))
+
+    def delete_channel(self, *args, folder_name="Delete_Channel_Fcs"):
         """
         删除指定通道，传入进来的可以是通道数字，如89， 103， 104，或者是通道完整名字
-        写到fcs文件中
         """
+        pars = copy.deepcopy(self.pars)
         channel_name_1 = [par.par_short_name for par in pars]
-        channel_name_2 = [re.sub(r"[^\d+]", "", name) for name in channel_name_1]
+        channel_name_2 = [re.sub("[^\d+]", "", name) for name in channel_name_1]
         # 查找要删除的通道的索引
         delete_channel_index = []
         for tmp_arg in args:
@@ -513,37 +437,23 @@ class Fcs(object):
             except ValueError:
                 index = channel_name_2.index(tmp_arg)
                 delete_channel_index.append(index)
+
         # 删除pars中对应的通道
         pars = [pars[i] for i in range(0, len(pars)) if i not in delete_channel_index]
-        return pars
 
-    @staticmethod
-    def export_channel(pars, *args):
-        """
-        导出指定通道，传入进来的可以是通道数字，如89， 103， 104，或者是通道完整名字
-        写到fcs文件中
-        """
-        channel_name_1 = [par.par_short_name for par in pars]
-        channel_name_2 = [re.sub(r"[^\d+]", "", name) for name in channel_name_1]
-        # 查找要导出的通道的索引
-        export_channel_index = []
-        for tmp_arg in args:
-            tmp_arg = str(tmp_arg)
-            try:
-                index = channel_name_1.index(tmp_arg)
-                export_channel_index.append(index)
-            except ValueError:
-                index = channel_name_2.index(tmp_arg)
-                export_channel_index.append(index)
-        # 删除pars中对应的通道
-        pars = [pars[i] for i in range(0, len(pars)) if i in export_channel_index]
-        return pars
+        # 写出到fcs
+        save_dir = self.__creat_dir(folder_name)
+        file = save_dir + "/" + self.file_name
+        channel_name = [par.par_short_name for par in pars]
+        marker_name = [par.par_name for par in pars]
+        data = [par.data for par in pars]
+        Write(file, channel_name, marker_name, data)
 
-    @staticmethod
-    def add_channel(pars, *args):
+    def add_channel(self, *args, folder_name="Add_Channel_Fcs"):
         """
         往数据中添加一个通道及数据, 传进来的是(（channel_name, marker_name, data）, （channel_name, marker_name, data）)形式
         """
+        pars = copy.deepcopy(self.pars)
         # 默认在末尾添加
         for tmp_arg in args:
             par_short_name = tmp_arg[0]
@@ -555,19 +465,24 @@ class Fcs(object):
             par_amp = pars[0].par_bits
             nb_bytes = pars[0].par_bits
             fmt = pars[0].par_bits
-            txt_position = (0, 0)
+            new_par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data)
+            pars.append(new_par)
 
-            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data, txt_position)
-            pars.append(par)
-        return pars
+        # 写出到fcs
+        save_dir = self.__creat_dir(folder_name)
+        file = save_dir + "/" + self.file_name
+        channel_name = [par.par_short_name for par in pars]
+        marker_name = [par.par_name for par in pars]
+        data = [par.data for par in pars]
+        Write(file, channel_name, marker_name, data)
 
-    @staticmethod
-    def marker_rename(pars, *args):
+    def marker_rename(self, *args, folder_name="Marker_rename"):
         """
         修改marker_name,传入如(115，"CD3"), (89, "cd45), 或(通道完整名字，marker名字)
         """
+        pars = copy.deepcopy(self.pars)
         channel_name_1 = [par.par_short_name for par in pars]
-        channel_name_2 = [re.sub(r"[^\d+]", "", name) for name in channel_name_1]
+        channel_name_2 = [re.sub("[^\d+]", "", name) for name in channel_name_1]
         # 查找要修改marker名称的通道的索引
         for tmp_arg in args:
             tmp_rename_channel = str(tmp_arg[0])
@@ -577,68 +492,127 @@ class Fcs(object):
                 index = channel_name_2.index(tmp_rename_channel)
             # 修改marker name
             marker_name = pars[index].par_name
-            marker_name = '_'.join([marker_name.split("_")[0], tmp_arg[1]]) if marker_name is not None else tmp_arg[1]
+            marker_name = '_'.join([marker_name.split("_")[0], tmp_arg[1]])
             pars[index].par_name = marker_name
-        return pars
 
-    @staticmethod
-    def down_sample(pars, *args):
+        # 写出到fcs
+        save_dir = self.__creat_dir(folder_name)
+        file = save_dir + "/" + self.file_name
+        channel_name = [par.par_short_name for par in pars]
+        marker_name = [par.par_name for par in pars]
+        data = [par.data for par in pars]
+        Write(file, channel_name, marker_name, data)
+
+    def down_sample(self):
         """
         对数据进行降采样
-        可以传入要降采样的数目或者要降采样的行的索引
         """
-        down_sample_index = []
-        event_num = len(pars[0].data)
-        if len(args) == 1:
-            down_sample_num = int(args[0])
-            # 判断down_sample_num是否超过原有行数
-            if down_sample_num >= event_num:
-                return pars
-            elif down_sample_num < event_num:
-                # 随机抽取指定数目的行数, 无放回抽样
-                down_sample_index = list(np.random.choice(np.r_[0:event_num], down_sample_num, replace=False))
-        elif len(args) >= 1:
-            down_sample_index = list(args)
-
-        for p in range(0, len(pars)):
-            par = [pars[p][i] for i in range(0, len(pars[p])) if i in down_sample_index]
-            pars[p] = par
-        return pars
+        pass
 
     @classmethod
-    def export_panel_tuple(cls, panel_file):
-        print("")
-        print("读取panel表")
-        # 读取panel表信息
-        workbook = xlrd.open_workbook(panel_file)
-        panel_sheet = workbook.sheet_by_name('panel')
+    def __add_class_attribute(cls, self):
+        """
+        添加类属性
+        :param self: fcs对象
+        """
+        # 创建一个实例，计数加1
+        cls.__count += 1
+        cls.__fcs_file.append(self.file_name)
+        cls.__fcs_object.append(self)
 
-        channel = panel_sheet.col_values(0)
-        channel = [re.sub(r"[^\d+]", "", tmp_channel) if tmp_channel.isalnum() else tmp_channel
-                   for tmp_channel in channel]
+        cls.__channel_num.append(int(self.header.info["$PAR"]))  # 通道数量
+        cls.__stain_channel_num.append(len(self.stain_channels_index))  # 染色通道数量
 
-        marker = panel_sheet.col_values(1)
-        marker = [re.sub("（", "(", tmp_marker) for tmp_marker in marker]
-        marker = [re.sub("）", ")", tmp_marker) for tmp_marker in marker]
+        # 记录通道名字和染色通道名字
+        channel_name = [par.par_short_name for par in self.pars]
+        cls.__channel_name.append(channel_name)
+        cls.__stain_channel_name.append([channel_name[index-1] for index in self.stain_channels_index])
 
-        if len(channel) == len(marker):
-            cls.panel_tuple = tuple([(channel[i], marker[i]) for i in range(0, len(channel))])
-        else:
-            print("panel表中的channel和marker数量不一致！！！")
+    @classmethod
+    def __check_equally(cls, my_list):
+        my_list = [element for element in my_list if element is not None]
+        iterator = iter(my_list)
+        try:
+            first = next(iterator)
+        except StopIteration:
+            return True
+        return all(first == rest for rest in iterator)
 
-        return cls.panel_tuple
+    @classmethod
+    def check_channel_equally(cls, channel_num, channel_name, print_str="通道"):
+        """
+        检查fcs文件之间是否通道/染色通道一致
+        """
+        channel = {}
+        for num in set(channel_num):
+            num_index = [index for index in range(0, len(channel_num)) if channel_num[index] == num]
+            channel[num] = num_index
+        # 检查通道数量是否一致
+        if len(channel) == 1:
+            print("")
+            for key in channel.keys():
+                tmp_channel_name = [channel_name[index] for index in channel[key]]
+                if cls.__check_equally(tmp_channel_name):
+                    print("所有的fcs文件%s一致" % print_str)
+                    return True
+                else:
+                    print("所有的fcs文件,%s数量一致但不相等" % print_str)
+                    return False
+        elif len(channel) != 1:
+            print("")
+            for key in channel.keys():
+                tmp_channel_name = [channel_name[index] for index in channel[key]]
+                current_file = "|".join([cls.__fcs_file[index].split("/")[-1][0:-4] for index in channel[key]])
+                if cls.__check_equally(tmp_channel_name):
+                    print("%s数量%d且一致的文件有:%s" % (print_str, key, current_file))
+                else:
+                    print("%s数量%d但不一致的文件有:%s" % (print_str, key, current_file))
+            return False
+
+    @classmethod
+    def panel_rename(cls):
+        """
+        根据panel表，修改fcs文件marker name
+        """
+        # 先检查是不是所有的fcs文件染色通道一致
+        if Fcs.check_channel_equally(Fcs.__stain_channel_num, Fcs.__stain_channel_name, print_str="染色通道"):
+            print("")
+            print("读取panel表,开始修改marker name")
+            # 读取panel表信息
+            panel_file = cls.__fcs_object[0].file_dir + "/panel.xlsx"
+            workbook = xlrd.open_workbook(panel_file)
+            panel_sheet = workbook.sheet_by_name('panel')
+
+            channel = panel_sheet.col_values(0)
+            channel = [re.sub("[^\d+]", "", tmp_channel) for tmp_channel in channel]
+
+            marker = panel_sheet.col_values(1)
+            marker = [re.sub("（", "(", tmp_marker) for tmp_marker in marker]
+            marker = [re.sub("）", ")", tmp_marker) for tmp_marker in marker]
+
+            global panel_tuple
+            if len(channel) == len(marker):
+                panel_tuple = tuple([(channel[i], marker[i]) for i in range(0, len(channel))])
+            else:
+                print("panel表中的channel和marker数量不一致！！！")
+
+            for fcs in cls.__fcs_object:
+                # 传入的是嵌套元组
+                fcs.marker_rename(*panel_tuple)  # 传入panel表中的（通道名字，marker名字）
+
+    @classmethod
+    def merge(cls):
+        """
+        合并fcs文件
+        """
+        pass
 
 
 class StainFcs(Fcs):
     def __init__(self, file):
         super().__init__(file)
         # 删除pars中对应的通道
-        # 先判断有没有染色通道
-        if len(self.stain_channels_index) != 0:
-            self.pars = [self.pars[i] for i in range(0, len(self.pars)) if i+1 in self.stain_channels_index]
-        else:
-            print("所有通道都没有染色!!!")
-            assert len(self.stain_channels_index) == 0
+        self.pars = [self.pars[i] for i in range(0, len(self.pars)) if i+1 in self.stain_channels_index]
 
 
 class ClusterFcs(Fcs):
@@ -697,15 +671,11 @@ class Write(object):
         info["$DATATYPE"] = "F"
         info["$MODE"] = "L"
         info["$BYTEORD"] = "4,3,2,1"
-
-        info["$BEGINSTEXT"] = str("0").center(8, " ")
-        info["$ENDSTEXT"] = str("0").center(8, " ")
-        info["$BEGINDATA"] = str("0").center(8, " ")
-        info["$ENDDATA"] = str("0").center(8, " ")
-        info["$BEGINANALYSIS"] = str("0").center(8, " ")
-        info["$ENDANALYSIS"] = str("0").center(8, " ")
-        info["$NEXTDATA"] = str("0")
-
+        info["$BEGINSTEXT"] = "0"
+        info["$ENDSTEXT"] = "0"
+        info["$NEXTDATA"] = "0"
+        info["$BEGINANALYSIS"] = "0"
+        info["$ENDANALYSIS"] = "0"
         info["ORIGINALGUID"] = "1.fcs"
         info["GUID"] = "1.fcs"
 
@@ -726,7 +696,7 @@ class Write(object):
         for i in range(1, channel_num+1):
             info["$P%dN" % i] = self.channel_name[i-1] if self.channel_name[i-1] is not None else ""
             info["$P%dS" % i] = self.marker_name[i-1] if self.marker_name[i-1] is not None else ""
-            info["$P%dR" % i] = str(int(max(self.data[i-1])+1))
+            info["$P%dR" % i] = str(max(self.data[i-1]))
             info["$P%dB" % i] = "32"
             info["$P%dE" % i] = "0,0"
         return info
@@ -772,23 +742,10 @@ class Write(object):
         analysis_start = 0
         analysis_end = 0
 
-        self.info["$BEGINSTEXT"] = str(head_start).center(8, " ")
-        self.info["$ENDSTEXT"] = str(head_end).center(8, " ")
-        self.info["$BEGINDATA"] = str(data_start).center(8, " ")
-        self.info["$ENDDATA"] = str(data_end).center(8, " ")
-        self.info["$BEGINANALYSIS"] = str(analysis_start).center(8, " ")
-        self.info["$ENDANALYSIS"] = str(analysis_end).center(8, " ")
-
         position["head_start"] = head_start
         position["head_end"] = head_end
-
         position["data_start"] = data_start
         position["data_end"] = data_end
-        # 如果超过8个字符，就用header中的$BEGINDATA， $ENDDATA记录
-        if len(str(data_end)) > 8:
-            position["data_start"] = 0
-            position["data_end"] = 0
-
         position["analysis_start"] = analysis_start
         position["analysis_end"] = analysis_end
         position_keys = ["head_start", "head_end", "data_start", "data_end", "analysis_start", "analysis_end"]
@@ -796,7 +753,6 @@ class Write(object):
         self.header_bef_str = "FCS3.0" + " " * 4
         for key in position_keys:
             self.header_bef_str = self.header_bef_str + str(position[key]).center(8, " ")
-        self.__join_header_str()  # 根据修改的info中的$BEGINSTEXT， $BEGINDATA等信息，生成新的header_str
 
     def __write_fcs(self):
         """
@@ -805,26 +761,16 @@ class Write(object):
         再写入header信息
         最后写入data
         """
-        # 查看是否存在file中包含得路径
-        save_dir = "/".join(self.file.split("/")[0:-1])
-        # excel文件夹不存在时创建
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
-
-        f = open(self.file, 'wb')
+        f = open(self.file, 'a+b')
         # 写入head前的信息, 再写入head
         txt = "".join([self.header_bef_str, self.header_str])
         txt = bytes(txt.encode("utf-8"))  # 先以utf-8标准编码，每个字符对应规则下的固定字节
         f.write(txt)
-
         # 开始写入data
-        event_num = int(self.info["$TOT"])
-        par_num = int(self.info["$PAR"])
-        row_fmt = ">"+"f"*par_num
-
-        for index in range(0, event_num):
-            tmp_row_data = tuple([self.data[col][index] for col in range(0, par_num)])
-            tmp_unpack_data = struct.pack(row_fmt, *tmp_row_data)
-            f.write(tmp_unpack_data)
-
+        fmt = ">f"
+        for index in range(0, int(self.info["$TOT"])):
+            for tmp_data in self.data:
+                tmp_unpack_data = struct.pack(fmt, tmp_data[index])
+                f.write(tmp_unpack_data)
         f.close()
+
