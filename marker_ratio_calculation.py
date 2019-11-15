@@ -44,6 +44,17 @@ if __name__ == "__main__":
     model_CD4 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD4_classfy.h5')
     model_CD4.build(input_shape)
 
+    model_CD8 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD8_classfy.h5')
+    model_CD8.build(input_shape)
+    
+    model_CD45 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD45_classfy.h5')
+    model_CD45.build(input_shape)
+    
+    model_IGD = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/IGD_classfy.h5')
+    model_IGD.build(input_shape)   
+    
+    
+
     ############################################
     ####          New sample test
     data_path = 'E:/cd/Automatic_Gate_Data/test/marker_test/'
@@ -54,21 +65,49 @@ if __name__ == "__main__":
     for info in file_list:
         info_list = list()
         info_list.append(info[:-23])
+        
         # 计算CD3+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         ratio_CD3_all, CD3_df = ratioCalculation2(new_df, model_CD3)
         ratio_CD3Pos, ratio_CD3Neg = tuple(ratio_CD3_all)
         info_list.append(ratio_CD3Pos)
         info_list.append(ratio_CD3Neg)
+        
         # 计算CD4+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         ratio_CD4_all, CD4_df = ratioCalculation2(new_df, model_CD4)
         ratio_CD4Pos, ratio_CD4Neg = tuple(ratio_CD4_all)
         info_list.append(ratio_CD4Pos)
         info_list.append(ratio_CD4Neg)
+        
+        # 计算CD8+-的比率
+        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        ratio_CD8_all, CD8_df = ratioCalculation2(new_df, model_CD8)
+        ratio_CD8Pos, ratio_CD8Neg = tuple(ratio_CD8_all)
+        info_list.append(ratio_CD8Pos)
+        info_list.append(ratio_CD8Neg)
+        
+        # 计算CD45+-的比率
+        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        ratio_CD45_all, CD45_df = ratioCalculation2(new_df, model_CD45)
+        ratio_CD45Pos, ratio_CD45Neg = tuple(ratio_CD45_all)
+        info_list.append(ratio_CD45Pos)
+        info_list.append(ratio_CD45Neg)        
+        
+        # 计算IGD+-的比率
+        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        ratio_IGD_all, IGD_df = ratioCalculation2(new_df, model_IGD)
+        ratio_IGDPos, ratio_IGDNeg = tuple(ratio_IGD_all)
+        info_list.append(ratio_IGDPos)
+        info_list.append(ratio_IGDNeg)    
+        
 
         info_df = pd.DataFrame(info_list).T
-        info_df.columns = ['id', 'CD3Pos_auto', 'CD3Neg_auto', 'CD4Pos_auto', 'CD4Neg_auto']
+        info_df.columns = ['id', 'CD3Pos_auto', 'CD3Neg_auto',
+                           'CD4Pos_auto', 'CD4Neg_auto',
+                           'CD8Pos_auto', 'CD8Neg_auto',
+                           'CD45Pos_auto', 'CD45Neg_auto',
+                           'IGDPos_auto', 'IGDNeg_auto']
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-23])

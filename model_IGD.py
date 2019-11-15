@@ -81,8 +81,8 @@ if __name__ == "__main__":
     ######################################
     #### Data import
     data_path = 'E:/cd/Automatic_Gate_Data/Rawdata/marker_42/'
-    file_0 = 'CD8+'
-    file_1 = 'CD8-'
+    file_0 = 'IGD+'
+    file_1 = 'IGD-'
     df_0 = pd.read_csv(data_path+file_0+'.csv').iloc[:, :-1]
     df_1 = pd.read_csv(data_path+file_1+'.csv').iloc[:, :-1]
 
@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(64, activation='tanh'),
-        # tf.keras.layers.Dense(64, activation='tanh'),
+        tf.keras.layers.Dense(64, activation='tanh'),
         # tf.keras.layers.Dense(64, activation='tanh'),
         # tf.keras.layers.Dense(32, activation='tanh'),
         tf.keras.layers.Dense(2, activation='sigmoid')
@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
     model.fit(train_X,
               train_labels,
-              epochs=2,
+              epochs=100,
               # batch_size=16384,
               # validation_data=(test_X, test_labels),
               # verbose=2
@@ -139,9 +139,5 @@ if __name__ == "__main__":
     print('\nTest less accuracy:', test_less_acc)
 
     ## save model
-    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD8_classfy.h5')
-
-
-
-
+    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/IGD_classfy.h5')
 
