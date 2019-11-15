@@ -74,9 +74,14 @@ if __name__ == "__main__":
         ratio_DNA_all, DNA_df = ratioCalculation2(beads_df_new, model_DNA)
         ratio_DNA = ratio_DNA_all[0]
         info_list.append(ratio_DNA)
+        # 计算singlets比率
+        DNA_length = len(DNA_df)
+        singlets_length = len(DNA_df[DNA_df['length'] <= 20])
+        ratio_singlets = singlets_length / DNA_length
+        info_list.append(ratio_singlets)
 
         info_df = pd.DataFrame(info_list).T
-        info_df.columns = ['id', 'CD66b_auto', 'Remove beads_auto', 'DNA_auto']
+        info_df.columns = ['id', 'CD66b_auto', 'Remove beads_auto', 'DNA_auto', 'Singlets_auto']
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-18])

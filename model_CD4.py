@@ -4,7 +4,6 @@
 # Created on: 2019/11/14
 
 
-
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -80,9 +79,9 @@ if __name__ == "__main__":
 
     ######################################
     #### Data import
-    data_path = 'E:/cd/Automatic_Gate_Data/Rawdata/'
-    file_0 = '4_Singlets'
-    file_1 = 'noSinglets'
+    data_path = 'E:/cd/Automatic_Gate_Data/Rawdata/marker_42/'
+    file_0 = 'CD4+'
+    file_1 = 'CD4-'
     df_0 = pd.read_csv(data_path+file_0+'.csv').iloc[:, :-1]
     df_1 = pd.read_csv(data_path+file_1+'.csv').iloc[:, :-1]
 
@@ -97,7 +96,7 @@ if __name__ == "__main__":
 
     #### Divide the training set and the test set
     train_raw, test = split_func(final_df)
-    train = balance_train(train_raw)
+    train = balance_train(train_raw, more_label=1, less_label=0)
     print('Finish divide.')
 
 
@@ -127,7 +126,7 @@ if __name__ == "__main__":
 
     model.fit(train_X,
               train_labels,
-              epochs=10,
+              epochs=2,
               # batch_size=16384,
               # validation_data=(test_X, test_labels),
               # verbose=2
@@ -139,9 +138,7 @@ if __name__ == "__main__":
     print('\nTest less accuracy:', test_less_acc)
 
     ## save model
-    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/singlets_classfy.h5')
-
-
+    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD4_classfy.h5')
 
 
 
