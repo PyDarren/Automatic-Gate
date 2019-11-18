@@ -62,6 +62,10 @@ if __name__ == "__main__":
     model_CD19 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD19_classfy.h5')
     model_CD19.build(input_shape)
 
+    model_CD20 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD20_classfy.h5')
+    model_CD20.build(input_shape)
+
+
 
     ############################################
     ####          New sample test
@@ -123,12 +127,20 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD14Pos)
         # info_list.append(ratio_CD14Neg)
         
-        # 计算CD19+-的比率
+        # # 计算CD19+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD19_all, CD19_df = ratioCalculation2(new_df, model_CD19)
+        # ratio_CD19Pos, ratio_CD19Neg = tuple(ratio_CD19_all)
+        # info_list.append(ratio_CD19Pos)
+        # info_list.append(ratio_CD19Neg)
+
+        # 计算CD20+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD19_all, CD19_df = ratioCalculation2(new_df, model_CD19)
-        ratio_CD19Pos, ratio_CD19Neg = tuple(ratio_CD19_all)
-        info_list.append(ratio_CD19Pos)
-        info_list.append(ratio_CD19Neg)
+        ratio_CD20_all, CD20_df = ratioCalculation2(new_df, model_CD20)
+        ratio_CD20Pos, ratio_CD20Neg = tuple(ratio_CD20_all)
+        info_list.append(ratio_CD20Pos)
+        info_list.append(ratio_CD20Neg)
+        
 
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
@@ -139,7 +151,8 @@ if __name__ == "__main__":
                            # 'IGDPos_auto', 'IGDNeg_auto',
                            # 'CD11bPos_auto', 'CD11bNeg_auto',
                            # 'CD14Pos_auto', 'CD14Neg_auto',
-                           'CD19Pos_auto', 'CD19Neg_auto']
+                           # 'CD19Pos_auto', 'CD19Neg_auto',
+                           'CD20Pos_auto', 'CD20Neg_auto']
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-23])
