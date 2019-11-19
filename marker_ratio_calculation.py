@@ -76,7 +76,9 @@ if __name__ == "__main__":
 
     model_CD86 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD86_classfy.h5')
     model_CD86.build(input_shape)
-
+    
+    model_CD94 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD94_classfy.h5')
+    model_CD94.build(input_shape)
 
 
 
@@ -175,12 +177,20 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD39Pos)
         # info_list.append(ratio_CD39Neg)
         
-         # 计算CD86+-的比率
+        #  # 计算CD86+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD86_all, CD86_df = ratioCalculation2(new_df, model_CD86)
+        # ratio_CD86Pos, ratio_CD86Neg = tuple(ratio_CD86_all)
+        # info_list.append(ratio_CD86Pos)
+        # info_list.append(ratio_CD86Neg)
+        
+        # 计算CD94+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD86_all, CD86_df = ratioCalculation2(new_df, model_CD86)
-        ratio_CD86Pos, ratio_CD86Neg = tuple(ratio_CD86_all)
-        info_list.append(ratio_CD86Pos)
-        info_list.append(ratio_CD86Neg)       
+        ratio_CD94_all, CD94_df = ratioCalculation2(new_df, model_CD94)
+        ratio_CD94Pos, ratio_CD94Neg = tuple(ratio_CD94_all)
+        info_list.append(ratio_CD94Pos)
+        info_list.append(ratio_CD94Neg)           
+        
         
 
         info_df = pd.DataFrame(info_list).T
@@ -197,7 +207,8 @@ if __name__ == "__main__":
                            # 'CD27Pos_auto', 'CD27Neg_auto',
                            # 'CD33Pos_auto', 'CD33Neg_auto',
                            # 'CD39Pos_auto', 'CD39Neg_auto',
-                           'CD86Pos_auto', 'CD86Neg_auto']
+                           # 'CD86Pos_auto', 'CD86Neg_auto',
+                           'CD94Pos_auto', 'CD94Neg_auto']
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-23])
