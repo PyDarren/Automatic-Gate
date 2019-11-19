@@ -83,6 +83,8 @@ if __name__ == "__main__":
     model_CXCR5 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CXCR5_classfy.h5')
     model_CXCR5.build(input_shape)
 
+    model_gdTCR = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/gdTCR_classfy.h5')
+    model_gdTCR.build(input_shape)
 
 
 
@@ -197,13 +199,19 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD94Pos)
         # info_list.append(ratio_CD94Neg)
 
-        # 计算CXCR5+-的比率
+        # # 计算CXCR5+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CXCR5_all, CXCR5_df = ratioCalculation2(new_df, model_CXCR5)
+        # ratio_CXCR5Pos, ratio_CXCR5Neg = tuple(ratio_CXCR5_all)
+        # info_list.append(ratio_CXCR5Pos)
+        # info_list.append(ratio_CXCR5Neg)
+        
+        # 计算gdTCR+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CXCR5_all, CXCR5_df = ratioCalculation2(new_df, model_CXCR5)
-        ratio_CXCR5Pos, ratio_CXCR5Neg = tuple(ratio_CXCR5_all)
-        info_list.append(ratio_CXCR5Pos)
-        info_list.append(ratio_CXCR5Neg)
-
+        ratio_gdTCR_all, gdTCR_df = ratioCalculation2(new_df, model_gdTCR)
+        ratio_gdTCRPos, ratio_gdTCRNeg = tuple(ratio_gdTCR_all)
+        info_list.append(ratio_gdTCRPos)
+        info_list.append(ratio_gdTCRNeg)
 
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
@@ -221,7 +229,8 @@ if __name__ == "__main__":
                            # 'CD39Pos_auto', 'CD39Neg_auto',
                            # 'CD86Pos_auto', 'CD86Neg_auto',
                            # 'CD94Pos_auto', 'CD94Neg_auto',
-                           'CXCR5Pos_auto', 'CXCR5Neg_auto'
+                           # 'CXCR5Pos_auto', 'CXCR5Neg_auto',
+                           'gdTCRPos_auto', 'gdTCRNeg_auto'
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
