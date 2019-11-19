@@ -6,6 +6,7 @@
 
 
 
+
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -82,8 +83,8 @@ if __name__ == "__main__":
     ######################################
     #### Data import
     data_path = 'E:/cd/Automatic_Gate_Data/Rawdata/marker_42/'
-    file_0 = 'CXCR5+'
-    file_1 = 'CXCR5-'
+    file_0 = 'gdTCR+'
+    file_1 = 'gdTCR-'
     df_0 = pd.read_csv(data_path+file_0+'.csv').iloc[:, :-1]
     df_1 = pd.read_csv(data_path+file_1+'.csv').iloc[:, :-1]
 
@@ -143,6 +144,4 @@ if __name__ == "__main__":
     print('\nTest less accuracy:', test_less_acc)
 
     ## save model
-    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CXCR5_classfy.h5')
-
-
+    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/gdTCR_classfy.h5')
