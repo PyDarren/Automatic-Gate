@@ -64,7 +64,9 @@ if __name__ == "__main__":
 
     model_CD20 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD20_classfy.h5')
     model_CD20.build(input_shape)
-
+    
+    model_CD27 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD27_classfy.h5')
+    model_CD27.build(input_shape)
 
 
     ############################################
@@ -134,13 +136,19 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD19Pos)
         # info_list.append(ratio_CD19Neg)
 
-        # 计算CD20+-的比率
-        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD20_all, CD20_df = ratioCalculation2(new_df, model_CD20)
-        ratio_CD20Pos, ratio_CD20Neg = tuple(ratio_CD20_all)
-        info_list.append(ratio_CD20Pos)
-        info_list.append(ratio_CD20Neg)
+        # # 计算CD20+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD20_all, CD20_df = ratioCalculation2(new_df, model_CD20)
+        # ratio_CD20Pos, ratio_CD20Neg = tuple(ratio_CD20_all)
+        # info_list.append(ratio_CD20Pos)
+        # info_list.append(ratio_CD20Neg)
         
+        # 计算CD27+-的比率
+        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        ratio_CD27_all, CD27_df = ratioCalculation2(new_df, model_CD27)
+        ratio_CD27Pos, ratio_CD27Neg = tuple(ratio_CD27_all)
+        info_list.append(ratio_CD27Pos)
+        info_list.append(ratio_CD27Neg)        
 
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
@@ -152,7 +160,8 @@ if __name__ == "__main__":
                            # 'CD11bPos_auto', 'CD11bNeg_auto',
                            # 'CD14Pos_auto', 'CD14Neg_auto',
                            # 'CD19Pos_auto', 'CD19Neg_auto',
-                           'CD20Pos_auto', 'CD20Neg_auto']
+                           # 'CD20Pos_auto', 'CD20Neg_auto',
+                           'CD27Pos_auto', 'CD27Neg_auto']
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-23])

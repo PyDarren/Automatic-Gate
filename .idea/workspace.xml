@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="959e3f5a-4ad5-4e31-9683-94540219ddfb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model_CD20.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_CD27.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/marker_ratio_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/marker_ratio_calculation.py" afterDir="false" />
     </list>
@@ -17,8 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1805">
-              <caret line="156" column="45" lean-forward="true" selection-start-line="156" selection-start-column="45" selection-end-line="156" selection-end-column="45" />
+            <state relative-caret-position="512">
+              <caret line="163" column="58" lean-forward="true" selection-start-line="163" selection-start-column="58" selection-end-line="163" selection-end-column="58" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -27,13 +27,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model_CD27.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="720">
+              <caret line="143" column="7" lean-forward="true" selection-start-line="143" selection-start-column="7" selection-end-line="143" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model_CD19.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="126" column="21" selection-end-line="141" />
-              <folding>
-                <element signature="e#174#193#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2280">
+              <caret line="123" column="56" selection-start-line="123" selection-start-column="56" selection-end-line="123" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -41,11 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model_CD20.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
+            <state relative-caret-position="2622">
               <caret line="141" selection-start-line="141" selection-end-line="141" />
-              <folding>
-                <element signature="e#174#193#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -53,11 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model_CD14.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
+            <state relative-caret-position="2527">
               <caret line="136" column="25" selection-end-line="143" />
-              <folding>
-                <element signature="e#176#195#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -65,7 +65,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model_CD11b.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
+            <state relative-caret-position="2641">
               <caret line="142" selection-end-line="142" />
               <folding>
                 <element signature="e#88#107#0" expanded="true" />
@@ -94,6 +94,7 @@
       <find>CD14</find>
       <find>14</find>
       <find>19</find>
+      <find>20</find>
     </findStrings>
     <replaceStrings>
       <replace>4</replace>
@@ -105,6 +106,7 @@
       <replace>CD19</replace>
       <replace>19</replace>
       <replace>20</replace>
+      <replace>27</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -127,6 +129,7 @@
         <option value="$PROJECT_DIR$/model_CD14.py" />
         <option value="$PROJECT_DIR$/model_CD19.py" />
         <option value="$PROJECT_DIR$/model_CD20.py" />
+        <option value="$PROJECT_DIR$/model_CD27.py" />
         <option value="$PROJECT_DIR$/marker_ratio_calculation.py" />
       </list>
     </option>
@@ -250,12 +253,13 @@
       <workItem from="1573609039307" duration="6019000" />
       <workItem from="1573628039987" duration="6081000" />
       <workItem from="1573693075873" duration="31516000" />
-      <workItem from="1574038744501" duration="12857000" />
+      <workItem from="1574038744501" duration="13386000" />
+      <workItem from="1574067486120" duration="4506000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56473000" />
+    <option name="totallyTimeSpent" value="61508000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -264,7 +268,7 @@
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Python Console" order="3" visible="true" weight="0.47707888" />
+      <window_info id="Python Console" order="3" visible="true" weight="0.4824094" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="1" />
       <window_info anchor="bottom" id="Version Control" order="2" />
@@ -291,7 +295,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Automatic_Gate$rate_calculation.coverage" NAME="rate_calculation Coverage Results" MODIFIED="1573715051737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Automatic_Gate$marker_ratio_calculation.coverage" NAME="marker_ratio_calculation Coverage Results" MODIFIED="1574065074146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Automatic_Gate$marker_ratio_calculation.coverage" NAME="marker_ratio_calculation Coverage Results" MODIFIED="1574126102972" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/tensorflow/_api/v1/keras/optimizers/__init__.py">
@@ -419,9 +423,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD19.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="123" column="56" selection-start-line="123" selection-start-column="56" selection-end-line="123" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD20.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2622">
+          <caret line="141" selection-start-line="141" selection-end-line="141" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD14.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2527">
+          <caret line="136" column="25" selection-end-line="143" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/model_CD11b.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
+        <state relative-caret-position="2641">
           <caret line="142" selection-end-line="142" />
           <folding>
             <element signature="e#88#107#0" expanded="true" />
@@ -429,40 +454,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model_CD14.py">
+    <entry file="file://$PROJECT_DIR$/model_CD27.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="136" column="25" selection-end-line="143" />
-          <folding>
-            <element signature="e#176#195#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model_CD19.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="126" column="21" selection-end-line="141" />
-          <folding>
-            <element signature="e#174#193#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model_CD20.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="141" selection-start-line="141" selection-end-line="141" />
-          <folding>
-            <element signature="e#174#193#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="720">
+          <caret line="143" column="7" lean-forward="true" selection-start-line="143" selection-start-column="7" selection-end-line="143" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1805">
-          <caret line="156" column="45" lean-forward="true" selection-start-line="156" selection-start-column="45" selection-end-line="156" selection-end-column="45" />
+        <state relative-caret-position="512">
+          <caret line="163" column="58" lean-forward="true" selection-start-line="163" selection-start-column="58" selection-end-line="163" selection-end-column="58" />
           <folding>
             <element signature="e#87#106#0" expanded="true" />
           </folding>
