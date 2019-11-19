@@ -68,6 +68,17 @@ if __name__ == "__main__":
     model_CD27 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD27_classfy.h5')
     model_CD27.build(input_shape)
 
+    model_CD33 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD33_classfy.h5')
+    model_CD33.build(input_shape)
+
+    model_CD39 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD39_classfy.h5')
+    model_CD39.build(input_shape)
+
+    model_CD86 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD86_classfy.h5')
+    model_CD86.build(input_shape)
+
+
+
 
     ############################################
     ####          New sample test
@@ -143,12 +154,34 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD20Pos)
         # info_list.append(ratio_CD20Neg)
         
-        # 计算CD27+-的比率
+        # # 计算CD27+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD27_all, CD27_df = ratioCalculation2(new_df, model_CD27)
+        # ratio_CD27Pos, ratio_CD27Neg = tuple(ratio_CD27_all)
+        # info_list.append(ratio_CD27Pos)
+        # info_list.append(ratio_CD27Neg)
+
+        # # 计算CD33+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD33_all, CD33_df = ratioCalculation2(new_df, model_CD33)
+        # ratio_CD33Pos, ratio_CD33Neg = tuple(ratio_CD33_all)
+        # info_list.append(ratio_CD33Pos)
+        # info_list.append(ratio_CD33Neg)
+
+        # # 计算CD39+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD39_all, CD39_df = ratioCalculation2(new_df, model_CD39)
+        # ratio_CD39Pos, ratio_CD39Neg = tuple(ratio_CD39_all)
+        # info_list.append(ratio_CD39Pos)
+        # info_list.append(ratio_CD39Neg)
+        
+         # 计算CD86+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD27_all, CD27_df = ratioCalculation2(new_df, model_CD27)
-        ratio_CD27Pos, ratio_CD27Neg = tuple(ratio_CD27_all)
-        info_list.append(ratio_CD27Pos)
-        info_list.append(ratio_CD27Neg)        
+        ratio_CD86_all, CD86_df = ratioCalculation2(new_df, model_CD86)
+        ratio_CD86Pos, ratio_CD86Neg = tuple(ratio_CD86_all)
+        info_list.append(ratio_CD86Pos)
+        info_list.append(ratio_CD86Neg)       
+        
 
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
@@ -161,7 +194,10 @@ if __name__ == "__main__":
                            # 'CD14Pos_auto', 'CD14Neg_auto',
                            # 'CD19Pos_auto', 'CD19Neg_auto',
                            # 'CD20Pos_auto', 'CD20Neg_auto',
-                           'CD27Pos_auto', 'CD27Neg_auto']
+                           # 'CD27Pos_auto', 'CD27Neg_auto',
+                           # 'CD33Pos_auto', 'CD33Neg_auto',
+                           # 'CD39Pos_auto', 'CD39Neg_auto',
+                           'CD86Pos_auto', 'CD86Neg_auto']
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-23])
