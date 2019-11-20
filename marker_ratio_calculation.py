@@ -88,7 +88,13 @@ if __name__ == "__main__":
 
     model_CD57 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD57_classfy.h5')
     model_CD57.build(input_shape)
-
+    
+    model_CD11c = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD11c_classfy.h5')
+    model_CD11c.build(input_shape)
+    
+    model_tbet = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/tbet_classfy.h5')
+    model_tbet.build(input_shape)   
+    
 
 
 
@@ -215,12 +221,26 @@ if __name__ == "__main__":
         # info_list.append(ratio_gdTCRPos)
         # info_list.append(ratio_gdTCRNeg)
 
-        # 计算CD57+-的比率
+        # # 计算CD57+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD57_all, CD57_df = ratioCalculation2(new_df, model_CD57)
+        # ratio_CD57Pos, ratio_CD57Neg = tuple(ratio_CD57_all)
+        # info_list.append(ratio_CD57Pos)
+        # info_list.append(ratio_CD57Neg)
+
+        # # 计算CD11c+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD11c_all, CD11c_df = ratioCalculation2(new_df, model_CD11c)
+        # ratio_CD11cPos, ratio_CD11cNeg = tuple(ratio_CD11c_all)
+        # info_list.append(ratio_CD11cPos)
+        # info_list.append(ratio_CD11cNeg)
+
+        # 计算tbet+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD57_all, CD57_df = ratioCalculation2(new_df, model_CD57)
-        ratio_CD57Pos, ratio_CD57Neg = tuple(ratio_CD57_all)
-        info_list.append(ratio_CD57Pos)
-        info_list.append(ratio_CD57Neg)
+        ratio_tbet_all, tbet_df = ratioCalculation2(new_df, model_tbet)
+        ratio_tbetPos, ratio_tbetNeg = tuple(ratio_tbet_all)
+        info_list.append(ratio_tbetPos)
+        info_list.append(ratio_tbetNeg)
 
 
         info_df = pd.DataFrame(info_list).T
@@ -241,7 +261,10 @@ if __name__ == "__main__":
                            # 'CD94Pos_auto', 'CD94Neg_auto',
                            # 'CXCR5Pos_auto', 'CXCR5Neg_auto',
                            # 'gdTCRPos_auto', 'gdTCRNeg_auto',
-                           'CD57Pos_auto', 'CD57Neg_auto',]
+                           # 'CD57Pos_auto', 'CD57Neg_auto',
+                           # 'CD11cPos_auto', 'CD11cNeg_auto',
+                           'tbetPos_auto', 'tbetNeg_auto',
+                           ]
         print(info_df)
         result_df = result_df.append(info_df)
         print('Sample %s has finished!' % info[:-23])
