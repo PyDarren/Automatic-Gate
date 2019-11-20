@@ -93,8 +93,10 @@ if __name__ == "__main__":
     model_CD11c.build(input_shape)
     
     model_tbet = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/tbet_classfy.h5')
-    model_tbet.build(input_shape)   
-    
+    model_tbet.build(input_shape)
+
+    model_CD16 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD16_classfy.h5')
+    model_CD16.build(input_shape)
 
 
 
@@ -235,13 +237,19 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD11cPos)
         # info_list.append(ratio_CD11cNeg)
 
-        # 计算tbet+-的比率
+        # # 计算tbet+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_tbet_all, tbet_df = ratioCalculation2(new_df, model_tbet)
+        # ratio_tbetPos, ratio_tbetNeg = tuple(ratio_tbet_all)
+        # info_list.append(ratio_tbetPos)
+        # info_list.append(ratio_tbetNeg)
+        
+        # 计算CD16+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_tbet_all, tbet_df = ratioCalculation2(new_df, model_tbet)
-        ratio_tbetPos, ratio_tbetNeg = tuple(ratio_tbet_all)
-        info_list.append(ratio_tbetPos)
-        info_list.append(ratio_tbetNeg)
-
+        ratio_CD16_all, CD16_df = ratioCalculation2(new_df, model_CD16)
+        ratio_CD16Pos, ratio_CD16Neg = tuple(ratio_CD16_all)
+        info_list.append(ratio_CD16Pos)
+        info_list.append(ratio_CD16Neg)
 
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
@@ -263,7 +271,8 @@ if __name__ == "__main__":
                            # 'gdTCRPos_auto', 'gdTCRNeg_auto',
                            # 'CD57Pos_auto', 'CD57Neg_auto',
                            # 'CD11cPos_auto', 'CD11cNeg_auto',
-                           'tbetPos_auto', 'tbetNeg_auto',
+                           # 'tbetPos_auto', 'tbetNeg_auto',
+                           'CD16Pos_auto', 'CD16Neg_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
