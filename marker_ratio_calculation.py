@@ -112,7 +112,9 @@ if __name__ == "__main__":
 
     model_CD56 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD56_classfy.h5')
     model_CD56.build(input_shape)
-
+    
+    model_CD197 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD197_classfy.h5')
+    model_CD197.build(input_shape)
 
 
 
@@ -295,14 +297,19 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD161Pos)
         # info_list.append(ratio_CD161Neg)
 
-        # 计算CD56+-的比率
+        # # 计算CD56+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD56_all, CD56_df = ratioCalculation2(new_df, model_CD56)
+        # ratio_CD56Pos, ratio_CD56Neg = tuple(ratio_CD56_all)
+        # info_list.append(ratio_CD56Pos)
+        # info_list.append(ratio_CD56Neg)
+
+        # 计算CD197+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD56_all, CD56_df = ratioCalculation2(new_df, model_CD56)
-        ratio_CD56Pos, ratio_CD56Neg = tuple(ratio_CD56_all)
-        info_list.append(ratio_CD56Pos)
-        info_list.append(ratio_CD56Neg)
-
-
+        ratio_CD197_all, CD197_df = ratioCalculation2(new_df, model_CD197)
+        ratio_CD197Pos, ratio_CD197Neg = tuple(ratio_CD197_all)
+        info_list.append(ratio_CD197Pos)
+        info_list.append(ratio_CD197Neg)
 
 
         info_df = pd.DataFrame(info_list).T
@@ -331,7 +338,8 @@ if __name__ == "__main__":
                            # 'granzyme_BPos_auto', 'granzyme_BNeg_auto',
                            # 'HLA_DRPos_auto', 'HLA_DRNeg_auto',
                            # 'CD161Pos_auto', 'CD161Neg_auto',
-                           'CD56Pos_auto', 'CD56Neg_auto',
+                           # 'CD56Pos_auto', 'CD56Neg_auto',
+                           'CD197Pos_auto', 'CD197Neg_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
