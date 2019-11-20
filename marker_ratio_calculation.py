@@ -106,6 +106,14 @@ if __name__ == "__main__":
     
     model_HLA_DR = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/HLA_DR_classfy.h5')
     model_HLA_DR.build(input_shape)
+    
+    model_CD161 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD161_classfy.h5')
+    model_CD161.build(input_shape)
+
+    model_CD56 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD56_classfy.h5')
+    model_CD56.build(input_shape)
+
+
 
 
     ############################################
@@ -273,12 +281,28 @@ if __name__ == "__main__":
         # info_list.append(ratio_granzyme_BPos)
         # info_list.append(ratio_granzyme_BNeg)
 
-        # 计算HLA_DR+-的比率
+        # # 计算HLA_DR+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_HLA_DR_all, HLA_DR_df = ratioCalculation2(new_df, model_HLA_DR)
+        # ratio_HLA_DRPos, ratio_HLA_DRNeg = tuple(ratio_HLA_DR_all)
+        # info_list.append(ratio_HLA_DRPos)
+        # info_list.append(ratio_HLA_DRNeg)
+
+        # # 计算CD161+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD161_all, CD161_df = ratioCalculation2(new_df, model_CD161)
+        # ratio_CD161Pos, ratio_CD161Neg = tuple(ratio_CD161_all)
+        # info_list.append(ratio_CD161Pos)
+        # info_list.append(ratio_CD161Neg)
+
+        # 计算CD56+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_HLA_DR_all, HLA_DR_df = ratioCalculation2(new_df, model_HLA_DR)
-        ratio_HLA_DRPos, ratio_HLA_DRNeg = tuple(ratio_HLA_DR_all)
-        info_list.append(ratio_HLA_DRPos)
-        info_list.append(ratio_HLA_DRNeg)
+        ratio_CD56_all, CD56_df = ratioCalculation2(new_df, model_CD56)
+        ratio_CD56Pos, ratio_CD56Neg = tuple(ratio_CD56_all)
+        info_list.append(ratio_CD56Pos)
+        info_list.append(ratio_CD56Neg)
+
+
 
 
         info_df = pd.DataFrame(info_list).T
@@ -305,7 +329,9 @@ if __name__ == "__main__":
                            # 'CD16Pos_auto', 'CD16Neg_auto',
                            # 'CD127Pos_auto', 'CD127Neg_auto',
                            # 'granzyme_BPos_auto', 'granzyme_BNeg_auto',
-                           'HLA_DRPos_auto', 'HLA_DRNeg_auto',
+                           # 'HLA_DRPos_auto', 'HLA_DRNeg_auto',
+                           # 'CD161Pos_auto', 'CD161Neg_auto',
+                           'CD56Pos_auto', 'CD56Neg_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
