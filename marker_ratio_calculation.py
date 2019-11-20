@@ -100,7 +100,9 @@ if __name__ == "__main__":
 
     model_CD127 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD127_classfy.h5')
     model_CD127.build(input_shape)
-
+    
+    model_granzyme_B = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/granzyme_B_classfy.h5')
+    model_granzyme_B.build(input_shape)
 
 
 
@@ -255,13 +257,19 @@ if __name__ == "__main__":
         # info_list.append(ratio_CD16Pos)
         # info_list.append(ratio_CD16Neg)
 
-        # 计算CD127+-的比率
-        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD127_all, CD127_df = ratioCalculation2(new_df, model_CD127)
-        ratio_CD127Pos, ratio_CD127Neg = tuple(ratio_CD127_all)
-        info_list.append(ratio_CD127Pos)
-        info_list.append(ratio_CD127Neg)
+        # # 计算CD127+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD127_all, CD127_df = ratioCalculation2(new_df, model_CD127)
+        # ratio_CD127Pos, ratio_CD127Neg = tuple(ratio_CD127_all)
+        # info_list.append(ratio_CD127Pos)
+        # info_list.append(ratio_CD127Neg)
         
+        # 计算granzyme_B+-的比率
+        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        ratio_granzyme_B_all, granzyme_B_df = ratioCalculation2(new_df, model_granzyme_B)
+        ratio_granzyme_BPos, ratio_granzyme_BNeg = tuple(ratio_granzyme_B_all)
+        info_list.append(ratio_granzyme_BPos)
+        info_list.append(ratio_granzyme_BNeg)        
         
 
         info_df = pd.DataFrame(info_list).T
@@ -286,7 +294,8 @@ if __name__ == "__main__":
                            # 'CD11cPos_auto', 'CD11cNeg_auto',
                            # 'tbetPos_auto', 'tbetNeg_auto',
                            # 'CD16Pos_auto', 'CD16Neg_auto',
-                           'CD127Pos_auto', 'CD127Neg_auto',
+                           # 'CD127Pos_auto', 'CD127Neg_auto',
+                           'granzyme_BPos_auto', 'granzyme_BNeg_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
