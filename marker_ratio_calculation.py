@@ -119,6 +119,11 @@ if __name__ == "__main__":
     model_CD68 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD68_classfy.h5')
     model_CD68.build(input_shape)
 
+    model_CD24 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD24_classfy.h5')
+    model_CD24.build(input_shape)
+
+
+
 
     ############################################
     ####          New sample test
@@ -179,7 +184,7 @@ if __name__ == "__main__":
         # ratio_CD14Pos, ratio_CD14Neg = tuple(ratio_CD14_all)
         # info_list.append(ratio_CD14Pos)
         # info_list.append(ratio_CD14Neg)
-        
+
         # # 计算CD19+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_CD19_all, CD19_df = ratioCalculation2(new_df, model_CD19)
@@ -193,7 +198,7 @@ if __name__ == "__main__":
         # ratio_CD20Pos, ratio_CD20Neg = tuple(ratio_CD20_all)
         # info_list.append(ratio_CD20Pos)
         # info_list.append(ratio_CD20Neg)
-        
+
         # # 计算CD27+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_CD27_all, CD27_df = ratioCalculation2(new_df, model_CD27)
@@ -214,14 +219,14 @@ if __name__ == "__main__":
         # ratio_CD39Pos, ratio_CD39Neg = tuple(ratio_CD39_all)
         # info_list.append(ratio_CD39Pos)
         # info_list.append(ratio_CD39Neg)
-        
+
         #  # 计算CD86+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_CD86_all, CD86_df = ratioCalculation2(new_df, model_CD86)
         # ratio_CD86Pos, ratio_CD86Neg = tuple(ratio_CD86_all)
         # info_list.append(ratio_CD86Pos)
         # info_list.append(ratio_CD86Neg)
-        
+
         # # 计算CD94+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_CD94_all, CD94_df = ratioCalculation2(new_df, model_CD94)
@@ -235,7 +240,7 @@ if __name__ == "__main__":
         # ratio_CXCR5Pos, ratio_CXCR5Neg = tuple(ratio_CXCR5_all)
         # info_list.append(ratio_CXCR5Pos)
         # info_list.append(ratio_CXCR5Neg)
-        
+
         # # 计算gdTCR+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_gdTCR_all, gdTCR_df = ratioCalculation2(new_df, model_gdTCR)
@@ -263,7 +268,7 @@ if __name__ == "__main__":
         # ratio_tbetPos, ratio_tbetNeg = tuple(ratio_tbet_all)
         # info_list.append(ratio_tbetPos)
         # info_list.append(ratio_tbetNeg)
-        
+
         # # 计算CD16+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_CD16_all, CD16_df = ratioCalculation2(new_df, model_CD16)
@@ -277,7 +282,7 @@ if __name__ == "__main__":
         # ratio_CD127Pos, ratio_CD127Neg = tuple(ratio_CD127_all)
         # info_list.append(ratio_CD127Pos)
         # info_list.append(ratio_CD127Neg)
-        
+
         # # 计算granzyme_B+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         # ratio_granzyme_B_all, granzyme_B_df = ratioCalculation2(new_df, model_granzyme_B)
@@ -312,13 +317,22 @@ if __name__ == "__main__":
         # ratio_CD197Pos, ratio_CD197Neg = tuple(ratio_CD197_all)
         # info_list.append(ratio_CD197Pos)
         # info_list.append(ratio_CD197Neg)
-        
-        # 计算CD68+-的比率
+
+        # # 计算CD68+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # ratio_CD68_all, CD68_df = ratioCalculation2(new_df, model_CD68)
+        # ratio_CD68Pos, ratio_CD68Neg = tuple(ratio_CD68_all)
+        # info_list.append(ratio_CD68Pos)
+        # info_list.append(ratio_CD68Neg)
+
+        # 计算CD24+-的比率
         new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD68_all, CD68_df = ratioCalculation2(new_df, model_CD68)
-        ratio_CD68Pos, ratio_CD68Neg = tuple(ratio_CD68_all)
-        info_list.append(ratio_CD68Pos)
-        info_list.append(ratio_CD68Neg)
+        ratio_CD24_all, CD24_df = ratioCalculation2(new_df, model_CD24)
+        ratio_CD24Pos, ratio_CD24Neg = tuple(ratio_CD24_all)
+        info_list.append(ratio_CD24Pos)
+        info_list.append(ratio_CD24Neg)
+
+
 
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
@@ -348,7 +362,8 @@ if __name__ == "__main__":
                            # 'CD161Pos_auto', 'CD161Neg_auto',
                            # 'CD56Pos_auto', 'CD56Neg_auto',
                            # 'CD197Pos_auto', 'CD197Neg_auto',
-                           'CD68Pos_auto', 'CD68Neg_auto',
+                           # 'CD68Pos_auto', 'CD68Neg_auto',
+                           'CD24Pos_auto', 'CD24Neg_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
