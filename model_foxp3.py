@@ -1,8 +1,7 @@
 # Title     : TODO
 # Objective : TODO
 # Created by: Chen Da
-# Created on: 2019/11/22
-
+# Created on: 2019/11/24
 
 
 
@@ -82,8 +81,8 @@ if __name__ == "__main__":
     ######################################
     #### Data import
     data_path = 'E:/cd/Automatic_Gate_Data/Rawdata/marker_42/'
-    file_0 = 'ki67+'
-    file_1 = 'ki67-'
+    file_0 = 'foxp3+'
+    file_1 = 'foxp3-'
     df_0 = pd.read_csv(data_path+file_0+'.csv').iloc[:, :-1]
     df_1 = pd.read_csv(data_path+file_1+'.csv').iloc[:, :-1]
 
@@ -131,7 +130,7 @@ if __name__ == "__main__":
 
     model.fit(train_X,
               train_labels,
-              epochs=1000,
+              epochs=100,
               # batch_size=16384,
               # validation_data=(test_X, test_labels),
               # verbose=2
@@ -143,5 +142,9 @@ if __name__ == "__main__":
     print('\nTest less accuracy:', test_less_acc)
 
     ## save model
-    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/ki67_classfy.h5')
+    model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/foxp3_classfy.h5')
+
+
+
+
 
