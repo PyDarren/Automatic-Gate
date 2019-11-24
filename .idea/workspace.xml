@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="959e3f5a-4ad5-4e31-9683-94540219ddfb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model_CD24.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/immuneAgeSubsets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_CCR6.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_CD123.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_CD278.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_CD28.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_PD1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_ki67.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/marker_ratio_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/marker_ratio_calculation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_CD68.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_CD68.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="366" column="28" selection-start-line="366" selection-start-column="28" selection-end-line="366" selection-end-column="28" />
+            <state relative-caret-position="2151">
+              <caret line="529" column="20" selection-start-line="529" selection-start-column="20" selection-end-line="529" selection-end-column="20" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -27,74 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD24.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/model_CD123.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="531">
-              <caret line="144" selection-start-line="144" selection-end-line="144" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD68.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="116" column="39" selection-end-line="146" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD4.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="834">
-              <caret line="115" column="54" selection-start-line="115" selection-start-column="54" selection-end-line="115" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD56.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="118" column="54" lean-forward="true" selection-end-line="145" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_granzyme_B.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2698">
-              <caret line="145" selection-start-line="145" selection-end-line="145" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_HLA_DR.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2717">
-              <caret line="146" selection-start-line="146" selection-end-line="146" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD39.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2679">
-              <caret line="144" selection-start-line="144" selection-end-line="144" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD11c.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="635">
+              <caret line="136" column="14" selection-start-line="136" selection-start-column="14" selection-end-line="136" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -102,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model_CD127.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2546">
-              <caret line="137" selection-end-line="146" />
+            <state relative-caret-position="459">
+              <caret line="116" column="52" selection-end-line="146" />
             </state>
           </provider>
         </entry>
@@ -119,9 +61,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>3</find>
-      <find>4</find>
-      <find>8</find>
       <find>CD45</find>
       <find>IGD</find>
       <find>CD11b</find>
@@ -147,11 +86,13 @@
       <find>56</find>
       <find>197</find>
       <find>68</find>
+      <find>24</find>
+      <find>CD28</find>
+      <find>ki67</find>
+      <find>28</find>
+      <find>CD278</find>
     </findStrings>
     <replaceStrings>
-      <replace>4</replace>
-      <replace>8</replace>
-      <replace>45</replace>
       <replace>IGD</replace>
       <replace>CD11b</replace>
       <replace>CD14</replace>
@@ -177,6 +118,11 @@
       <replace>197</replace>
       <replace>68</replace>
       <replace>24</replace>
+      <replace>28</replace>
+      <replace>ki67</replace>
+      <replace>PD1</replace>
+      <replace>278</replace>
+      <replace>CCR6</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -218,7 +164,14 @@
         <option value="$PROJECT_DIR$/model_CD197.py" />
         <option value="$PROJECT_DIR$/model_CD68.py" />
         <option value="$PROJECT_DIR$/model_CD24.py" />
+        <option value="$PROJECT_DIR$/model_CD28.py" />
+        <option value="$PROJECT_DIR$/immuneAgeSubsets.py" />
+        <option value="$PROJECT_DIR$/model_ki67.py" />
+        <option value="$PROJECT_DIR$/model_PD1.py" />
+        <option value="$PROJECT_DIR$/model_CD278.py" />
+        <option value="$PROJECT_DIR$/model_CCR6.py" />
         <option value="$PROJECT_DIR$/marker_ratio_calculation.py" />
+        <option value="$PROJECT_DIR$/model_CD123.py" />
       </list>
     </option>
   </component>
@@ -347,12 +300,14 @@
       <workItem from="1574213821475" duration="685000" />
       <workItem from="1574214528735" duration="18895000" />
       <workItem from="1574297892009" duration="24000" />
-      <workItem from="1574298857635" duration="6474000" />
+      <workItem from="1574298857635" duration="25701000" />
+      <workItem from="1574399406835" duration="10748000" />
+      <workItem from="1574560393304" duration="2277000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99356000" />
+    <option name="totallyTimeSpent" value="131608000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -361,7 +316,7 @@
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.2553305" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Python Console" order="3" visible="true" weight="0.5154584" />
+      <window_info active="true" id="Python Console" order="3" visible="true" weight="0.5026652" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="1" />
       <window_info anchor="bottom" id="Version Control" order="2" />
@@ -369,7 +324,7 @@
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5010661" side_tool="true" weight="0.48264644" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" sideWeight="0.4989339" visible="true" weight="0.44685465" />
+      <window_info anchor="bottom" id="Run" order="7" sideWeight="0.4989339" weight="0.46203905" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
@@ -388,7 +343,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Automatic_Gate$rate_calculation.coverage" NAME="rate_calculation Coverage Results" MODIFIED="1573715051737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Automatic_Gate$marker_ratio_calculation.coverage" NAME="marker_ratio_calculation Coverage Results" MODIFIED="1574313354925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Automatic_Gate$marker_ratio_calculation.coverage" NAME="marker_ratio_calculation Coverage Results" MODIFIED="1574414290840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/tensorflow/_api/v1/keras/optimizers/__init__.py">
@@ -414,13 +369,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="12293">
           <caret line="682" column="40" selection-start-line="682" selection-start-column="40" selection-end-line="682" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/tensorflow/python/keras/layers/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16568">
-          <caret line="903" column="6" selection-start-line="903" selection-start-column="6" selection-end-line="903" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -648,48 +596,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model_CD127.py">
+    <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2546">
-          <caret line="137" selection-end-line="146" />
+        <state relative-caret-position="2565">
+          <caret line="137" selection-start-line="137" selection-end-line="137" />
+          <folding>
+            <element signature="e#87#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/tensorflow/python/keras/layers/core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16568">
+          <caret line="903" column="6" selection-start-line="903" selection-start-column="6" selection-end-line="903" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2151">
+          <caret line="529" column="20" selection-start-line="529" selection-start-column="20" selection-end-line="529" selection-end-column="20" />
+          <folding>
+            <element signature="e#87#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CCR6.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2679">
+          <caret line="144" selection-start-line="144" selection-end-line="144" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD278.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2717">
+          <caret line="146" selection-end-line="152" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_PD1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2717">
+          <caret line="146" selection-start-line="146" selection-end-line="146" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_ki67.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2717">
+          <caret line="146" selection-start-line="146" selection-end-line="146" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD28.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1615">
+          <caret line="88" column="20" selection-end-line="149" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD24.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2356">
+          <caret line="127" column="37" selection-end-line="147" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_CD68.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2147">
+          <caret line="116" column="39" selection-end-line="146" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model_CD4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="834">
+        <state relative-caret-position="2128">
           <caret line="115" column="54" selection-start-line="115" selection-start-column="54" selection-end-line="115" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model_CD56.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="118" column="54" lean-forward="true" selection-end-line="145" />
+        <state relative-caret-position="2185">
+          <caret line="118" column="54" selection-end-line="145" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model_CD68.py">
+    <entry file="file://$PROJECT_DIR$/model_CD127.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="116" column="39" selection-end-line="146" />
+        <state relative-caret-position="459">
+          <caret line="116" column="52" selection-end-line="146" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model_CD24.py">
+    <entry file="file://$PROJECT_DIR$/model_CD123.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="144" selection-start-line="144" selection-end-line="144" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="366" column="28" selection-start-line="366" selection-start-column="28" selection-end-line="366" selection-end-column="28" />
-          <folding>
-            <element signature="e#87#106#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="635">
+          <caret line="136" column="14" selection-start-line="136" selection-start-column="14" selection-end-line="136" selection-end-column="14" />
         </state>
       </provider>
     </entry>

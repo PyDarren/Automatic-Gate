@@ -7,7 +7,7 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-import os, sys, warnings
+import os, sys, warnings, time, copy
 
 warnings.filterwarnings(action='ignore')
 
@@ -29,7 +29,7 @@ def ratioCalculation2(df, model):
     ratio_0 = pre_0_length / length_df * 100
     ratio_1 = pre_1_length / length_df * 100
     ratio_list = [ratio_0, ratio_1]
-    return ratio_list, sub_df
+    return ratio_list, sub_df, pre_labels
 
 
 
@@ -121,13 +121,30 @@ if __name__ == "__main__":
 
     model_CD24 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD24_classfy.h5')
     model_CD24.build(input_shape)
+    
+    model_CD28 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD28_classfy.h5')
+    model_CD28.build(input_shape)
 
+    model_ki67 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/ki67_classfy.h5')
+    model_ki67.build(input_shape)
+
+    model_PD1 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/PD1_classfy.h5')
+    model_PD1.build(input_shape)
+    
+    model_CD278 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD278_classfy.h5')
+    model_CD278.build(input_shape)
+    
+    model_CCR6 = tf.keras.models.load_model('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CCR6_classfy.h5')
+    model_CCR6.build(input_shape)   
+    
+    
 
 
 
     ############################################
     ####          New sample test
     data_path = 'E:/cd/Automatic_Gate_Data/test/marker_test/'
+    # data_path = 'E:/cd/Automatic_Gate_Data/test/new_test/'
     file_list = os.listdir(data_path)
 
     result_df = pd.DataFrame()
@@ -135,205 +152,352 @@ if __name__ == "__main__":
     for info in file_list:
         info_list = list()
         info_list.append(info[:-23])
+        label_df = pd.DataFrame()
+
+        start = time.time()
+
+        raw_df = pd.read_csv(data_path+info).iloc[:, :-1]
 
         # # 计算CD3+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD3_all, CD3_df = ratioCalculation2(new_df, model_CD3)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD3_all, CD3_df, CD3_labels = ratioCalculation2(new_df, model_CD3)
         # ratio_CD3Pos, ratio_CD3Neg = tuple(ratio_CD3_all)
         # info_list.append(ratio_CD3Pos)
         # info_list.append(ratio_CD3Neg)
-        #
+        # label_df = label_df.append(pd.DataFrame(CD3_labels).T)
+        # 
         # # 计算CD4+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD4_all, CD4_df = ratioCalculation2(new_df, model_CD4)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD4_all, CD4_df, CD4_labels = ratioCalculation2(new_df, model_CD4)
         # ratio_CD4Pos, ratio_CD4Neg = tuple(ratio_CD4_all)
         # info_list.append(ratio_CD4Pos)
         # info_list.append(ratio_CD4Neg)
-        #
+        # label_df = label_df.append(pd.DataFrame(CD4_labels).T)
+        # 
         # # 计算CD8+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD8_all, CD8_df = ratioCalculation2(new_df, model_CD8)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD8_all, CD8_df, CD8_labels = ratioCalculation2(new_df, model_CD8)
         # ratio_CD8Pos, ratio_CD8Neg = tuple(ratio_CD8_all)
         # info_list.append(ratio_CD8Pos)
         # info_list.append(ratio_CD8Neg)
-        #
+        # label_df = label_df.append(pd.DataFrame(CD8_labels).T)
+        # 
         # # 计算CD45+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD45_all, CD45_df = ratioCalculation2(new_df, model_CD45)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD45_all, CD45_df, CD45_labels = ratioCalculation2(new_df, model_CD45)
         # ratio_CD45Pos, ratio_CD45Neg = tuple(ratio_CD45_all)
         # info_list.append(ratio_CD45Pos)
         # info_list.append(ratio_CD45Neg)
-        #
+        # label_df = label_df.append(pd.DataFrame(CD45_labels).T)
+        # 
         # # 计算IGD+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_IGD_all, IGD_df = ratioCalculation2(new_df, model_IGD)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_IGD_all, IGD_df, IGD_labels = ratioCalculation2(new_df, model_IGD)
         # ratio_IGDPos, ratio_IGDNeg = tuple(ratio_IGD_all)
         # info_list.append(ratio_IGDPos)
         # info_list.append(ratio_IGDNeg)
-        #
+        # label_df = label_df.append(pd.DataFrame(IGD_labels).T)
+        # 
         # # 计算CD11b+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD11b_all, CD11b_df = ratioCalculation2(new_df, model_CD11b)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD11b_all, CD11b_df, CD11b_labels = ratioCalculation2(new_df, model_CD11b)
         # ratio_CD11bPos, ratio_CD11bNeg = tuple(ratio_CD11b_all)
         # info_list.append(ratio_CD11bPos)
         # info_list.append(ratio_CD11bNeg)
-
+        # label_df = label_df.append(pd.DataFrame(CD11b_labels).T)
+        # 
         # # 计算CD14+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD14_all, CD14_df = ratioCalculation2(new_df, model_CD14)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD14_all, CD14_df, CD14_labels = ratioCalculation2(new_df, model_CD14)
         # ratio_CD14Pos, ratio_CD14Neg = tuple(ratio_CD14_all)
         # info_list.append(ratio_CD14Pos)
         # info_list.append(ratio_CD14Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD14_labels).T)
+        # 
         # # 计算CD19+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD19_all, CD19_df = ratioCalculation2(new_df, model_CD19)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD19_all, CD19_df, CD19_labels = ratioCalculation2(new_df, model_CD19)
         # ratio_CD19Pos, ratio_CD19Neg = tuple(ratio_CD19_all)
         # info_list.append(ratio_CD19Pos)
         # info_list.append(ratio_CD19Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD19_labels).T)
+        # 
         # # 计算CD20+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD20_all, CD20_df = ratioCalculation2(new_df, model_CD20)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD20_all, CD20_df, CD20_labels = ratioCalculation2(new_df, model_CD20)
         # ratio_CD20Pos, ratio_CD20Neg = tuple(ratio_CD20_all)
         # info_list.append(ratio_CD20Pos)
         # info_list.append(ratio_CD20Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD20_labels).T)
+        # 
         # # 计算CD27+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD27_all, CD27_df = ratioCalculation2(new_df, model_CD27)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD27_all, CD27_df, CD27_labels = ratioCalculation2(new_df, model_CD27)
         # ratio_CD27Pos, ratio_CD27Neg = tuple(ratio_CD27_all)
         # info_list.append(ratio_CD27Pos)
         # info_list.append(ratio_CD27Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD27_labels).T)
+        # 
         # # 计算CD33+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD33_all, CD33_df = ratioCalculation2(new_df, model_CD33)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD33_all, CD33_df, CD33_labels = ratioCalculation2(new_df, model_CD33)
         # ratio_CD33Pos, ratio_CD33Neg = tuple(ratio_CD33_all)
         # info_list.append(ratio_CD33Pos)
         # info_list.append(ratio_CD33Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD33_labels).T)
+        # 
         # # 计算CD39+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD39_all, CD39_df = ratioCalculation2(new_df, model_CD39)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD39_all, CD39_df, CD39_labels = ratioCalculation2(new_df, model_CD39)
         # ratio_CD39Pos, ratio_CD39Neg = tuple(ratio_CD39_all)
         # info_list.append(ratio_CD39Pos)
         # info_list.append(ratio_CD39Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD39_labels).T)
+        # 
         #  # 计算CD86+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD86_all, CD86_df = ratioCalculation2(new_df, model_CD86)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD86_all, CD86_df, CD86_labels = ratioCalculation2(new_df, model_CD86)
         # ratio_CD86Pos, ratio_CD86Neg = tuple(ratio_CD86_all)
         # info_list.append(ratio_CD86Pos)
         # info_list.append(ratio_CD86Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD86_labels).T)
+        # 
         # # 计算CD94+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD94_all, CD94_df = ratioCalculation2(new_df, model_CD94)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD94_all, CD94_df, CD94_labels = ratioCalculation2(new_df, model_CD94)
         # ratio_CD94Pos, ratio_CD94Neg = tuple(ratio_CD94_all)
         # info_list.append(ratio_CD94Pos)
         # info_list.append(ratio_CD94Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD94_labels).T)
+        # 
         # # 计算CXCR5+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CXCR5_all, CXCR5_df = ratioCalculation2(new_df, model_CXCR5)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CXCR5_all, CXCR5_df, CXCR5_labels = ratioCalculation2(new_df, model_CXCR5)
         # ratio_CXCR5Pos, ratio_CXCR5Neg = tuple(ratio_CXCR5_all)
         # info_list.append(ratio_CXCR5Pos)
         # info_list.append(ratio_CXCR5Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CXCR5_labels).T)
+        # 
         # # 计算gdTCR+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_gdTCR_all, gdTCR_df = ratioCalculation2(new_df, model_gdTCR)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_gdTCR_all, gdTCR_df, gdTCR_labels = ratioCalculation2(new_df, model_gdTCR)
         # ratio_gdTCRPos, ratio_gdTCRNeg = tuple(ratio_gdTCR_all)
         # info_list.append(ratio_gdTCRPos)
         # info_list.append(ratio_gdTCRNeg)
-
+        # label_df = label_df.append(pd.DataFrame(gdTCR_labels).T)
+        # 
         # # 计算CD57+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD57_all, CD57_df = ratioCalculation2(new_df, model_CD57)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD57_all, CD57_df, CD57_labels = ratioCalculation2(new_df, model_CD57)
         # ratio_CD57Pos, ratio_CD57Neg = tuple(ratio_CD57_all)
         # info_list.append(ratio_CD57Pos)
         # info_list.append(ratio_CD57Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD57_labels).T)
+        # 
         # # 计算CD11c+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD11c_all, CD11c_df = ratioCalculation2(new_df, model_CD11c)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD11c_all, CD11c_df, CD11c_labels = ratioCalculation2(new_df, model_CD11c)
         # ratio_CD11cPos, ratio_CD11cNeg = tuple(ratio_CD11c_all)
         # info_list.append(ratio_CD11cPos)
         # info_list.append(ratio_CD11cNeg)
-
+        # label_df = label_df.append(pd.DataFrame(CD11c_labels).T)
+        # 
         # # 计算tbet+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_tbet_all, tbet_df = ratioCalculation2(new_df, model_tbet)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_tbet_all, tbet_df, tbet_labels = ratioCalculation2(new_df, model_tbet)
         # ratio_tbetPos, ratio_tbetNeg = tuple(ratio_tbet_all)
         # info_list.append(ratio_tbetPos)
         # info_list.append(ratio_tbetNeg)
-
+        # label_df = label_df.append(pd.DataFrame(tbet_labels).T)
+        # 
         # # 计算CD16+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD16_all, CD16_df = ratioCalculation2(new_df, model_CD16)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD16_all, CD16_df, CD16_labels = ratioCalculation2(new_df, model_CD16)
         # ratio_CD16Pos, ratio_CD16Neg = tuple(ratio_CD16_all)
         # info_list.append(ratio_CD16Pos)
         # info_list.append(ratio_CD16Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD16_labels).T)
+        # 
         # # 计算CD127+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD127_all, CD127_df = ratioCalculation2(new_df, model_CD127)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD127_all, CD127_df, CD127_labels = ratioCalculation2(new_df, model_CD127)
         # ratio_CD127Pos, ratio_CD127Neg = tuple(ratio_CD127_all)
         # info_list.append(ratio_CD127Pos)
         # info_list.append(ratio_CD127Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD127_labels).T)
+        # 
         # # 计算granzyme_B+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_granzyme_B_all, granzyme_B_df = ratioCalculation2(new_df, model_granzyme_B)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_granzyme_B_all, granzyme_B_df, granzyme_B_labels = ratioCalculation2(new_df, model_granzyme_B)
         # ratio_granzyme_BPos, ratio_granzyme_BNeg = tuple(ratio_granzyme_B_all)
         # info_list.append(ratio_granzyme_BPos)
         # info_list.append(ratio_granzyme_BNeg)
-
+        # label_df = label_df.append(pd.DataFrame(granzyme_B_labels).T)
+        # 
         # # 计算HLA_DR+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_HLA_DR_all, HLA_DR_df = ratioCalculation2(new_df, model_HLA_DR)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_HLA_DR_all, HLA_DR_df, HLA_DR_labels = ratioCalculation2(new_df, model_HLA_DR)
         # ratio_HLA_DRPos, ratio_HLA_DRNeg = tuple(ratio_HLA_DR_all)
         # info_list.append(ratio_HLA_DRPos)
         # info_list.append(ratio_HLA_DRNeg)
-
+        # label_df = label_df.append(pd.DataFrame(HLA_DR_labels).T)
+        # 
         # # 计算CD161+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD161_all, CD161_df = ratioCalculation2(new_df, model_CD161)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD161_all, CD161_df, CD161_labels = ratioCalculation2(new_df, model_CD161)
         # ratio_CD161Pos, ratio_CD161Neg = tuple(ratio_CD161_all)
         # info_list.append(ratio_CD161Pos)
         # info_list.append(ratio_CD161Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD161_labels).T)
+        # 
         # # 计算CD56+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD56_all, CD56_df = ratioCalculation2(new_df, model_CD56)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD56_all, CD56_df, CD56_labels = ratioCalculation2(new_df, model_CD56)
         # ratio_CD56Pos, ratio_CD56Neg = tuple(ratio_CD56_all)
         # info_list.append(ratio_CD56Pos)
         # info_list.append(ratio_CD56Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD56_labels).T)
+        # 
         # # 计算CD197+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD197_all, CD197_df = ratioCalculation2(new_df, model_CD197)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD197_all, CD197_df, CD197_labels = ratioCalculation2(new_df, model_CD197)
         # ratio_CD197Pos, ratio_CD197Neg = tuple(ratio_CD197_all)
         # info_list.append(ratio_CD197Pos)
         # info_list.append(ratio_CD197Neg)
-
+        # label_df = label_df.append(pd.DataFrame(CD197_labels).T)
+        # 
         # # 计算CD68+-的比率
-        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        # ratio_CD68_all, CD68_df = ratioCalculation2(new_df, model_CD68)
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD68_all, CD68_df, CD68_labels = ratioCalculation2(new_df, model_CD68)
         # ratio_CD68Pos, ratio_CD68Neg = tuple(ratio_CD68_all)
         # info_list.append(ratio_CD68Pos)
         # info_list.append(ratio_CD68Neg)
+        # label_df = label_df.append(pd.DataFrame(CD68_labels).T)
+        # 
+        # # 计算CD24+-的比率
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD24_all, CD24_df, CD24_labels = ratioCalculation2(new_df, model_CD24)
+        # ratio_CD24Pos, ratio_CD24Neg = tuple(ratio_CD24_all)
+        # info_list.append(ratio_CD24Pos)
+        # info_list.append(ratio_CD24Neg)
+        # label_df = label_df.append(pd.DataFrame(CD24_labels).T)
+        # 
+        # # 计算CD28+-的比率
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD28_all, CD28_df, CD28_labels = ratioCalculation2(new_df, model_CD28)
+        # ratio_CD28Pos, ratio_CD28Neg = tuple(ratio_CD28_all)
+        # info_list.append(ratio_CD28Pos)
+        # info_list.append(ratio_CD28Neg)
+        # label_df = label_df.append(pd.DataFrame(CD28_labels).T)
 
-        # 计算CD24+-的比率
-        new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-        ratio_CD24_all, CD24_df = ratioCalculation2(new_df, model_CD24)
-        ratio_CD24Pos, ratio_CD24Neg = tuple(ratio_CD24_all)
-        info_list.append(ratio_CD24Pos)
-        info_list.append(ratio_CD24Neg)
+        # # 计算ki67+-的比率
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_ki67_all, ki67_df, ki67_labels = ratioCalculation2(new_df, model_ki67)
+        # ratio_ki67Pos, ratio_ki67Neg = tuple(ratio_ki67_all)
+        # info_list.append(ratio_ki67Pos)
+        # info_list.append(ratio_ki67Neg)
+        # label_df = label_df.append(pd.DataFrame(ki67_labels).T)
+        
+        # # 计算PD1+-的比率
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_PD1_all, PD1_df, PD1_labels = ratioCalculation2(new_df, model_PD1)
+        # ratio_PD1Pos, ratio_PD1Neg = tuple(ratio_PD1_all)
+        # info_list.append(ratio_PD1Pos)
+        # info_list.append(ratio_PD1Neg)
+        # label_df = label_df.append(pd.DataFrame(PD1_labels).T)
+
+        # # 计算CD278+-的比率
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD278_all, CD278_df, CD278_labels = ratioCalculation2(new_df, model_CD278)
+        # ratio_CD278Pos, ratio_CD278Neg = tuple(ratio_CD278_all)
+        # info_list.append(ratio_CD278Pos)
+        # info_list.append(ratio_CD278Neg)
+        # label_df = label_df.append(pd.DataFrame(CD278_labels).T)
+
+        # 计算CCR6+-的比率
+        # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        new_df = copy.deepcopy(raw_df)
+        ratio_CCR6_all, CCR6_df, CCR6_labels = ratioCalculation2(new_df, model_CCR6)
+        ratio_CCR6Pos, ratio_CCR6Neg = tuple(ratio_CCR6_all)
+        info_list.append(ratio_CCR6Pos)
+        info_list.append(ratio_CCR6Neg)
+        label_df = label_df.append(pd.DataFrame(CCR6_labels).T)
 
 
 
+
+
+
+
+        # # 细胞类标
+        # label_df = label_df.T
+        # label_df.columns = [
+        #                     'CD3',
+        #                     'CD4',
+        #                     'CD8',
+        #                     'CD45',
+        #                     'IGD',
+        #                     'CD11b',
+        #                     'CD14',
+        #                     'CD19',
+        #                     'CD20',
+        #                     'CD27',
+        #                     'CD33',
+        #                     'CD39',
+        #                     'CD86',
+        #                     'CD94',
+        #                     'CXCR5',
+        #                     'gdTCR',
+        #                     'CD57',
+        #                     'CD11c',
+        #                     'tbet',
+        #                     'CD16',
+        #                     'CD127',
+        #                     'granzyme_B',
+        #                     'HLA_DR',
+        #                     'CD161',
+        #                     'CD56',
+        #                     'CD197',
+        #                     'CD68',
+        #                     'CD24',
+        #                     'CD28',
+        #                     ]
+        # label_df.to_excel('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Output/label_prediction/test/%s.xlsx' % info[:4], index=False)
+
+
+        # marker自动圈门得出的比率
         info_df = pd.DataFrame(info_list).T
         info_df.columns = ['id',
                            # 'CD3Pos_auto', 'CD3Neg_auto',
@@ -363,11 +527,17 @@ if __name__ == "__main__":
                            # 'CD56Pos_auto', 'CD56Neg_auto',
                            # 'CD197Pos_auto', 'CD197Neg_auto',
                            # 'CD68Pos_auto', 'CD68Neg_auto',
-                           'CD24Pos_auto', 'CD24Neg_auto',
+                           # 'CD24Pos_auto', 'CD24Neg_auto',
+                           # 'CD28Pos_auto', 'CD28Neg_auto',
+                           # 'ki67Pos_auto', 'ki67Neg_auto',
+                           # 'PD1Pos_auto', 'PD1Neg_auto',
+                           # 'CD278Pos_auto', 'CD278Neg_auto',
+                           'CCR6Pos_auto', 'CCR6Neg_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
-        print('Sample %s has finished!' % info[:-23])
+        print('Sample %s has finished!' % info[:4])
+        print('Time cost is %s.' % (time.time()-start))
         print('-'*100)
 
     result_df.to_excel('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Output/test.xlsx', index=False)
