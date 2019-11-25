@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="959e3f5a-4ad5-4e31-9683-94540219ddfb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model_CD152.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_CD183.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_CD25.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_CD274.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_CD38.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_CD85j.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_foxp3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/marker_ratio_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/marker_ratio_calculation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_CD123.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_CD123.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_ki67.py" beforeDir="false" afterPath="$PROJECT_DIR$/model_ki67.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/immuneAgeSubsets.py" beforeDir="false" afterPath="$PROJECT_DIR$/immuneAgeSubsets.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9842">
-              <caret line="686" column="101" selection-start-line="686" selection-start-column="101" selection-end-line="686" selection-end-column="101" />
+            <state relative-caret-position="437">
+              <caret line="611" column="38" selection-start-line="611" selection-start-column="38" selection-end-line="611" selection-end-column="38" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -34,68 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD38.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="159" selection-start-line="159" selection-end-line="159" />
-              <folding>
-                <element signature="e#175#194#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD183.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="135" column="24" selection-end-line="146" />
-              <folding>
-                <element signature="e#176#195#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_CD85j.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="134" column="43" lean-forward="true" selection-end-line="155" />
-              <folding>
-                <element signature="e#175#194#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_foxp3.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="145" selection-end-line="150" />
-              <folding>
-                <element signature="e#176#195#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model_ki67.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="146" selection-start-line="146" selection-end-line="146" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="137" selection-start-line="137" selection-end-line="137" />
+            <state relative-caret-position="388">
+              <caret line="579" column="14" selection-start-line="579" selection-start-column="14" selection-end-line="579" selection-end-column="14" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -114,21 +47,12 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>20</find>
-      <find>27</find>
-      <find>33</find>
-      <find>39</find>
-      <find>86</find>
       <find>CD94</find>
-      <find>CXCR5</find>
-      <find>94</find>
       <find>CD11c</find>
-      <find>57</find>
       <find>16</find>
       <find>127u</find>
       <find>CD127</find>
       <find>granzyme_B</find>
-      <find>161</find>
       <find>56</find>
       <find>197</find>
       <find>68</find>
@@ -136,46 +60,55 @@
       <find>CD28</find>
       <find>ki67</find>
       <find>28</find>
-      <find>CD278</find>
       <find>127</find>
       <find>123</find>
       <find>CD25</find>
       <find>278</find>
       <find>274</find>
-      <find>152</find>
       <find>183</find>
+      <find>27</find>
+      <find>57</find>
+      <find>94</find>
+      <find>152</find>
+      <find>CD278</find>
+      <find>PD1</find>
+      <find>161</find>
+      <find>CD152</find>
+      <find>CXCR5</find>
+      <find>CD4</find>
+      <find>CD8</find>
     </findStrings>
     <replaceStrings>
-      <replace>39</replace>
-      <replace>86</replace>
       <replace>94</replace>
       <replace>CXCR5</replace>
       <replace>gdTCR</replace>
       <replace>57</replace>
       <replace>11c</replace>
-      <replace>tbet</replace>
       <replace>16</replace>
       <replace>127</replace>
       <replace>granzyme_B</replace>
-      <replace>HLA_DR</replace>
-      <replace>161</replace>
       <replace>56</replace>
       <replace>197</replace>
       <replace>68</replace>
       <replace>24</replace>
-      <replace>28</replace>
       <replace>ki67</replace>
-      <replace>PD1</replace>
-      <replace>278</replace>
       <replace>CCR6</replace>
       <replace>123</replace>
       <replace>25</replace>
       <replace>foxp3</replace>
       <replace>274</replace>
-      <replace>152</replace>
       <replace>85j</replace>
       <replace>183</replace>
       <replace>38</replace>
+      <replace>28</replace>
+      <replace>85</replace>
+      <replace>161</replace>
+      <replace>278</replace>
+      <replace>PD1</replace>
+      <replace>tbet</replace>
+      <replace>152</replace>
+      <replace>CD8</replace>
+      <replace>HLA_DR</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -218,7 +151,6 @@
         <option value="$PROJECT_DIR$/model_CD68.py" />
         <option value="$PROJECT_DIR$/model_CD24.py" />
         <option value="$PROJECT_DIR$/model_CD28.py" />
-        <option value="$PROJECT_DIR$/immuneAgeSubsets.py" />
         <option value="$PROJECT_DIR$/model_PD1.py" />
         <option value="$PROJECT_DIR$/model_CD278.py" />
         <option value="$PROJECT_DIR$/model_CCR6.py" />
@@ -232,14 +164,14 @@
         <option value="$PROJECT_DIR$/model_CD183.py" />
         <option value="$PROJECT_DIR$/model_CD38.py" />
         <option value="$PROJECT_DIR$/marker_ratio_calculation.py" />
+        <option value="$PROJECT_DIR$/immuneAgeSubsets.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="717" />
-    <option name="y" value="16" />
-    <option name="width" value="974" />
-    <option name="height" value="1031" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="698" />
+    <option name="width" value="1229" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -362,21 +294,20 @@
       <workItem from="1574297892009" duration="24000" />
       <workItem from="1574298857635" duration="25701000" />
       <workItem from="1574399406835" duration="10748000" />
-      <workItem from="1574560393304" duration="20786000" />
+      <workItem from="1574560393304" duration="42634000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="150117000" />
+    <option name="totallyTimeSpent" value="171965000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="698" y="0" width="1229" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.2553305" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.52407" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Python Console" order="3" weight="0.4445629" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="1" />
       <window_info anchor="bottom" id="Version Control" order="2" />
@@ -384,11 +315,12 @@
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.50159913" side_tool="true" weight="0.32212582" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" sideWeight="0.49840087" visible="true" weight="0.4370933" />
+      <window_info anchor="bottom" id="Run" order="7" sideWeight="0.49840087" weight="0.16867469" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="11" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.29682365" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -637,13 +569,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model_CCR6.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2679">
-          <caret line="144" selection-start-line="144" selection-end-line="144" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model_PD1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2717">
@@ -734,16 +659,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="137" selection-start-line="137" selection-end-line="137" />
-          <folding>
-            <element signature="e#87#106#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model_ki67.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -791,10 +706,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model_CCR6.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1995">
+          <caret line="144" selection-start-line="144" selection-end-line="144" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9842">
-          <caret line="686" column="101" selection-start-line="686" selection-start-column="101" selection-end-line="686" selection-end-column="101" />
+        <state relative-caret-position="437">
+          <caret line="611" column="38" selection-start-line="611" selection-start-column="38" selection-end-line="611" selection-end-column="38" />
+          <folding>
+            <element signature="e#87#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="579" column="14" selection-start-line="579" selection-start-column="14" selection-end-line="579" selection-end-column="14" />
           <folding>
             <element signature="e#87#106#0" expanded="true" />
           </folding>
