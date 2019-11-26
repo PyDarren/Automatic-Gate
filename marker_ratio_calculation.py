@@ -566,15 +566,26 @@ if __name__ == "__main__":
         info_list.append(ratio_CD183Neg)
         label_df = label_df.append(pd.DataFrame(CD183_labels).T)
         
-        # 计算CD38_0_1_2的比率
+        # 计算CD38+-的比率
         # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
         new_df = copy.deepcopy(raw_df)
-        ratio_CD38_all, CD38_df, CD38_labels = ratioCalculation3(new_df, model_CD38)
-        ratio_CD38_0, ratio_CD38_1, ratio_CD38_2 = tuple(ratio_CD38_all)
-        info_list.append(ratio_CD38_0)
-        info_list.append(ratio_CD38_1)
-        info_list.append(ratio_CD38_2)
-        label_df = label_df.append(pd.DataFrame(CD38_labels).T)
+        ratio_CD38_all, CD38_df, CD38_labels = ratioCalculation2(new_df, model_CD38)
+        ratio_CD38Pos, ratio_CD38Neg = tuple(ratio_CD38_all)
+        info_list.append(ratio_CD38Pos)
+        info_list.append(ratio_CD38Neg)
+        label_df = label_df.append(pd.DataFrame(CD38_labels).T)       
+        
+        
+        
+        # # 计算CD38_0_1_2的比率
+        # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
+        # new_df = copy.deepcopy(raw_df)
+        # ratio_CD38_all, CD38_df, CD38_labels = ratioCalculation3(new_df, model_CD38)
+        # ratio_CD38_0, ratio_CD38_1, ratio_CD38_2 = tuple(ratio_CD38_all)
+        # info_list.append(ratio_CD38_0)
+        # info_list.append(ratio_CD38_1)
+        # info_list.append(ratio_CD38_2)
+        # label_df = label_df.append(pd.DataFrame(CD38_labels).T)
 
 
         print('Label prediction has finished!')
@@ -676,7 +687,8 @@ if __name__ == "__main__":
                            'CD152Pos_auto', 'CD152Neg_auto',
                            'CD85jPos_auto', 'CD85jNeg_auto',
                            'CD183Pos_auto', 'CD183Neg_auto',
-                           'CD38_0_auto', 'CD38_1_auto', 'CD38_2_auto',
+                           'CD38Pos_auto', 'CD38Neg_auto',
+                           # 'CD38_0_auto', 'CD38_1_auto', 'CD38_2_auto',
                            ]
         print(info_df)
         result_df = result_df.append(info_df)
