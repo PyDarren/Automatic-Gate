@@ -1,7 +1,8 @@
 # Title     : TODO
 # Objective : TODO
 # Created by: Chen Da
-# Created on: 2019/11/24
+# Created on: 2019/11/26
+
 
 
 import pandas as pd
@@ -20,30 +21,23 @@ def sample_func(df, num):
 
 
 
-def balance_train(data_frame):
+def balance_train(data_frame, more_label=0, less_label=1):
     '''
     Balance number of positive and negative cases in data_frame
     # 欠采样
     :param data_frame:
     :return:
     '''
-    class_0 = data_frame[data_frame['class'] == 0]
-    class_1 = data_frame[data_frame['class'] == 1]
-    class_2 = data_frame[data_frame['class'] == 2]
-    num = len(class_0)
-    index_1 = list(class_1.index)
-    index_2 = list(class_2.index)
-    choose_1_list = list()
-    choose_2_list = list()
+    more_class = data_frame[data_frame['class'] == more_label]
+    less_class  = data_frame[data_frame['class'] == less_label]
+    num = len(less_class)
+    more_index = list(more_class.index)
+    choose_list = list()
     for i in range(num):
-        index_choose1 = random.sample(index_1, 1)[0]
-        choose_1_list.append(index_choose1)
-        index_choose2 = random.sample(index_2, 1)[0]
-        choose_2_list.append(index_choose2)
-    choose_1 = class_1.loc[choose_1_list, :]
-    choose_2 = class_2.loc[choose_2_list, :]
-    data_new = choose_1.append(class_0)
-    data_new = data_new.append(choose_2)
+        index_choose = random.sample(more_index, 1)[0]
+        choose_list.append(index_choose)
+    more_choose = more_class.loc[choose_list, :]
+    data_new = more_choose.append(less_class)
     data_new.index = [i for i in range(data_new.shape[0])]
     return data_new
 
@@ -62,22 +56,18 @@ def split_func(data_frame, size=0.9):
 
     healthy_data = data_frame[data_frame["class"] == 0]
     unhealthy_data = data_frame[data_frame["class"] == 1]
-    data3 = data_frame[data_frame["class"] == 2]
 
     healthy_index = list(healthy_data.index)
     unhealthy_index = list(unhealthy_data.index)
-    index3 = list(data3.index)
 
     healthy_train_data_index = random.sample(healthy_index, int(size * len(healthy_index)))
     unhealthy_train_data_index = random.sample(unhealthy_index, int(size * len(unhealthy_index)))
-    train_data_3_index = random.sample(index3, int(size * len(index3)))
 
     healthy_test_data_index = list(set(healthy_index).difference(set(healthy_train_data_index)))
     unhealthy_test_data_index = list(set(unhealthy_index).difference(set(unhealthy_train_data_index)))
-    test_data_3_index = list(set(index3).difference(set(train_data_3_index)))
 
-    train_index = list(set(healthy_train_data_index).union(set(unhealthy_train_data_index)).union(set(train_data_3_index)))
-    test_index = list(set(healthy_test_data_index).union(set(unhealthy_test_data_index)).union(set(test_data_3_index)))
+    train_index = list(set(healthy_train_data_index).union(set(unhealthy_train_data_index)))
+    test_index = list(set(healthy_test_data_index).union(set(unhealthy_test_data_index)))
 
     train = data_frame.iloc[train_index, :]
     test = data_frame.iloc[test_index, :]
@@ -91,30 +81,26 @@ if __name__ == "__main__":
     ######################################
     #### Data import
     data_path = 'E:/cd/Automatic_Gate_Data/Rawdata/marker_42/'
-    file_0 = 'CD38_0'
-    file_1 = 'CD38_1'
-    file_2 = 'CD38_2'
+    file_0 = 'CD38+'
+    file_1 = 'CD38-'
     df_0 = pd.read_csv(data_path+file_0+'.csv').iloc[:, :-1]
     df_1 = pd.read_csv(data_path+file_1+'.csv').iloc[:, :-1]
-    df_2 = pd.read_csv(data_path+file_2+'.csv').iloc[:, :-1]
 
     #### Add category variable
     df_0['class'] = 0
     df_1['class'] = 1
-    df_2['class'] = 2
 
     # df_0 = sample_func(df_0, 500000)
     # df_1 = sample_func(df_1, 500000)
 
     #### Merge all data
     final_df = df_0.append(df_1)
-    final_df = final_df.append(df_2)
     final_df.index = [i for i in range(final_df.shape[0])]
     print('Finish merge.')
 
     #### Divide the training set and the test set
     train_raw, test = split_func(final_df)
-    train = balance_train(train_raw)
+    train = balance_train(train_raw, more_label=1, less_label=0)
     print('Finish divide.')
 
 
@@ -132,7 +118,7 @@ if __name__ == "__main__":
         tf.keras.layers.Dense(64, activation='tanh'),
         # tf.keras.layers.Dense(64, activation='tanh'),
         # tf.keras.layers.Dense(32, activation='tanh'),
-        tf.keras.layers.Dense(3, activation='sigmoid')
+        tf.keras.layers.Dense(2, activation='sigmoid')
     ])
 
 
@@ -157,5 +143,4 @@ if __name__ == "__main__":
 
     ## save model
     model.save('C:/Users/pc/OneDrive/PLTTECH/Project/01_自动圈门建模/Models/CD38_classfy.h5')
-
 
