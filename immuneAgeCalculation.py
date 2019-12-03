@@ -14,7 +14,7 @@ def predict_age(df):
     formula_lvs = pd.read_csv(path+'Rawdata/formula_LVs.csv')
     subsets_34 = ['Lymphocytes/CD3-/B cells',
                   'Lymphocytes/CD3+/CD4+/CD161+',
-                  'Lymphocytes/CD3+/CD4+/CD161-',
+                  'Lymphocytes/CD3+/CD8+/CD161+',
                   'Lymphocytes/CD3+/CD4+/Treg/Q1: 163Dy_CD161- , 155Gd_CD45RA+',
                   'Lymphocytes/CD3+/CD4+/Treg/Q4: 163Dy_CD161- , 155Gd_CD45RA-',
                   'Lymphocytes/CD3-/CD3-CD20-',
@@ -56,7 +56,7 @@ def predict_age(df):
     lv2 = np.sum(np.dot(df['frequency'].values, formula_lvs['LV2'].values))
     lv3 = np.sum(np.dot(df['frequency'].values, formula_lvs['LV3'].values))
 
-    immune_age = 40.1322 - 0.6259*lv1 + 0.2941*lv2 - 0.0356*lv3
+    immune_age = 20.1322 - 0.6259*lv1 + 0.2941*lv2 - 0.0356*lv3
     print(immune_age)
     age_df = pd.DataFrame([immune_age])
     ratio34_df = df

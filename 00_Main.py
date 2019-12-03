@@ -19,6 +19,32 @@ warnings.filterwarnings('ignore')
 
 
 
+def normalization(df, feature):
+    '''
+    1、Calculated the mean and s.d. of frequency values between the 10th and 90th percentiles;
+    2、Normalize cellular frequencies by subtraction of the mean and division by s.d.
+    :param feature:  The feature to normalized.
+    :return:
+    '''
+    f_list = list(df[feature])
+    f_list = [i for i in f_list if i != 0]              # NA values are not computed
+    quantile_10 = np.quantile(f_list, 0.1)
+    quantile_90 = np.quantile(f_list, 0.9)
+    nums_to_calcu = [i for i in f_list if i >= quantile_10 and i <= quantile_90]
+    f_mean = np.mean(nums_to_calcu)
+    f_std = np.std(nums_to_calcu)
+    df[feature] = df[feature].apply(lambda x : (x - f_mean) / f_std)
+
+
+def scaling(df):
+    for subset in df.columns[:-4]:
+        normalization(df, subset)
+        print('Cell subset "%s" has finished.' % subset)
+
+
+
+
+
 if __name__ == '__main__':
     ###################################################
     ####    1.读取singlets导出的FCS文件并转换成CSV    ####
@@ -38,12 +64,25 @@ if __name__ == '__main__':
     for filename in [filename for filename in os.listdir(Fpath) if os.path.splitext(filename)[1] == ".fcs"]:
         file = Fpath + '/' + filename
         fcs = Fcs(file)
-        # 重写marker-name
         pars = fcs.marker_rename(fcs.pars, *panel_tuple)
-        new_filename = re.sub('-', '', filename)
-        new_filename = re.sub('^.+?_', 'PLT_', new_filename)
-        new_filename = re.sub(r'fcs$', 'csv', new_filename)
+        stain_channel_index = fcs.get_stain_channels(pars)
+
+        # 添加event_length, 191, 193, 194, 140
+        add_channel = ["Event_length", "Ir191Di", "Ir193Di", "Pt194Di", "Ce140Di"]
+        add_index = [i + 1 for i in range(0, len(pars)) if pars[i].par_short_name in add_channel]
+        stain_channel_index.extend(add_index)
+        pars = [pars[i] for i in range(0, len(pars)) if i + 1 in stain_channel_index]
+        # 根据当前的filename去查找新的name
+        new_filename = re.sub("-", "", filename)
+        new_filename = re.sub("^.+?_", "gsH_", new_filename)
         new_file = Fpath + "/WriteFcs/" + new_filename
+
+        # # 重写marker-name
+        # pars = fcs.marker_rename(fcs.pars, *panel_tuple)
+        # new_filename = re.sub('-', '', filename)
+        # new_filename = re.sub('^.+?_', 'PLT_', new_filename)
+        # new_filename = re.sub(r'fcs$', 'csv', new_filename)
+        # new_file = Fpath + "/WriteFcs/" + new_filename
         fcs.write_to(new_file, pars, to="csv")
     print('所有样本FCS文件均已转换为CSV文件', '\n','-'*100,'\n')
 
@@ -59,10 +98,20 @@ if __name__ == '__main__':
     impair_all = pd.DataFrame()
 
     for info in file_list:
-        sample_id = info[:4]
-        os.makedirs(output_path + '/%s/'%info[:4])
-        sample_path = output_path + '/%s/'%info[:4]
-        sample_df = pd.read_csv(csv_path+info).iloc[:, :-1]
+        sample_id = info[:9]
+        os.makedirs(output_path + '/%s/'%info[:9])
+        sample_path = output_path + '/%s/'%info[:9]
+        sample_df = pd.read_csv(csv_path+info)
+
+        sample_df.columns = ['length', 'CD57', 'CD3', 'CD68', 'beads',
+                            'CD56', 'gdTCR', 'CCR6', 'CD14 ', 'IgD', 'CD123(IL-3R)',
+                            'CD85J', 'CD19', 'CD25', 'CD274(PD-L1)', 'CD278(ICOS)',
+                            'CD39', 'CD27', 'CD24', 'CD45RA', 'CD86', 'CD28',
+                            'CD197(CCR7)', 'CD11c ', 'CD33', 'CD152(CTLA-4)', 'FoxP3',
+                            'CD161', 'CXCR5', 'CD66b', 'CD183(CXCR3)', 'CD94', 'T-bet',
+                            'Ki-67', 'CD127(IL-7Ra)', 'CD279(PD-1)', 'CD38', 'Granzyme B',
+                            'CD20', 'CD16', 'HLA-DR', 'DNA1', 'DNA2', 'cisplatin',
+                            'CD4', 'CD8a', 'CD11b']
 
         # 1. 计算各个marker的标签矩阵
         label_df = markerRatioCalculation(sample_df)
@@ -119,12 +168,31 @@ if __name__ == '__main__':
     impair_all.to_excel(output_path+'impairment_all.xlsx', index=False)
 
 
+    ###################################################
+    ####           3. 免疫损伤预处理                ####
+    ###################################################
+    os.makedirs(output_path+'immune_impairment/')
+    os.makedirs(output_path+'immune_impairment/per_sample_data/')
+    os.makedirs(output_path+'immune_impairment/stage2_data/')
+    os.makedirs(output_path+'immune_impairment/final_score/')
 
+    raw_df = pd.read_csv('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/diffusion_original.csv')
+    cell_subsets = ['B.cells', 'CD161negCD45RApos.Tregs', 'CD161pos.NK.cells', 'CD28negCD8pos.T.cells',
+                    'CD57posCD8pos.T.cells', 'CD57pos.NK.cells', 'effector.CD8pos.T.cells',
+                    'effector.memory.CD4pos.T.cells', 'effector.memory.CD8pos.T.cells',
+                    'HLADRnegCD38posCD4pos.T.cells', 'naive.CD4pos.T.cells', 'naive.CD8pos.T.cells',
+                    'PD1posCD8pos.T.cells', 'T.cells', 'CXCR5+CD4pos.T.cells', 'CXCR5+CD8pos.T.cells',
+                    'Th17 CXCR5-CD4pos.T.cells', 'Tregs']
+    cell_subsets.extend(['subject id', 'year', 'visit number', 'age'])
+    raw_df = raw_df.loc[:, cell_subsets]
 
-
-
-
-
-
-
+    for i in range(impair_all.shape[0]):
+        sample_id = impair_all.iloc[i, :]['subject id']
+        sample_df = raw_df.append(impair_all.iloc[i, :])
+        sample_df = sample_df.fillna(0)
+        scaling(sample_df)
+        year_list = [2012, 2013, 2014, 2015, 2019]
+        sample_df = sample_df[sample_df['year'].isin(year_list)]
+        sample_df.to_csv(output_path+'immune_impairment/per_sample_data/%s.csv' % sample_id,
+                         index=False)
 

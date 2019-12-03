@@ -140,7 +140,7 @@ import pandas as pd
 import numpy as np
 
 
-def __check_equally(my_list):
+def __check_equally(cls, my_list):
     my_list = [element for element in my_list if element is not None]
     iterator = iter(my_list)
     try:
@@ -201,6 +201,107 @@ def merge():
     pass
 
 
+def data_generator(data):
+    for row in range(0, len(data)):
+        for column in range(0, len(data[0])):
+            yield data[column][row]
+
+
+class HeaderBef(object):
+    def __init__(self, txt, filename):
+        self.header_bef = ""
+        self.position = {}
+
+        self.__is_fcs_file(txt=txt, filename=filename)
+        self.__get_header_bef(txt=txt)
+
+    @staticmethod
+    def __is_fcs_file(txt, filename):
+        """
+        判断是否是一个fcs3.0文件
+        :return:
+        """
+        # fcs文件的格式，一般是3.0, 如果不是fcs3.0，抛出异常
+        file_format = str(txt[0:6], encoding="utf-8")
+        try:
+            if file_format == "FCS3.0":
+                # print("%s 是FCS3.0文件" % self.filename)
+                return
+            else:
+                file_format_error = Exception(filename + "不是一个FCS3.0的文件")
+                raise file_format_error
+        except Exception as result:
+            sys.stderr.write(str(result)+"\n")
+
+    def __get_header_bef(self, txt):
+        """
+        获取fcs文件中，head起始和结束位置，data起始和结束位置，analysis起始和结束位置
+        文件位置从0开始算的, 读取文件时，文件指针从1开始算
+        :return:
+        """
+        self.header_bef = str(txt[0:58], encoding="utf-8")
+        # head的起始位置和终止位置
+        head_start = int(str(txt[10:18], encoding="utf-8").strip(" "))
+        head_end = int(str(txt[18:26], encoding="utf-8").strip(" "))
+        # 数据的起始位置和终止位置
+        data_start = int(str(txt[26:34], encoding="utf-8").strip(" "))
+        data_end = int(str(txt[34:42], encoding="utf-8").strip(" "))
+        # 分析的起始位置和终止位置
+        analysis_start = int(str(txt[42:50], encoding="utf-8").strip(" "))
+        analysis_end = int(str(txt[50:58], encoding="utf-8").strip(" "))
+
+        self.position["head_start"] = head_start
+        self.position["head_end"] = head_end
+        self.position["data_start"] = data_start
+        self.position["data_end"] = data_end
+        self.position["analysis_start"] = analysis_start
+        self.position["analysis_end"] = analysis_end
+
+
+class Header(object):
+    def __init__(self, txt, file_name):
+        self.header = ""
+        self.info = {}
+        self.__get_info(txt=txt, file_name=file_name)
+
+    def __get_info(self, txt, file_name):
+        """
+        把 header_str分割，生成info字典
+        """
+        self.header = str(txt, encoding="utf-8")
+
+        # 获取分隔符
+        sep = self.header[0]
+        fields = self.header.split(sep)
+        fields.pop(0)  # 去除分割产生的第一个空字符串
+        fields.pop(len(fields)-1)  # 去除分割产生的最后一个空字符串
+
+        # 使用列表推导式分别获得key和对应的值
+        key = [fields[i].upper() for i in range(0, len(fields)) if i % 2 == 0]
+        val = [fields[i] for i in range(0, len(fields)) if i % 2 == 1]
+
+        # 使用字典推导式获得info
+        self.info = {key[i]: val[i] for i in range(0, len(key))}
+
+        # 判断是否存在 $FIL这个信息
+        if "$FIL" not in self.info:
+            self.info["$FIL"] = file_name
+
+        # xshif的fcs文件中的$FIL是一个带有绝对路径的文件名称,去掉名称中的路径
+        self.info["$FIL"] = self.info["$FIL"].split("/")[-1]
+
+        # 判断是否带有补偿矩阵
+        if "$SPILLOVER" in self.info.keys():
+            print("The File has compensation Matrix!")
+
+        # # 判断analysis部分是否不为空
+        # if self.info["$NEXTDATA"] != "0":
+        #     sys.stderr.write("Some other data exist in the file but hasn't been parsed.\n")
+
+        print("%s events were detected; Each event is characterized by %s parameters" %
+              (self.info["$TOT"], self.info["$PAR"]))
+
+
 class Parameter(object):
     """
     每个通道一般都包含一下几个参数信息
@@ -213,9 +314,9 @@ class Parameter(object):
     # 限定Parameter对象只能绑定par_short_name($PnN), par_name($PnS),
     # par_range($PnR), par_bits($PnB), par_amp($PnE)等属性
     __slots__ = ("par_short_name", "par_name", "par_range", "par_bits", "par_amp",
-                 "nb_bytes", "fmt", "data")
+                 "nb_bytes", "fmt", "data", "txt_position")
 
-    def __init__(self, par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data):
+    def __init__(self, par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data, txt_position):
         self.par_short_name = par_short_name
         self.par_name = par_name
         self.par_range = par_range
@@ -224,6 +325,7 @@ class Parameter(object):
         self.nb_bytes = nb_bytes
         self.fmt = fmt  # unpack模式
         self.data = data
+        self.txt_position = txt_position
 
 
 class Fcs(object):
@@ -236,87 +338,44 @@ class Fcs(object):
         self.file_dir = "/".join(file.split('/')[0:-1])
         self.file_name = file.split('/')[-1]
 
-        self.position = {}
-        self.info = {}
+        self.header_bef = None
+        self.header = None
         self.pars = []
-        with open(file, 'rb') as f:
-            self.__is_fcs_file(f)
-            self.__get_position(f)
-            self.__get_info(f)
-            self.__get_pars()
-            self.__get_data(f)
+        self.stain_channels_index = []
+        self.read(file)
+
+    def read(self, file):
+        f = open(file, 'rb')
+        self.header_bef = HeaderBef(f.read(58), self.file_name)
+
+        f.seek(self.header_bef.position["head_start"])  # 定位到header起始位置
+        self.header = Header(f.read(self.header_bef.position["head_end"]+1-self.header_bef.position["head_start"]),
+                             self.file_name)
+
+        self.__get_parameter()
         self.stain_channels_index = self.get_stain_channels(self.pars)
-        self.preprocess_channels_index = self.get_preprocess_channels(self.pars)
 
-    def __is_fcs_file(self, f):
-        """
-        判断是否是一个fcs3.0文件
-        """
-        # fcs文件的格式，一般是3.0, 如果不是fcs3.0，抛出异常
-        f.seek(0)
-        file_format = str(f.read(6), encoding="utf-8")
-        try:
-            if file_format == "FCS3.0":
-                # print("%s 是FCS3.0文件" % self.filename)
-                return
-            else:
-                file_format_error = Exception(self.file_name + "不是一个FCS3.0的文件")
-                raise file_format_error
-        except Exception as result:
-            sys.stderr.write(str(result)+"\n")
+        # 如果存在$BEGINDATA，$ENDDATA， 判断header_bef中data位置与header中$BEGINDATA，$ENDDATA是否一致
+        if "$BEGINDATA" in self.header.info.keys():
+            if self.header_bef.position["data_start"] != self.header.info["$BEGINDATA"]:
+                value_1 = self.header_bef.position["data_start"]
+                value_2 = int(self.header.info["$BEGINDATA"])
+                self.header_bef.position["data_start"] = max(value_1, value_2)
+        if "$ENDDATA" in self.header.info.keys():
+            if self.header_bef.position["data_end"] != self.header.info["$ENDDATA"]:
+                value_1 = self.header_bef.position["data_end"]
+                value_2 = int(self.header.info["$ENDDATA"])
+                self.header_bef.position["data_end"] = max(value_1, value_2)
 
-    def __get_position(self, f):
-        """
-        获取fcs文件中，head中的起始和结束位置，data起始和结束位置，analysis起始和结束位置
-        """
-        f.seek(10)
-        # head的起始位置和终止位置
-        self.position["head_start"] = int(str(f.read(8), encoding="utf-8").strip(" "))
-        self.position["head_end"] = int(str(f.read(8), encoding="utf-8").strip(" "))
-        # 数据的起始位置和终止位置
-        self.position["data_start"] = int(str(f.read(8), encoding="utf-8").strip(" "))
-        self.position["data_end"] = int(str(f.read(8), encoding="utf-8").strip(" "))
-        # 分析的起始位置和终止位置
-        self.position["analysis_start"] = int(str(f.read(8), encoding="utf-8").strip(" "))
-        self.position["analysis_end"] = int(str(f.read(8), encoding="utf-8").strip(" "))
+        f.seek(self.header_bef.position["data_start"])  # 定位到data起始位置
+        t_start = datetime.datetime.now()
+        self.__get_data(f)
+        t_end = datetime.datetime.now()
+        print("read %s elapse %s" % (self.header.info["$FIL"], (t_end - t_start)))
 
-    def __get_info(self, f):
-        """
-        获取fcs文件中的txt部分中的信息, 把txt部分分割，生成info字典
-        """
-        # 定位到header起始位置
-        f.seek(self.position["head_start"])
-        txt_str = str(f.read(self.position["head_end"]+1 - self.position["head_start"]), encoding="utf-8")
+        f.close()
 
-        # 获取分隔符
-        sep = txt_str[0]
-        fields = txt_str.split(sep)
-        fields.pop(0)  # 去除分割产生的第一个空字符串
-        fields.pop(-1)  # 去除分割产生的最后一个空字符串
-        # 使用列表推导式分别获得key和对应的值
-        key = [fields[i].upper() for i in range(0, len(fields)) if i % 2 == 0]
-        val = [fields[i] for i in range(0, len(fields)) if i % 2 == 1]
-        # 使用字典推导式获得info
-        self.info = {key[i]: val[i] for i in range(0, len(key))}
-
-        # 判断header中data位置与txt中$BEGINDATA，$ENDDATA是否一致
-        if "$BEGINDATA" in self.info.keys()and self.position["data_start"] != self.info["$BEGINDATA"]:
-            self.position["data_start"] = max(self.position["data_start"], int(self.info["$BEGINDATA"]))
-        if "$ENDDATA" in self.info.keys()and self.position["data_end"] != self.info["$ENDDATA"]:
-            self.position["data_end"] = max(self.position["data_end"], int(self.info["$ENDDATA"]))
-
-        # 判断是否带有补偿矩阵
-        if "$SPILLOVER" in self.info.keys():
-            print("The File has compensation Matrix!")
-
-        # 判断analysis部分是否不为空
-        if self.info["$NEXTDATA"] in self.info.keys() and self.info["$NEXTDATA"] != "0":
-            sys.stderr.write("Some other data exist in the file but hasn't been parsed.\n")
-
-        print("%s events were detected; Each event is characterized by %s parameters" %
-              (self.info["$TOT"], self.info["$PAR"]))
-
-    def __get_pars(self):
+    def __get_parameter(self):
         """
         每个通道一般都包含一下几个参数信息
         $PnN Short name for parameter n.
@@ -332,22 +391,24 @@ class Fcs(object):
          The additional keywords $PnB (bits per parameter) and $PnR (range per parameter) are needed to completely
          describe an event in the DATA segment.
         """
+        header = self.header
         # 字节顺序
-        if self.info["$BYTEORD"] == "4,3,2,1":
+        if header.info["$BYTEORD"] == "4,3,2,1":
             endianness = ">"
         else:
             endianness = "<"
-            assert self.info["$BYTEORD"] == "1,2,3,4"
+            assert header.info["$BYTEORD"] == "1,2,3,4"
 
-        if self.info["$DATATYPE"] != "F":
+        if header.info["$DATATYPE"] != "F":
             raise NotImplementedError
 
-        for i in range(1, int(self.info["$PAR"]) + 1):
-            par_short_name = self.info["$P%dN" % i] if "$P"+str(i)+"N" in self.info else None
-            par_name = self.info["$P%dS" % i] if "$P"+str(i)+"S" in self.info else None
-            par_range = self.info["$P%dR" % i] if "$P"+str(i)+"R" in self.info else None
-            par_bits = self.info["$P%dB" % i]
-            par_amp = self.info["$P%dE" % i] if "$P"+str(i)+"E" in self.info else None
+        data_len = 0
+        for i in range(1, int(header.info["$PAR"]) + 1):
+            par_short_name = header.info["$P%dN" % i] if "$P"+str(i)+"N" in header.info else None
+            par_name = header.info["$P%dS" % i] if "$P"+str(i)+"S" in header.info else None
+            par_range = header.info["$P%dR" % i] if "$P"+str(i)+"R" in header.info else None
+            par_bits = header.info["$P%dB" % i]
+            par_amp = header.info["$P%dE" % i] if "$P"+str(i)+"E" in header.info else None
 
             nb_bits = int(par_bits)
             assert nb_bits % 8 == 0
@@ -363,34 +424,21 @@ class Fcs(object):
             else:
                 raise ValueError("不是有效的Bit整数")
             fmt = endianness + c_type  # unpack模式
+            # data = [0]*int(header.info["$TOT"])
             data = []
 
-            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data)
+            start = data_len
+            data_len = data_len+nb_bytes
+            txt_position = (start, data_len)
+
+            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data, txt_position)
             self.pars.append(par)
-
-    def __get_data(self, f):
-        """
-        fcs_data得到的是字节Byte形式存储的,数据存储以字节为单位，数据传输通常以位bit为单位，通常一字节是8位bit
-        """
-        row_bytes = sum([par.nb_bytes for par in self.pars])
-        row_fmt = ">" + re.sub(">", "", ''.join([par.fmt for par in self.pars]))
-        event_num = int(self.info["$TOT"])
-        par_num = int(self.info["$PAR"])
-
-        # unpack data
-        t_start = datetime.datetime.now()
-        f.seek(self.position["data_start"])
-        for row in range(0, event_num):
-            # 一行二进制数据根据每个通道的存储字节来转换成常规数值
-            row_values = struct.unpack(row_fmt, f.read(int(row_bytes)))
-            [self.pars[i].data.append(row_values[i]) for i in range(0, par_num)]
-        t_end = datetime.datetime.now()
-        print("read %s elapse %s" % (self.file_name, (t_end - t_start)))
 
     @ staticmethod
     def get_stain_channels(pars):
         """
-        找出染色的通道，返回染色通道的索引
+        找出染色的通道
+        :return: 返回染色通道的索引
         """
         stain_channels_index = []
         for i in range(0, len(pars)):
@@ -406,30 +454,23 @@ class Fcs(object):
                     stain_channels_index.append(i+1)
         return stain_channels_index
 
-    @ staticmethod
-    def get_preprocess_channels(pars):
+    def __get_data(self, f):
         """
-        找出包含预处理的通道，返回找到的通道的索引
+        fcs_data得到的是字节Byte形式存储的,数据存储以字节为单位，数据传输通常以位bit为单位，通常一字节是8位bit
+        len(fcs_data)给出有多少字节
         """
-        # 根据通道名字，添加event_length， 191， 193， 194, 140
-        # 根据marker名字, 添加 Event_length, DNA1, DNA2, cisplatin, beads
-        add_channel = ["Event_length", "Ir191Di", "Ir193Di", "Pt194Di", "Ce140Di"]
-        add_marker = ["Event_length", "DNA1", "DNA2", "cisplatin", "beads"]
+        # unpack data
+        row_bytes = sum([par.nb_bytes for par in self.pars])
+        row_fmt = [par.fmt for par in self.pars]
+        row_fmt = ">"+re.sub(">", "", ''.join(row_fmt))
 
-        preprocess_channels_index = []
-        for i in range(0, len(pars)):
-            channel_name = pars[i].par_short_name
-            marker_name = re.sub(r"^.+?_", "", pars[i].par_name) if pars[i].par_name is not None else ""
-            if channel_name in add_channel and marker_name in add_marker:
-                preprocess_channels_index.append(i+1)
-            elif marker_name == "cisplatin":
-                preprocess_channels_index.append(i + 1)
-            elif channel_name == "Ce140Di":
-                preprocess_channels_index.append(i + 1)
-            elif channel_name == "Event_length":
-                preprocess_channels_index.append(i + 1)
+        event_num = int(self.header.info["$TOT"])
+        par_num = int(self.header.info["$PAR"])
 
-        return preprocess_channels_index
+        for row in range(0, event_num):
+            # 一行二进制数据根据每个通道的存储字节来转换成常规数值
+            row_values = struct.unpack(row_fmt, f.read(int(row_bytes)))
+            [self.pars[i].data.append(row_values[i]) for i in range(0, par_num)]
 
     @staticmethod
     def write_to(file, pars, to="fcs"):
@@ -514,8 +555,9 @@ class Fcs(object):
             par_amp = pars[0].par_bits
             nb_bytes = pars[0].par_bits
             fmt = pars[0].par_bits
+            txt_position = (0, 0)
 
-            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data)
+            par = Parameter(par_short_name, par_name, par_range, par_bits, par_amp, nb_bytes, fmt, data, txt_position)
             pars.append(par)
         return pars
 
@@ -616,17 +658,18 @@ class Write(object):
         self.marker_name = marker_name
         self.data = data
         self.__check_length()
-        self.info = self.__export_info()
 
-        # 查看是否存在file中包含得路径
-        save_dir = "/".join(self.file.split("/")[0:-1])
-        # excel文件夹不存在时创建
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
+        self.info = self.export_info()
 
-        with open(self.file, 'wb') as f:
-            self.__write_header_txt(f)
-            self.__write_data(f)
+        self.header_bef_str = ""
+        self.header_str = ""
+        self.__join_header_str()
+        self.__join_header_bef_str()
+
+        t_start = datetime.datetime.now()
+        self.__write_fcs()
+        t_end = datetime.datetime.now()
+        print("write %s elapse %s" % (self.info["$FIL"], (t_end - t_start)))
 
     def __check_length(self):
         data_length_set = {len(tmp_data) for tmp_data in self.data}
@@ -639,9 +682,9 @@ class Write(object):
             print("通道数量：%d, marker数量：%d, data数量：%d" % (len(self.channel_name), len(self.marker_name), len(self.data)))
             assert {len(self.channel_name), len(self.marker_name), len(self.data)} == 1
 
-    def __export_info(self):
+    def export_info(self):
         """
-        组装出fcs文件的txt信息
+        组装出fcs文件的header信息
         """
         info = {}
         filename = self.file.split("/")[-1]
@@ -655,24 +698,20 @@ class Write(object):
         info["$MODE"] = "L"
         info["$BYTEORD"] = "4,3,2,1"
 
-        channel_num = len(self.channel_name)
-        event_num = len(self.data[0])
-        data_bytes = channel_num * event_num * 4
-        # 默认写出的数据位置从5000开始,前5000位放header+txt
-        data_start = 5000
-        data_end = data_bytes + data_start - 1
-        info["$BEGINSTEXT"] = str("0")
-        info["$ENDSTEXT"] = str("0")
-        info["$BEGINDATA"] = str(data_start)
-        info["$ENDDATA"] = str(data_end)
-        info["$BEGINANALYSIS"] = str("0")
-        info["$ENDANALYSIS"] = str("0")
+        info["$BEGINSTEXT"] = str("0").center(8, " ")
+        info["$ENDSTEXT"] = str("0").center(8, " ")
+        info["$BEGINDATA"] = str("0").center(8, " ")
+        info["$ENDDATA"] = str("0").center(8, " ")
+        info["$BEGINANALYSIS"] = str("0").center(8, " ")
+        info["$ENDANALYSIS"] = str("0").center(8, " ")
         info["$NEXTDATA"] = str("0")
 
         info["ORIGINALGUID"] = "1.fcs"
         info["GUID"] = "1.fcs"
 
+        channel_num = len(self.channel_name)
         info["$PAR"] = str(channel_num)
+        event_num = len(self.data[0])
         info["$TOT"] = str(event_num)
 
         """
@@ -692,48 +731,100 @@ class Write(object):
             info["$P%dE" % i] = "0,0"
         return info
 
-    def __write_header_txt(self, f):
+    def __join_header_str(self):
+        """
+        根据组装出的info生成header
+        """
         info_keys = list(self.info.keys())
-        info_list = [""] * len(info_keys) * 2
+        head_info = [""] * len(info_keys) * 2
         for i in range(0, len(info_keys)):
             key = info_keys[i]
-            info_list[2 * i] = key
-            info_list[2 * i + 1] = self.info[key]
-        txt_str = "|" + "|".join(info_list) + "|"  # 前面加一个|, 后面加一个|
+            head_info[2 * i] = key
+            head_info[2 * i + 1] = self.info[key]
 
-        # 二进制字符串与正常字符串长度不是完全一致
-        txt_str = bytes(txt_str.encode("utf-8"))
-        txt_str_bytes = len(txt_str)
-        txt_start = "58"
-        txt_end = str(txt_str_bytes + int(txt_start) - 1)
+        self.header_str = "|" + "|".join(head_info) + "|"  # 前面加一个|, 后面加一个|
 
-        # 在header部分只记录txt的位置信息
-        # data和analysis的位置信息由txt中的$BEGINDATA, $ENDDATA, $BEGINANALYSIS, $ENDANALYSIS记录
-        header_str = "FCS3.0" + " " * 4
-        header_str = header_str + str(txt_start.center(8, " ")) + str(txt_end.center(8, " "))
-        header_str = header_str + str("0".center(8, " ")) * 4
-        header_str = bytes(header_str.encode("utf-8"))
-
-        # 写入head部分, 再写入txt部分
-        f.write(header_str)
-        f.seek(int(txt_start))
-        f.write(txt_str)
-
-    def __write_data(self, f):
+    def __join_header_bef_str(self):
         """
-        写入数据data
+        根据data字节数和header字节数算出每个部分的位置信息
         """
+        # 所有字节数量
+        data_bytes = int(self.info["$TOT"])*int(self.info["$PAR"])*4
+        header_bytes = len(bytes(self.header_str.encode("utf-8")))  # 注意，有时候二进制字符串与正常字符串长度不一样
+
+        # 文件位置从0开始算的
+        # 前58个字节分别是
+        # 是FCS3.0(6)+4个空格(4)+head_start(8)+head_end(8)+data_start(8)+data_end(8)+analysis_start(8)+analysis_end(8)
+        # 文件内容从0开始算，文件指针从1开始算
+        # 59至（header_bytes+59-1）个字节：header
+        # head的开始位置记录规定小1，head_start = 59-1, head_end = header_bytes+head_start
+        # （head_end+1+1）至（data_bytes+(head_end+1+1)-1）个字节: data
+        # data_start = head_end+1, data_end = data_bytes+(head_end+1)
+        # analysis_start = 0
+        # analysis_end = 0
+
+        position = {}
+
+        head_start = 58
+        head_end = header_bytes + head_start - 1
+        data_start = head_end + 1
+        data_end = data_bytes + data_start - 1
+        analysis_start = 0
+        analysis_end = 0
+
+        self.info["$BEGINSTEXT"] = str(head_start).center(8, " ")
+        self.info["$ENDSTEXT"] = str(head_end).center(8, " ")
+        self.info["$BEGINDATA"] = str(data_start).center(8, " ")
+        self.info["$ENDDATA"] = str(data_end).center(8, " ")
+        self.info["$BEGINANALYSIS"] = str(analysis_start).center(8, " ")
+        self.info["$ENDANALYSIS"] = str(analysis_end).center(8, " ")
+
+        position["head_start"] = head_start
+        position["head_end"] = head_end
+
+        position["data_start"] = data_start
+        position["data_end"] = data_end
+        # 如果超过8个字符，就用header中的$BEGINDATA， $ENDDATA记录
+        if len(str(data_end)) > 8:
+            position["data_start"] = 0
+            position["data_end"] = 0
+
+        position["analysis_start"] = analysis_start
+        position["analysis_end"] = analysis_end
+        position_keys = ["head_start", "head_end", "data_start", "data_end", "analysis_start", "analysis_end"]
+        # 拼接header_bef_str
+        self.header_bef_str = "FCS3.0" + " " * 4
+        for key in position_keys:
+            self.header_bef_str = self.header_bef_str + str(position[key]).center(8, " ")
+        self.__join_header_str()  # 根据修改的info中的$BEGINSTEXT， $BEGINDATA等信息，生成新的header_str
+
+    def __write_fcs(self):
+        """
+        将数据写入到fcs文件中
+        先写入header之前的位置信息
+        再写入header信息
+        最后写入data
+        """
+        # 查看是否存在file中包含得路径
+        save_dir = "/".join(self.file.split("/")[0:-1])
+        # excel文件夹不存在时创建
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+
+        f = open(self.file, 'wb')
+        # 写入head前的信息, 再写入head
+        txt = "".join([self.header_bef_str, self.header_str])
+        txt = bytes(txt.encode("utf-8"))  # 先以utf-8标准编码，每个字符对应规则下的固定字节
+        f.write(txt)
+
+        # 开始写入data
         event_num = int(self.info["$TOT"])
         par_num = int(self.info["$PAR"])
         row_fmt = ">"+"f"*par_num
 
-        f.seek(5000)
-        t_start = datetime.datetime.now()
-        # 开始写入data
         for index in range(0, event_num):
             tmp_row_data = tuple([self.data[col][index] for col in range(0, par_num)])
             tmp_unpack_data = struct.pack(row_fmt, *tmp_row_data)
             f.write(tmp_unpack_data)
 
-        t_end = datetime.datetime.now()
-        print("write %s elapse %s" % (self.info["$FIL"], (t_end - t_start)))
+        f.close()
