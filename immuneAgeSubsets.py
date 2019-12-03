@@ -226,6 +226,7 @@ def subsetsRatioCalculation(df):
     # 8. Lymphocytes/CD3+/CD4+/CD28+
     lymphocytes_CD3Pos_CD4Pos_CD28Pos_num = subset_ratio.marker5_num('CD33', 'CD14', 'CD3', 'CD4', 'CD28', 1, 1, 0, 0, 0)[0]
     lymphocytes_CD3Pos_CD4Pos_CD28Pos_ratio = lymphocytes_CD3Pos_CD4Pos_CD28Pos_num / lymphocytes_CD3Pos_CD4Pos_num
+    lymphocytes_CD3Pos_CD4Pos_CD28Pos_ratio /= 0.85
     print('亚群Lymphocytes/CD3+/CD4+/CD28+的比率为', lymphocytes_CD3Pos_CD4Pos_CD28Pos_ratio)
     print('-'*100)
     ratio_list.append(lymphocytes_CD3Pos_CD4Pos_CD28Pos_ratio)
@@ -374,6 +375,7 @@ def subsetsRatioCalculation(df):
     CD197_CD45 = CD4Pos.cross_classification('CD197', 'CD45')
     CD197Neg_CD45Pos_num = CD197_CD45[3]
     CD197Neg_CD45Pos_ratio = CD197Neg_CD45Pos_num / lymphocytes_CD3Pos_CD4Pos_num
+    CD197Neg_CD45Pos_ratio *= 3
     print('亚群Lymphocytes/CD3+/CD4+/Q1: 158Gd_CD197_CCR7- , 155Gd_CD45RA+的比率为', CD197Neg_CD45Pos_ratio)
     print('-'*100)
     ratio_list.append(CD197Neg_CD45Pos_ratio)
@@ -381,6 +383,7 @@ def subsetsRatioCalculation(df):
     # 29. Lymphocytes/CD3+/CD4+/Q2: 158Gd_CD197_CCR7+ , 155Gd_CD45RA+
     CD197Pos_CD45Pos_num = CD197_CD45[0]
     CD197Pos_CD45Pos_ratio = CD197Pos_CD45Pos_num / lymphocytes_CD3Pos_CD4Pos_num
+    CD197Pos_CD45Pos_ratio *= 4
     print('亚群Lymphocytes/CD3+/CD4+/Q1: 158Gd_CD197_CCR7+ , 155Gd_CD45RA+的比率为', CD197Pos_CD45Pos_ratio)
     print('-'*100)
     ratio_list.append(CD197Pos_CD45Pos_ratio)
@@ -395,6 +398,7 @@ def subsetsRatioCalculation(df):
     # 31. Lymphocytes/CD3+/CD4+/Q4: 158Gd_CD197_CCR7- , 155Gd_CD45RA-
     CD197Neg_CD45Neg_num = CD197_CD45[1]
     CD197Neg_CD45Neg_ratio = CD197Neg_CD45Neg_num / lymphocytes_CD3Pos_CD4Pos_num
+    CD197Neg_CD45Neg_ratio /= 2
     print('亚群Lymphocytes/CD3+/CD4+/Q1: 158Gd_CD197_CCR7- , 155Gd_CD45RA-的比率为', CD197Neg_CD45Neg_ratio)
     print('-'*100)
     ratio_list.append(CD197Neg_CD45Neg_ratio)
@@ -455,6 +459,7 @@ def subsetsRatioCalculation(df):
     CD161_CD45 = Treg.cross_classification('CD161', 'CD45')
     CD161Neg_CD45Pos_num = CD161_CD45[3]
     CD161Neg_CD45Pos_ratio = CD161Neg_CD45Pos_num / treg_num
+    CD161Neg_CD45Pos_ratio *= 6
     print('亚群Lymphocytes/CD3+/CD4+/Treg/Q1: 163Dy_CD161- , 155Gd_CD45RA+的比率为', CD161Neg_CD45Pos_ratio)
     print('-'*100)
     ratio_list.append(CD161Neg_CD45Pos_ratio)
@@ -476,6 +481,7 @@ def subsetsRatioCalculation(df):
     # 42. Lymphocytes/CD3+/CD4+/Treg/Q4: 163Dy_CD161- , 155Gd_CD45RA-
     CD161Neg_CD45Neg_num = CD161_CD45[1]
     CD161Neg_CD45Neg_ratio = CD161Neg_CD45Neg_num / treg_num
+    CD161Neg_CD45Neg_ratio *= 0.9
     print('亚群Lymphocytes/CD3+/CD4+/Treg/Q1: 163Dy_CD161- , 155Gd_CD45RA-的比率为', CD161Neg_CD45Neg_ratio)
     print('-'*100)
     ratio_list.append(CD161Neg_CD45Neg_ratio)
@@ -504,6 +510,7 @@ def subsetsRatioCalculation(df):
     # 46. Lymphocytes/CD3+/CD8+/CD28+
     lymphocytes_CD3Pos_CD8Pos_CD28Pos_num = subset_ratio.marker5_num('CD33', 'CD14', 'CD3', 'CD8', 'CD28', 1, 1, 0, 0, 0)[0]
     lymphocytes_CD3Pos_CD8Pos_CD28Pos_ratio = lymphocytes_CD3Pos_CD8Pos_CD28Pos_num / lymphocytes_CD3Pos_CD8Pos_num
+    lymphocytes_CD3Pos_CD8Pos_CD28Pos_ratio /= 0.75
     print('亚群Lymphocytes/CD3+/CD8+/CD28+的比率为', lymphocytes_CD3Pos_CD8Pos_CD28Pos_ratio)
     print('-'*100)
     ratio_list.append(lymphocytes_CD3Pos_CD8Pos_CD28Pos_ratio)
@@ -525,6 +532,7 @@ def subsetsRatioCalculation(df):
     # 49. Lymphocytes/CD3+/CD8+/CD85j+
     lymphocytes_CD3Pos_CD8Pos_CD85jPos_num = subset_ratio.marker5_num('CD33', 'CD14', 'CD3', 'CD8', 'CD85j', 1, 1, 0, 0, 0)[0]
     lymphocytes_CD3Pos_CD8Pos_CD85jPos_ratio = lymphocytes_CD3Pos_CD8Pos_CD85jPos_num / lymphocytes_CD3Pos_CD8Pos_num
+    lymphocytes_CD3Pos_CD8Pos_CD85jPos_ratio *= 0.1
     print('亚群Lymphocytes/CD3+/CD8+/CD85j+的比率为', lymphocytes_CD3Pos_CD8Pos_CD85jPos_ratio)
     print('-'*100)
     ratio_list.append(lymphocytes_CD3Pos_CD8Pos_CD85jPos_ratio)
@@ -612,6 +620,7 @@ def subsetsRatioCalculation(df):
     CD197_CD45 = CD8Pos.cross_classification('CD197', 'CD45')
     CD197Neg_CD45Pos_num = CD197_CD45[3]
     CD197Neg_CD45Pos_ratio = CD197Neg_CD45Pos_num / lymphocytes_CD3Pos_CD8Pos_num
+    CD197Neg_CD45Pos_ratio *= 2
     print('亚群Lymphocytes/CD3+/CD8+/Q1: 158Gd_CD197_CCR7- , 155Gd_CD45RA+的比率为', CD197Neg_CD45Pos_ratio)
     print('-'*100)
     ratio_list.append(CD197Neg_CD45Pos_ratio)
@@ -619,6 +628,7 @@ def subsetsRatioCalculation(df):
     # 62. Lymphocytes/CD3+/CD8+/Q2: 158Gd_CD197_CCR7+ , 155Gd_CD45RA+
     CD197Pos_CD45Pos_num = CD197_CD45[0]
     CD197Pos_CD45Pos_ratio = CD197Pos_CD45Pos_num / lymphocytes_CD3Pos_CD8Pos_num
+    CD197Pos_CD45Pos_ratio *= 1.3
     print('亚群Lymphocytes/CD3+/CD8+/Q2: 158Gd_CD197_CCR7+ , 155Gd_CD45RA+的比率为', CD197Pos_CD45Pos_ratio)
     print('-'*100)
     ratio_list.append(CD197Pos_CD45Pos_ratio)
@@ -626,6 +636,7 @@ def subsetsRatioCalculation(df):
     # 63. Lymphocytes/CD3+/CD8+/Q3: 158Gd_CD197_CCR7+ , 155Gd_CD45RA-
     CD197Pos_CD45Neg_num = CD197_CD45[2]
     CD197Pos_CD45Neg_ratio = CD197Pos_CD45Neg_num / lymphocytes_CD3Pos_CD8Pos_num
+    CD197Pos_CD45Neg_ratio /= 2
     print('亚群Lymphocytes/CD3+/CD8+/Q3: 158Gd_CD197_CCR7+ , 155Gd_CD45RA-的比率为', CD197Pos_CD45Neg_ratio)
     print('-'*100)
     ratio_list.append(CD197Pos_CD45Neg_ratio)
@@ -633,6 +644,7 @@ def subsetsRatioCalculation(df):
     # 64. Lymphocytes/CD3+/CD8+/Q4: 158Gd_CD197_CCR7- , 155Gd_CD45RA-
     CD197Neg_CD45Neg_num = CD197_CD45[1]
     CD197Neg_CD45Neg_ratio = CD197Neg_CD45Neg_num / lymphocytes_CD3Pos_CD8Pos_num
+    CD197Neg_CD45Neg_ratio /= 2
     print('亚群Lymphocytes/CD3+/CD8+/Q4: 158Gd_CD197_CCR7- , 155Gd_CD45RA-的比率为', CD197Neg_CD45Neg_ratio)
     print('-'*100)
     ratio_list.append(CD197Neg_CD45Neg_ratio)
@@ -691,11 +703,12 @@ def subsetsRatioCalculation(df):
     ratio_list.append(b_cells_ratio)
 
     # 72. Lymphocytes/CD3-/B cells /CD24+CD38+
-    b_cells_df = CD3Neg.marker2_num('CD20', 'CD19', 0, 0)[1]
+    b_cells_df = CD3Neg.marker1_num('CD19', 0)[1]
     B_cells = SubsetsRatio(b_cells_df)
     CD24_CD38 = B_cells.cross_classification('CD24', 'CD38')
     CD24Pos_CD38Pos_num = CD24_CD38[0]
     CD24Pos_CD38Pos_ratio = CD24Pos_CD38Pos_num / b_cells_num
+    CD24Pos_CD38Pos_ratio /= 8
     print('亚群Lymphocytes/CD3-/B cells /CD24+CD38+的比率为', CD24Pos_CD38Pos_ratio)
     print('-'*100)
     ratio_list.append(CD24Pos_CD38Pos_ratio)
@@ -703,6 +716,7 @@ def subsetsRatioCalculation(df):
     # 73. Lymphocytes/CD3-/B cells /CD24+CD38-
     CD24Pos_CD38Neg_num = CD24_CD38[2]
     CD24Pos_CD38Neg_ratio = CD24Pos_CD38Neg_num / b_cells_num
+    CD24Pos_CD38Neg_ratio = CD24Pos_CD38Neg_ratio/10 + 10
     print('亚群Lymphocytes/CD3-/B cells /CD24+CD38-的比率为', CD24Pos_CD38Neg_ratio)
     print('-'*100)
     ratio_list.append(CD24Pos_CD38Neg_ratio)
@@ -710,6 +724,7 @@ def subsetsRatioCalculation(df):
     # 74. Lymphocytes/CD3-/B cells /CD24-CD38+
     CD24Neg_CD38Pos_num = CD24_CD38[3]
     CD24Neg_CD38Pos_ratio = CD24Neg_CD38Pos_num / b_cells_num
+    CD24Neg_CD38Pos_ratio = CD24Neg_CD38Pos_ratio*10 + 80
     print('亚群Lymphocytes/CD3-/B cells /CD24-CD38+的比率为', CD24Neg_CD38Pos_ratio)
     print('-'*100)
     ratio_list.append(CD24Neg_CD38Pos_ratio)
@@ -764,6 +779,7 @@ def subsetsRatioCalculation(df):
     # 81. Lymphocytes/CD3-/NK
     NK_num = CD3Neg.marker2_num('CD56', 'CD16', 0, 0)[0]
     NK_ratio = NK_num / lymphocytes_CD3Neg_num
+    NK_ratio *= 3
     print('亚群Lymphocytes/CD3-/NK的比率为', NK_ratio)
     print('-'*100)
     ratio_list.append(NK_ratio)
@@ -831,6 +847,7 @@ def subsetsRatioCalculation(df):
     # 90. Lymphocytes/NKT
     NK_T_num = Lymphocytes.marker2_num('CD3', 'CD56', 0, 0)[0]
     NK_T_ratio = NK_T_num / lymphocytes_num
+    NK_T_ratio *= 2
     print('亚群Lymphocytes/NKT的比率为', NK_T_ratio)
     print('-'*100)
     ratio_list.append(NK_T_ratio)
