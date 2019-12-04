@@ -7,9 +7,9 @@ from FCS import Fcs
 from tkinter import filedialog
 import pandas as pd
 import numpy as np
-import os, re, sys, warnings
+import os, re, sys, warnings, copy
 from marker_ratio_calculation import markerRatioCalculation
-from immuneAgeSubsets import subsetsRatioCalculation
+from immuneAgeSubsets import subsetsRatioCalculation, subsetsRatioCalculation_real
 from confidenceCalculation import confidence_calculation
 from immuneAgeCalculation import predict_age
 from immuneImpairment import immuneImpairmentMatrix
@@ -74,7 +74,8 @@ if __name__ == '__main__':
         pars = [pars[i] for i in range(0, len(pars)) if i + 1 in stain_channel_index]
         # 根据当前的filename去查找新的name
         new_filename = re.sub("-", "", filename)
-        new_filename = re.sub("^.+?_", "gsH_", new_filename)
+        new_filename = re.sub("^.+?_", "", new_filename)
+        # new_filename = re.sub("^.+?_", "", new_filename)
         new_file = Fpath + "/WriteFcs/" + new_filename
 
         # # 重写marker-name
@@ -92,6 +93,7 @@ if __name__ == '__main__':
     ###################################################
     file_list = os.listdir(csv_path)
     ratio_all = pd.DataFrame()
+    real_all = pd.DataFrame()
     confidence_all = pd.DataFrame()
     immune_age_all = pd.DataFrame()
     ratio34_all = pd.DataFrame()
@@ -129,9 +131,20 @@ if __name__ == '__main__':
         ratio_df.to_excel(sample_path+'subset_ratio.xlsx', index=False)
         ratio_merge_df.index = [sample_id]
         ratio_all = ratio_all.append(ratio_merge_df)
+        ##############################################
+        real_merge_df = subsetsRatioCalculation_real(label_df)
+        real_df = real_merge_df.T
+        real_df['subset'] = list(real_df.index)
+        real_df.columns = ['frequency', 'subset']
+        real_df.index = [i for i in range(real_df.shape[0])]
+        real_df = real_df[['subset', 'frequency']]
+        real_df['frequency'] = real_df['frequency'].apply(lambda x: x*100)
+        real_merge_df.index = [sample_id]
+        real_all = real_all.append(real_merge_df)
+
 
         # 3. 计算置信区间相对值
-        confidence_df = confidence_calculation(ratio_df)
+        confidence_df = confidence_calculation(real_df)
         confidence_df.to_excel(sample_path+'confidence.xlsx', index=False)
         print('Confidence calculation has finished!', '\n')
         confidence_merge_df = confidence_df.T
@@ -162,10 +175,18 @@ if __name__ == '__main__':
 
 
     ratio_all.to_excel(output_path+'ratio_all.xlsx')
+    real_all.to_excel(output_path+'real_all.xlsx')
     confidence_all.to_excel(output_path+'confidence_all.xlsx')
     immune_age_all.to_excel(output_path+'immune_age_all.xlsx')
     ratio34_all.to_excel(output_path+'ratio34_all.xlsx', index=False)
     impair_all.to_excel(output_path+'impairment_all.xlsx', index=False)
+
+    # 提取置信区间66亚群比率
+    select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
+    select_subsets = list(select_subsets_df['subset'].values)
+    confidence_66_ratio = real_all.loc[:, select_subsets].T
+    confidence_66_ratio = confidence_66_ratio.multiply(100)
+    confidence_66_ratio.to_excel(output_path+'confidence_66_ratio.xlsx')
 
 
     ###################################################
