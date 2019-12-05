@@ -75,7 +75,7 @@ if __name__ == '__main__':
         # 根据当前的filename去查找新的name
         new_filename = re.sub("-", "", filename)
         new_filename = re.sub("^.+?_", "", new_filename)
-        # new_filename = re.sub("^.+?_", "", new_filename)
+        new_filename = re.sub("^.+?_", "", new_filename)
         new_file = Fpath + "/WriteFcs/" + new_filename
 
         # # 重写marker-name
