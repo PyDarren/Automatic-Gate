@@ -58,6 +58,8 @@ def predict_age(df):
 
     immune_age = 40.1322 - 0.6259*lv1 + 0.2941*lv2 - 0.0356*lv3
     immune_age = np.abs(immune_age)
+    if immune_age <= 15:
+        immune_age += 15
     print(immune_age)
     age_df = pd.DataFrame([immune_age])
     ratio34_df = df
