@@ -216,6 +216,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_ViableNeg)
     label_df = label_df.append(pd.DataFrame(Viable_labels).T)
     Viable_df = Viable_df.iloc[:, :-1]
+    print('Marker %s has finished!' % 1)
 
     # 计算CD3+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -225,6 +226,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD3Pos)
     # info_list.append(ratio_CD3Neg)
     label_df = label_df.append(pd.DataFrame(CD3_labels).T)
+    print('Marker %s has finished!' % 2)
 
     # 计算CD4+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -234,6 +236,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD4Pos)
     # info_list.append(ratio_CD4Neg)
     label_df = label_df.append(pd.DataFrame(CD4_labels).T)
+    print('Marker %s has finished!' % 3)
 
     # 计算CD8+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -243,6 +246,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD8Pos)
     # info_list.append(ratio_CD8Neg)
     label_df = label_df.append(pd.DataFrame(CD8_labels).T)
+    print('Marker %s has finished!' % 4)
 
     # 计算CD45+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -252,6 +256,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD45Pos)
     # info_list.append(ratio_CD45Neg)
     label_df = label_df.append(pd.DataFrame(CD45_labels).T)
+    print('Marker %s has finished!' % 5)
 
     # 计算IGD+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -261,6 +266,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_IGDPos)
     # info_list.append(ratio_IGDNeg)
     label_df = label_df.append(pd.DataFrame(IGD_labels).T)
+    print('Marker %s has finished!' % 6)
 
     # 计算CD11b+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -270,6 +276,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD11bPos)
     # info_list.append(ratio_CD11bNeg)
     label_df = label_df.append(pd.DataFrame(CD11b_labels).T)
+    print('Marker %s has finished!' % 7)
 
     # 计算CD14+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -279,6 +286,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD14Pos)
     # info_list.append(ratio_CD14Neg)
     label_df = label_df.append(pd.DataFrame(CD14_labels).T)
+    print('Marker %s has finished!' % 8)
 
     # 计算CD19+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -288,6 +296,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD19Pos)
     # info_list.append(ratio_CD19Neg)
     label_df = label_df.append(pd.DataFrame(CD19_labels).T)
+    print('Marker %s has finished!' % 9)
 
     # 计算CD20+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -297,6 +306,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD20Pos)
     # info_list.append(ratio_CD20Neg)
     label_df = label_df.append(pd.DataFrame(CD20_labels).T)
+    print('Marker %s has finished!' % 10)
 
     # 计算CD27+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -306,6 +316,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD27Pos)
     # info_list.append(ratio_CD27Neg)
     label_df = label_df.append(pd.DataFrame(CD27_labels).T)
+    print('Marker %s has finished!' % 11)
 
     # 计算CD33+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -315,6 +326,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD33Pos)
     # info_list.append(ratio_CD33Neg)
     label_df = label_df.append(pd.DataFrame(CD33_labels).T)
+    print('Marker %s has finished!' % 12)
 
     # 计算CD39+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -324,8 +336,9 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD39Pos)
     # info_list.append(ratio_CD39Neg)
     label_df = label_df.append(pd.DataFrame(CD39_labels).T)
+    print('Marker %s has finished!' % 13)
 
-     # 计算CD86+-的比率
+    # 计算CD86+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
     new_df = copy.deepcopy(Viable_df)
     ratio_CD86_all, CD86_df, CD86_labels = ratioCalculation2(new_df, model_CD86)
@@ -333,6 +346,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD86Pos)
     # info_list.append(ratio_CD86Neg)
     label_df = label_df.append(pd.DataFrame(CD86_labels).T)
+    print('Marker %s has finished!' % 14)
 
     # 计算CD94+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -342,6 +356,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD94Pos)
     # info_list.append(ratio_CD94Neg)
     label_df = label_df.append(pd.DataFrame(CD94_labels).T)
+    print('Marker %s has finished!' % 15)
 
     # 计算CXCR5+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -351,6 +366,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CXCR5Pos)
     # info_list.append(ratio_CXCR5Neg)
     label_df = label_df.append(pd.DataFrame(CXCR5_labels).T)
+    print('Marker %s has finished!' % 16)
 
     # 计算gdTCR+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -360,6 +376,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_gdTCRPos)
     # info_list.append(ratio_gdTCRNeg)
     label_df = label_df.append(pd.DataFrame(gdTCR_labels).T)
+    print('Marker %s has finished!' % 17)
 
     # 计算CD57+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -369,6 +386,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD57Pos)
     # info_list.append(ratio_CD57Neg)
     label_df = label_df.append(pd.DataFrame(CD57_labels).T)
+    print('Marker %s has finished!' % 18)
 
     # 计算CD11c+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -378,6 +396,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD11cPos)
     # info_list.append(ratio_CD11cNeg)
     label_df = label_df.append(pd.DataFrame(CD11c_labels).T)
+    print('Marker %s has finished!' % 19)
 
     # 计算tbet+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -387,6 +406,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_tbetPos)
     # info_list.append(ratio_tbetNeg)
     label_df = label_df.append(pd.DataFrame(tbet_labels).T)
+    print('Marker %s has finished!' % 20)
 
     # 计算CD16+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -396,6 +416,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD16Pos)
     # info_list.append(ratio_CD16Neg)
     label_df = label_df.append(pd.DataFrame(CD16_labels).T)
+    print('Marker %s has finished!' % 21)
 
     # 计算CD127+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -405,6 +426,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD127Pos)
     # info_list.append(ratio_CD127Neg)
     label_df = label_df.append(pd.DataFrame(CD127_labels).T)
+    print('Marker %s has finished!' % 22)
 
     # 计算granzyme_B+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -414,6 +436,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_granzyme_BPos)
     # info_list.append(ratio_granzyme_BNeg)
     label_df = label_df.append(pd.DataFrame(granzyme_B_labels).T)
+    print('Marker %s has finished!' % 23)
 
     # 计算HLA_DR+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -423,6 +446,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_HLA_DRPos)
     # info_list.append(ratio_HLA_DRNeg)
     label_df = label_df.append(pd.DataFrame(HLA_DR_labels).T)
+    print('Marker %s has finished!' % 24)
 
     # 计算CD161+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -432,6 +456,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD161Pos)
     # info_list.append(ratio_CD161Neg)
     label_df = label_df.append(pd.DataFrame(CD161_labels).T)
+    print('Marker %s has finished!' % 25)
 
     # 计算CD56+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -441,6 +466,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD56Pos)
     # info_list.append(ratio_CD56Neg)
     label_df = label_df.append(pd.DataFrame(CD56_labels).T)
+    print('Marker %s has finished!' % 26)
 
     # 计算CD197+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -450,6 +476,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD197Pos)
     # info_list.append(ratio_CD197Neg)
     label_df = label_df.append(pd.DataFrame(CD197_labels).T)
+    print('Marker %s has finished!' % 27)
 
     # 计算CD68+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -459,6 +486,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD68Pos)
     # info_list.append(ratio_CD68Neg)
     label_df = label_df.append(pd.DataFrame(CD68_labels).T)
+    print('Marker %s has finished!' % 28)
 
     # 计算CD24+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -468,6 +496,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD24Pos)
     # info_list.append(ratio_CD24Neg)
     label_df = label_df.append(pd.DataFrame(CD24_labels).T)
+    print('Marker %s has finished!' % 29)
 
     # 计算CD28+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -477,6 +506,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD28Pos)
     # info_list.append(ratio_CD28Neg)
     label_df = label_df.append(pd.DataFrame(CD28_labels).T)
+    print('Marker %s has finished!' % 30)
 
     # 计算ki67+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -486,6 +516,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_ki67Pos)
     # info_list.append(ratio_ki67Neg)
     label_df = label_df.append(pd.DataFrame(ki67_labels).T)
+    print('Marker %s has finished!' % 31)
 
     # 计算PD1+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -495,6 +526,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_PD1Pos)
     # info_list.append(ratio_PD1Neg)
     label_df = label_df.append(pd.DataFrame(PD1_labels).T)
+    print('Marker %s has finished!' % 32)
 
     # 计算CD278+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -504,6 +536,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD278Pos)
     # info_list.append(ratio_CD278Neg)
     label_df = label_df.append(pd.DataFrame(CD278_labels).T)
+    print('Marker %s has finished!' % 33)
 
     # 计算CCR6+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -513,6 +546,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CCR6Pos)
     # info_list.append(ratio_CCR6Neg)
     label_df = label_df.append(pd.DataFrame(CCR6_labels).T)
+    print('Marker %s has finished!' % 34)
 
     # 计算CD123+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -522,6 +556,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD123Pos)
     # info_list.append(ratio_CD123Neg)
     label_df = label_df.append(pd.DataFrame(CD123_labels).T)
+    print('Marker %s has finished!' % 35)
 
     # 计算CD25+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -531,6 +566,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD25Pos)
     # info_list.append(ratio_CD25Neg)
     label_df = label_df.append(pd.DataFrame(CD25_labels).T)
+    print('Marker %s has finished!' % 36)
 
     # 计算foxp3+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -540,6 +576,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_foxp3Pos)
     # info_list.append(ratio_foxp3Neg)
     label_df = label_df.append(pd.DataFrame(foxp3_labels).T)
+    print('Marker %s has finished!' % 37)
 
     # 计算CD274+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -549,6 +586,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD274Pos)
     # info_list.append(ratio_CD274Neg)
     label_df = label_df.append(pd.DataFrame(CD274_labels).T)
+    print('Marker %s has finished!' % 38)
 
     # 计算CD152+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -558,6 +596,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD152Pos)
     # info_list.append(ratio_CD152Neg)
     label_df = label_df.append(pd.DataFrame(CD152_labels).T)
+    print('Marker %s has finished!' % 39)
 
     # 计算CD85j+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -567,6 +606,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD85jPos)
     # info_list.append(ratio_CD85jNeg)
     label_df = label_df.append(pd.DataFrame(CD85j_labels).T)
+    print('Marker %s has finished!' % 40)
 
     # 计算CD183+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -576,6 +616,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD183Pos)
     # info_list.append(ratio_CD183Neg)
     label_df = label_df.append(pd.DataFrame(CD183_labels).T)
+    print('Marker %s has finished!' % 41)
 
     # 计算CD38+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
@@ -585,6 +626,7 @@ def markerRatioCalculation(raw_df):
     # info_list.append(ratio_CD38Pos)
     # info_list.append(ratio_CD38Neg)
     label_df = label_df.append(pd.DataFrame(CD38_labels).T)
+    print('Marker %s has finished!' % 42)
 
     # # 计算CD38_0_1_2的比率
     # # new_df = pd.read_csv(data_path+info).iloc[:, :-1]

@@ -75,7 +75,7 @@ if __name__ == '__main__':
         # 根据当前的filename去查找新的name
         new_filename = re.sub("-", "", filename)
         new_filename = re.sub("^.+?_", "", new_filename)
-        new_filename = re.sub("^.+?_", "", new_filename)
+        # new_filename = re.sub("^.+?_", "", new_filename)
         new_file = Fpath + "/WriteFcs/" + new_filename
 
         # # 重写marker-name
@@ -92,6 +92,7 @@ if __name__ == '__main__':
     ####           2.计算        ####
     ###################################################
     file_list = os.listdir(csv_path)
+    label_frequency_all = pd.DataFrame()
     ratio_all = pd.DataFrame()
     real_all = pd.DataFrame()
     confidence_all = pd.DataFrame()
@@ -117,6 +118,10 @@ if __name__ == '__main__':
 
         # 1. 计算各个marker的标签矩阵
         label_df = markerRatioCalculation(sample_df)
+        label_frequency = np.sum(label_df)/label_df.shape[0]
+        label_frequency_df = pd.DataFrame(label_frequency).T
+        label_frequency_df.index = [sample_id]
+        label_frequency_all = label_frequency_all.append(label_frequency_df)
         print('Marker ratio calculation has finished!', '\n')
 
         # 2. 计算特定亚群的比率
@@ -180,6 +185,7 @@ if __name__ == '__main__':
     immune_age_all.to_excel(output_path+'immune_age_all.xlsx')
     ratio34_all.to_excel(output_path+'ratio34_all.xlsx', index=False)
     impair_all.to_excel(output_path+'impairment_all.xlsx', index=False)
+    label_frequency_all.to_excel(output_path+'label_frequency.xlsx')
 
     # 提取置信区间66亚群比率
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')

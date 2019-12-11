@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="959e3f5a-4ad5-4e31-9683-94540219ddfb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/immuneAgeCalculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/immuneAgeCalculation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/00_Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/marker_ratio_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/marker_ratio_calculation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="834">
-              <caret line="638" column="28" selection-start-line="638" selection-start-column="28" selection-end-line="638" selection-end-column="28" />
+            <state>
+              <caret line="488" column="39" selection-start-line="488" selection-start-column="39" selection-end-line="488" selection-end-column="39" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -28,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31065">
+            <state relative-caret-position="13488">
               <caret line="1637" column="18" selection-start-line="1637" selection-start-column="18" selection-end-line="1637" selection-end-column="18" />
               <folding>
                 <element signature="e#88#107#0" expanded="true" />
@@ -46,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/00_Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41">
-              <caret line="149" column="44" selection-start-line="149" selection-start-column="44" selection-end-line="149" selection-end-column="44" />
+            <state relative-caret-position="621">
+              <caret line="188" selection-start-line="188" selection-end-line="188" />
               <folding>
                 <element signature="e#86#105#0" expanded="true" />
               </folding>
@@ -94,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/immuneAgeCalculation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="61" column="23" selection-start-line="61" selection-start-column="23" selection-end-line="61" selection-end-column="23" />
+            <state relative-caret-position="797">
+              <caret line="52" column="30" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -233,16 +234,16 @@
         <option value="$PROJECT_DIR$/model_CD85j.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/model_Viable.py" />
-        <option value="$PROJECT_DIR$/marker_ratio_calculation.py" />
         <option value="$PROJECT_DIR$/confidenceCalculation.py" />
         <option value="$PROJECT_DIR$/immuneImpairment.py" />
         <option value="$PROJECT_DIR$/Main.py" />
         <option value="$PROJECT_DIR$/02_immune_score.py" />
         <option value="$PROJECT_DIR$/immuneAgeSubsets.py" />
-        <option value="$PROJECT_DIR$/00_Main.py" />
         <option value="$PROJECT_DIR$/demo.py" />
         <option value="$PROJECT_DIR$/Immune_age_correction.py" />
         <option value="$PROJECT_DIR$/immuneAgeCalculation.py" />
+        <option value="$PROJECT_DIR$/marker_ratio_calculation.py" />
+        <option value="$PROJECT_DIR$/00_Main.py" />
       </list>
     </option>
   </component>
@@ -277,7 +278,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../PLTTECH/Project/20191103亚群置信区间" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -443,21 +444,23 @@
       <workItem from="1575512432948" duration="2990000" />
       <workItem from="1575534768247" duration="2709000" />
       <workItem from="1575594506648" duration="1194000" />
-      <workItem from="1575597005231" duration="3349000" />
+      <workItem from="1575597005231" duration="3952000" />
+      <workItem from="1575858107283" duration="12000" />
+      <workItem from="1576042059402" duration="3275000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="282150000" />
+    <option name="totallyTimeSpent" value="286040000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.1881663" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.1924307" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Python Console" order="3" weight="0.47547975" />
+      <window_info id="Python Console" order="3" visible="true" weight="0.47547975" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="1" />
       <window_info anchor="bottom" id="Version Control" order="2" />
@@ -465,7 +468,7 @@
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5021322" side_tool="true" weight="0.18872017" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" sideWeight="0.4978678" visible="true" weight="0.22668113" />
+      <window_info active="true" anchor="bottom" id="Run" order="7" sideWeight="0.4978678" visible="true" weight="0.03253796" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
@@ -488,7 +491,7 @@
     <SUITE FILE_PATH="coverage/Automatic_Gate$marker_ratio_calculation.coverage" NAME="marker_ratio_calculation Coverage Results" MODIFIED="1574587600857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Automatic_Gate$immuneAgeCalculation.coverage" NAME="immuneAgeCalculation Coverage Results" MODIFIED="1575355585292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Automatic_Gate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1574834097673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Automatic_Gate$00_Main.coverage" NAME="00_Main Coverage Results" MODIFIED="1575599183570" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Automatic_Gate$00_Main.coverage" NAME="00_Main Coverage Results" MODIFIED="1576045062107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Automatic_Gate$demo.coverage" NAME="demo Coverage Results" MODIFIED="1575512698532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Automatic_Gate$02_immune_score.coverage" NAME="02_immune_score Coverage Results" MODIFIED="1575595043278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
@@ -802,16 +805,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31065">
-          <caret line="1637" column="18" selection-start-line="1637" selection-start-column="18" selection-end-line="1637" selection-end-column="18" />
-          <folding>
-            <element signature="e#88#107#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/confidenceCalculation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -852,10 +845,30 @@
     <entry file="file://$PROJECT_DIR$/immuneImpairment.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/immuneAgeCalculation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="797">
+          <caret line="52" column="30" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
+          <folding>
+            <element signature="e#87#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/immuneAgeSubsets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13488">
+          <caret line="1637" column="18" selection-start-line="1637" selection-start-column="18" selection-end-line="1637" selection-end-column="18" />
+          <folding>
+            <element signature="e#88#107#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/marker_ratio_calculation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="834">
-          <caret line="638" column="28" selection-start-line="638" selection-start-column="28" selection-end-line="638" selection-end-column="28" />
+        <state>
+          <caret line="488" column="39" selection-start-line="488" selection-start-column="39" selection-end-line="488" selection-end-column="39" />
           <folding>
             <element signature="e#87#106#0" expanded="true" />
           </folding>
@@ -864,20 +877,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/00_Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="149" column="44" selection-start-line="149" selection-start-column="44" selection-end-line="149" selection-end-column="44" />
+        <state relative-caret-position="621">
+          <caret line="188" selection-start-line="188" selection-end-line="188" />
           <folding>
             <element signature="e#86#105#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/immuneAgeCalculation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="61" column="23" selection-start-line="61" selection-start-column="23" selection-end-line="61" selection-end-column="23" />
-          <folding>
-            <element signature="e#87#106#0" expanded="true" />
           </folding>
         </state>
       </provider>
