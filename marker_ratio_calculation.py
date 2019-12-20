@@ -220,7 +220,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD3+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD3_all, CD3_df, CD3_labels = ratioCalculation2(new_df, model_CD3)
     ratio_CD3Pos, ratio_CD3Neg = tuple(ratio_CD3_all)
     # info_list.append(ratio_CD3Pos)
@@ -230,7 +230,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD4+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD4_all, CD4_df, CD4_labels = ratioCalculation2(new_df, model_CD4)
     ratio_CD4Pos, ratio_CD4Neg = tuple(ratio_CD4_all)
     # info_list.append(ratio_CD4Pos)
@@ -240,7 +240,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD8+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD8_all, CD8_df, CD8_labels = ratioCalculation2(new_df, model_CD8)
     ratio_CD8Pos, ratio_CD8Neg = tuple(ratio_CD8_all)
     # info_list.append(ratio_CD8Pos)
@@ -250,7 +250,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD45+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD45_all, CD45_df, CD45_labels = ratioCalculation2(new_df, model_CD45)
     ratio_CD45Pos, ratio_CD45Neg = tuple(ratio_CD45_all)
     # info_list.append(ratio_CD45Pos)
@@ -260,7 +260,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算IGD+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_IGD_all, IGD_df, IGD_labels = ratioCalculation2(new_df, model_IGD)
     ratio_IGDPos, ratio_IGDNeg = tuple(ratio_IGD_all)
     # info_list.append(ratio_IGDPos)
@@ -270,7 +270,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD11b+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD11b_all, CD11b_df, CD11b_labels = ratioCalculation2(new_df, model_CD11b)
     ratio_CD11bPos, ratio_CD11bNeg = tuple(ratio_CD11b_all)
     # info_list.append(ratio_CD11bPos)
@@ -280,7 +280,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD14+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD14_all, CD14_df, CD14_labels = ratioCalculation2(new_df, model_CD14)
     ratio_CD14Pos, ratio_CD14Neg = tuple(ratio_CD14_all)
     # info_list.append(ratio_CD14Pos)
@@ -290,7 +290,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD19+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD19_all, CD19_df, CD19_labels = ratioCalculation2(new_df, model_CD19)
     ratio_CD19Pos, ratio_CD19Neg = tuple(ratio_CD19_all)
     # info_list.append(ratio_CD19Pos)
@@ -300,7 +300,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD20+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD20_all, CD20_df, CD20_labels = ratioCalculation2(new_df, model_CD20)
     ratio_CD20Pos, ratio_CD20Neg = tuple(ratio_CD20_all)
     # info_list.append(ratio_CD20Pos)
@@ -310,7 +310,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD27+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD27_all, CD27_df, CD27_labels = ratioCalculation2(new_df, model_CD27)
     ratio_CD27Pos, ratio_CD27Neg = tuple(ratio_CD27_all)
     # info_list.append(ratio_CD27Pos)
@@ -320,7 +320,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD33+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD33_all, CD33_df, CD33_labels = ratioCalculation2(new_df, model_CD33)
     ratio_CD33Pos, ratio_CD33Neg = tuple(ratio_CD33_all)
     # info_list.append(ratio_CD33Pos)
@@ -330,7 +330,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD39+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD39_all, CD39_df, CD39_labels = ratioCalculation2(new_df, model_CD39)
     ratio_CD39Pos, ratio_CD39Neg = tuple(ratio_CD39_all)
     # info_list.append(ratio_CD39Pos)
@@ -340,7 +340,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD86+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD86_all, CD86_df, CD86_labels = ratioCalculation2(new_df, model_CD86)
     ratio_CD86Pos, ratio_CD86Neg = tuple(ratio_CD86_all)
     # info_list.append(ratio_CD86Pos)
@@ -350,7 +350,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD94+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD94_all, CD94_df, CD94_labels = ratioCalculation2(new_df, model_CD94)
     ratio_CD94Pos, ratio_CD94Neg = tuple(ratio_CD94_all)
     # info_list.append(ratio_CD94Pos)
@@ -360,7 +360,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CXCR5+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CXCR5_all, CXCR5_df, CXCR5_labels = ratioCalculation2(new_df, model_CXCR5)
     ratio_CXCR5Pos, ratio_CXCR5Neg = tuple(ratio_CXCR5_all)
     # info_list.append(ratio_CXCR5Pos)
@@ -370,7 +370,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算gdTCR+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_gdTCR_all, gdTCR_df, gdTCR_labels = ratioCalculation2(new_df, model_gdTCR)
     ratio_gdTCRPos, ratio_gdTCRNeg = tuple(ratio_gdTCR_all)
     # info_list.append(ratio_gdTCRPos)
@@ -380,7 +380,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD57+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD57_all, CD57_df, CD57_labels = ratioCalculation2(new_df, model_CD57)
     ratio_CD57Pos, ratio_CD57Neg = tuple(ratio_CD57_all)
     # info_list.append(ratio_CD57Pos)
@@ -390,7 +390,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD11c+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD11c_all, CD11c_df, CD11c_labels = ratioCalculation2(new_df, model_CD11c)
     ratio_CD11cPos, ratio_CD11cNeg = tuple(ratio_CD11c_all)
     # info_list.append(ratio_CD11cPos)
@@ -400,7 +400,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算tbet+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_tbet_all, tbet_df, tbet_labels = ratioCalculation2(new_df, model_tbet)
     ratio_tbetPos, ratio_tbetNeg = tuple(ratio_tbet_all)
     # info_list.append(ratio_tbetPos)
@@ -410,7 +410,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD16+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD16_all, CD16_df, CD16_labels = ratioCalculation2(new_df, model_CD16)
     ratio_CD16Pos, ratio_CD16Neg = tuple(ratio_CD16_all)
     # info_list.append(ratio_CD16Pos)
@@ -420,7 +420,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD127+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD127_all, CD127_df, CD127_labels = ratioCalculation2(new_df, model_CD127)
     ratio_CD127Pos, ratio_CD127Neg = tuple(ratio_CD127_all)
     # info_list.append(ratio_CD127Pos)
@@ -430,7 +430,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算granzyme_B+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_granzyme_B_all, granzyme_B_df, granzyme_B_labels = ratioCalculation2(new_df, model_granzyme_B)
     ratio_granzyme_BPos, ratio_granzyme_BNeg = tuple(ratio_granzyme_B_all)
     # info_list.append(ratio_granzyme_BPos)
@@ -440,7 +440,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算HLA_DR+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_HLA_DR_all, HLA_DR_df, HLA_DR_labels = ratioCalculation2(new_df, model_HLA_DR)
     ratio_HLA_DRPos, ratio_HLA_DRNeg = tuple(ratio_HLA_DR_all)
     # info_list.append(ratio_HLA_DRPos)
@@ -450,7 +450,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD161+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD161_all, CD161_df, CD161_labels = ratioCalculation2(new_df, model_CD161)
     ratio_CD161Pos, ratio_CD161Neg = tuple(ratio_CD161_all)
     # info_list.append(ratio_CD161Pos)
@@ -460,7 +460,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD56+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD56_all, CD56_df, CD56_labels = ratioCalculation2(new_df, model_CD56)
     ratio_CD56Pos, ratio_CD56Neg = tuple(ratio_CD56_all)
     # info_list.append(ratio_CD56Pos)
@@ -470,7 +470,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD197+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD197_all, CD197_df, CD197_labels = ratioCalculation2(new_df, model_CD197)
     ratio_CD197Pos, ratio_CD197Neg = tuple(ratio_CD197_all)
     # info_list.append(ratio_CD197Pos)
@@ -480,7 +480,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD68+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD68_all, CD68_df, CD68_labels = ratioCalculation2(new_df, model_CD68)
     ratio_CD68Pos, ratio_CD68Neg = tuple(ratio_CD68_all)
     # info_list.append(ratio_CD68Pos)
@@ -490,7 +490,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD24+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD24_all, CD24_df, CD24_labels = ratioCalculation2(new_df, model_CD24)
     ratio_CD24Pos, ratio_CD24Neg = tuple(ratio_CD24_all)
     # info_list.append(ratio_CD24Pos)
@@ -500,7 +500,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD28+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD28_all, CD28_df, CD28_labels = ratioCalculation2(new_df, model_CD28)
     ratio_CD28Pos, ratio_CD28Neg = tuple(ratio_CD28_all)
     # info_list.append(ratio_CD28Pos)
@@ -510,7 +510,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算ki67+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_ki67_all, ki67_df, ki67_labels = ratioCalculation2(new_df, model_ki67)
     ratio_ki67Pos, ratio_ki67Neg = tuple(ratio_ki67_all)
     # info_list.append(ratio_ki67Pos)
@@ -520,7 +520,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算PD1+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_PD1_all, PD1_df, PD1_labels = ratioCalculation2(new_df, model_PD1)
     ratio_PD1Pos, ratio_PD1Neg = tuple(ratio_PD1_all)
     # info_list.append(ratio_PD1Pos)
@@ -530,7 +530,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD278+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD278_all, CD278_df, CD278_labels = ratioCalculation2(new_df, model_CD278)
     ratio_CD278Pos, ratio_CD278Neg = tuple(ratio_CD278_all)
     # info_list.append(ratio_CD278Pos)
@@ -540,7 +540,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CCR6+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CCR6_all, CCR6_df, CCR6_labels = ratioCalculation2(new_df, model_CCR6)
     ratio_CCR6Pos, ratio_CCR6Neg = tuple(ratio_CCR6_all)
     # info_list.append(ratio_CCR6Pos)
@@ -550,7 +550,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD123+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD123_all, CD123_df, CD123_labels = ratioCalculation2(new_df, model_CD123)
     ratio_CD123Pos, ratio_CD123Neg = tuple(ratio_CD123_all)
     # info_list.append(ratio_CD123Pos)
@@ -560,7 +560,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD25+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD25_all, CD25_df, CD25_labels = ratioCalculation2(new_df, model_CD25)
     ratio_CD25Pos, ratio_CD25Neg = tuple(ratio_CD25_all)
     # info_list.append(ratio_CD25Pos)
@@ -570,7 +570,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算foxp3+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_foxp3_all, foxp3_df, foxp3_labels = ratioCalculation2(new_df, model_foxp3)
     ratio_foxp3Pos, ratio_foxp3Neg = tuple(ratio_foxp3_all)
     # info_list.append(ratio_foxp3Pos)
@@ -580,7 +580,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD274+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD274_all, CD274_df, CD274_labels = ratioCalculation2(new_df, model_CD274)
     ratio_CD274Pos, ratio_CD274Neg = tuple(ratio_CD274_all)
     # info_list.append(ratio_CD274Pos)
@@ -590,7 +590,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD152+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD152_all, CD152_df, CD152_labels = ratioCalculation2(new_df, model_CD152)
     ratio_CD152Pos, ratio_CD152Neg = tuple(ratio_CD152_all)
     # info_list.append(ratio_CD152Pos)
@@ -600,7 +600,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD85j+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD85j_all, CD85j_df, CD85j_labels = ratioCalculation2(new_df, model_CD85j)
     ratio_CD85jPos, ratio_CD85jNeg = tuple(ratio_CD85j_all)
     # info_list.append(ratio_CD85jPos)
@@ -610,7 +610,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD183+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD183_all, CD183_df, CD183_labels = ratioCalculation2(new_df, model_CD183)
     ratio_CD183Pos, ratio_CD183Neg = tuple(ratio_CD183_all)
     # info_list.append(ratio_CD183Pos)
@@ -620,7 +620,7 @@ def markerRatioCalculation(raw_df):
 
     # 计算CD38+-的比率
     # new_df = pd.read_csv(data_path+info).iloc[:, :-1]
-    new_df = copy.deepcopy(Viable_df)
+    new_df = copy.deepcopy(raw_df)
     ratio_CD38_all, CD38_df, CD38_labels = ratioCalculation2(new_df, model_CD38)
     ratio_CD38Pos, ratio_CD38Neg = tuple(ratio_CD38_all)
     # info_list.append(ratio_CD38Pos)

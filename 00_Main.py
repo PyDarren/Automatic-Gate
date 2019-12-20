@@ -13,6 +13,7 @@ from immuneAgeSubsets import subsetsRatioCalculation, subsetsRatioCalculation_re
 from confidenceCalculation import confidence_calculation
 from immuneAgeCalculation import predict_age
 from immuneImpairment import immuneImpairmentMatrix
+from lung_cancer_classifier import lung_cancer_ratio
 
 
 warnings.filterwarnings('ignore')
@@ -41,6 +42,13 @@ def scaling(df):
         normalization(df, subset)
         print('Cell subset "%s" has finished.' % subset)
 
+
+def confidence_adjuest(df):
+    df.iloc[4,1] = df.iloc[4,1] * df.iloc[3,1] / 100
+    df.iloc[42,1] = df.iloc[42,1] * df.iloc[3,1] / 100
+    df.iloc[70,1] = df.iloc[70,1] * df.iloc[69,1] / 100
+    df.iloc[80,1] = df.iloc[80,1] * df.iloc[69,1] / 100
+    return df
 
 
 
@@ -99,6 +107,7 @@ if __name__ == '__main__':
     immune_age_all = pd.DataFrame()
     ratio34_all = pd.DataFrame()
     impair_all = pd.DataFrame()
+    lung_cancer_all = pd.DataFrame()
 
     for info in file_list:
         sample_id = info[:9]
@@ -144,12 +153,15 @@ if __name__ == '__main__':
         real_df.index = [i for i in range(real_df.shape[0])]
         real_df = real_df[['subset', 'frequency']]
         real_df['frequency'] = real_df['frequency'].apply(lambda x: x*100)
+        real_df.to_excel(sample_path+'real_df.xlsx', index=False)
         real_merge_df.index = [sample_id]
         real_all = real_all.append(real_merge_df)
 
 
         # 3. 计算置信区间相对值
-        confidence_df = confidence_calculation(real_df)
+        real_df_copy = copy.deepcopy(real_df)
+        real_df_adjust = confidence_adjuest(real_df_copy)
+        confidence_df = confidence_calculation(real_df_adjust)
         confidence_df.to_excel(sample_path+'confidence.xlsx', index=False)
         print('Confidence calculation has finished!', '\n')
         confidence_merge_df = confidence_df.T
@@ -178,6 +190,14 @@ if __name__ == '__main__':
         print('Immune impairment matrix has finished!', '\n')
         impair_all = impair_all.append(impair_df)
 
+        # 6. 肺癌风险预测
+        lung_cancer_prob = lung_cancer_ratio(real_df)
+        lung_df = pd.DataFrame([lung_cancer_prob])
+        lung_df.index = [sample_id]
+        lung_df.columns = ['probability']
+        lung_df.to_excel(sample_path+'lung_cancer.xlsx')
+        lung_cancer_all = lung_cancer_all.append(lung_df)
+
 
     ratio_all.to_excel(output_path+'ratio_all.xlsx')
     real_all.to_excel(output_path+'real_all.xlsx')
@@ -186,6 +206,7 @@ if __name__ == '__main__':
     ratio34_all.to_excel(output_path+'ratio34_all.xlsx', index=False)
     impair_all.to_excel(output_path+'impairment_all.xlsx', index=False)
     label_frequency_all.to_excel(output_path+'label_frequency.xlsx')
+    lung_cancer_all.to_excel(output_path+'lung_cancer_all.xlsx')
 
     # 提取置信区间66亚群比率
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
