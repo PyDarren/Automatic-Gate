@@ -14,6 +14,7 @@ from confidenceCalculation import confidence_calculation
 from immuneAgeCalculation import predict_age
 from immuneImpairment import immuneImpairmentMatrix
 from lung_cancer_classifier import lung_cancer_ratio
+from liver_cancer_classifier import liver_cancer_ratio
 
 
 warnings.filterwarnings('ignore')
@@ -108,6 +109,7 @@ if __name__ == '__main__':
     ratio34_all = pd.DataFrame()
     impair_all = pd.DataFrame()
     lung_cancer_all = pd.DataFrame()
+    liver_cancer_all = pd.DataFrame()
 
     for info in file_list:
         sample_id = info[:9]
@@ -197,7 +199,15 @@ if __name__ == '__main__':
         lung_df.columns = ['probability']
         lung_df.to_excel(sample_path+'lung_cancer.xlsx')
         lung_cancer_all = lung_cancer_all.append(lung_df)
-
+        
+        # 7. 肝癌风险预测
+        liver_cancer_prob = liver_cancer_ratio(real_df)
+        liver_df = pd.DataFrame([liver_cancer_prob])
+        liver_df.index = [sample_id]
+        liver_df.columns = ['probability']
+        liver_df.to_excel(sample_path+'liver_cancer.xlsx')
+        liver_cancer_all = liver_cancer_all.append(liver_df)
+        
 
     ratio_all.to_excel(output_path+'ratio_all.xlsx')
     real_all.to_excel(output_path+'real_all.xlsx')
@@ -207,6 +217,7 @@ if __name__ == '__main__':
     impair_all.to_excel(output_path+'impairment_all.xlsx', index=False)
     label_frequency_all.to_excel(output_path+'label_frequency.xlsx')
     lung_cancer_all.to_excel(output_path+'lung_cancer_all.xlsx')
+    liver_cancer_all.to_excel(output_path+'liver_cancer_all.xlsx')
 
     # 提取置信区间66亚群比率
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
