@@ -15,6 +15,7 @@ from immuneAgeCalculation import predict_age
 from immuneImpairment import immuneImpairmentMatrix
 from lung_cancer_classifier import lung_cancer_ratio
 from liver_cancer_classifier import liver_cancer_ratio
+from colorectal_cancer_classifier import colorectal_cancer_ratio
 
 
 warnings.filterwarnings('ignore')
@@ -110,6 +111,7 @@ if __name__ == '__main__':
     impair_all = pd.DataFrame()
     lung_cancer_all = pd.DataFrame()
     liver_cancer_all = pd.DataFrame()
+    colorectal_cancer_all = pd.DataFrame()
 
     for info in file_list:
         sample_id = info[:9]
@@ -208,7 +210,14 @@ if __name__ == '__main__':
         liver_df.to_excel(sample_path+'liver_cancer.xlsx')
         liver_cancer_all = liver_cancer_all.append(liver_df)
         
-
+        # 8. 结直肠癌风险预测
+        colorectal_cancer_prob = colorectal_cancer_ratio(real_df)
+        colorectal_df = pd.DataFrame([colorectal_cancer_prob])
+        colorectal_df.index = [sample_id]
+        colorectal_df.columns = ['probability']
+        colorectal_df.to_excel(sample_path+'colorectal_cancer.xlsx')
+        colorectal_cancer_all = colorectal_cancer_all.append(colorectal_df)
+        
     ratio_all.to_excel(output_path+'ratio_all.xlsx')
     real_all.to_excel(output_path+'real_all.xlsx')
     confidence_all.to_excel(output_path+'confidence_all.xlsx')
@@ -218,6 +227,7 @@ if __name__ == '__main__':
     label_frequency_all.to_excel(output_path+'label_frequency.xlsx')
     lung_cancer_all.to_excel(output_path+'lung_cancer_all.xlsx')
     liver_cancer_all.to_excel(output_path+'liver_cancer_all.xlsx')
+    colorectal_cancer_all.to_excel(output_path+'colorectal_cancer_all.xlsx')
 
     # 提取置信区间66亚群比率
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
