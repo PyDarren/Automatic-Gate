@@ -7,7 +7,7 @@ from FCS import Fcs
 from tkinter import filedialog
 import pandas as pd
 import numpy as np
-import os, re, sys, warnings, copy
+import os, re, warnings, copy
 from marker_ratio_calculation import markerRatioCalculation
 from immuneAgeSubsets import subsetsRatioCalculation, subsetsRatioCalculation_real
 from confidenceCalculation import confidence_calculation
@@ -17,9 +17,7 @@ from lung_cancer_classifier import lung_cancer_ratio
 from liver_cancer_classifier import liver_cancer_ratio
 from colorectal_cancer_classifier import colorectal_cancer_ratio
 
-
 warnings.filterwarnings('ignore')
-
 
 
 def normalization(df, feature):
@@ -46,6 +44,11 @@ def scaling(df):
 
 
 def confidence_adjuest(df):
+    '''
+    Corrected the calculation formula of some subsets.
+    :param df:
+    :return:
+    '''
     df.iloc[4,1] = df.iloc[4,1] * df.iloc[3,1] / 100
     df.iloc[42,1] = df.iloc[42,1] * df.iloc[3,1] / 100
     df.iloc[70,1] = df.iloc[70,1] * df.iloc[69,1] / 100
@@ -57,16 +60,16 @@ def confidence_adjuest(df):
 
 if __name__ == '__main__':
     ###################################################
-    ####    1.读取singlets导出的FCS文件并转换成CSV    ####
+    ####    1.Read FCS file and convert to CSV     ####
     ###################################################
-    # 选择路径
+    # Choose File Path
     Fpath = filedialog.askdirectory()
     os.makedirs(Fpath+"/WriteFcs/")
     os.makedirs(Fpath+"/Output/")
     csv_path = Fpath + '/WriteFcs/'
     output_path = Fpath + '/Output/'
 
-    # 读取panel表信息
+    # Read Panel Information
     panel_file = Fpath + "/panel.xlsx"
     panel_tuple = Fcs.export_panel_tuple(panel_file)
     print(panel_tuple)
@@ -77,29 +80,22 @@ if __name__ == '__main__':
         pars = fcs.marker_rename(fcs.pars, *panel_tuple)
         stain_channel_index = fcs.get_stain_channels(pars)
 
-        # 添加event_length, 191, 193, 194, 140
+        # Add event_length, 191, 193, 194, 140
         add_channel = ["Event_length", "Ir191Di", "Ir193Di", "Pt194Di", "Ce140Di"]
         add_index = [i + 1 for i in range(0, len(pars)) if pars[i].par_short_name in add_channel]
         stain_channel_index.extend(add_index)
         pars = [pars[i] for i in range(0, len(pars)) if i + 1 in stain_channel_index]
-        # 根据当前的filename去查找新的name
+        # Rename new file
         new_filename = re.sub("-", "", filename)
         new_filename = re.sub("^.+?_", "", new_filename)
         # new_filename = re.sub("^.+?_", "", new_filename)
         new_file = Fpath + "/WriteFcs/" + new_filename
-
-        # # 重写marker-name
-        # pars = fcs.marker_rename(fcs.pars, *panel_tuple)
-        # new_filename = re.sub('-', '', filename)
-        # new_filename = re.sub('^.+?_', 'PLT_', new_filename)
-        # new_filename = re.sub(r'fcs$', 'csv', new_filename)
-        # new_file = Fpath + "/WriteFcs/" + new_filename
         fcs.write_to(new_file, pars, to="csv")
-    print('所有样本FCS文件均已转换为CSV文件', '\n','-'*100,'\n')
+    print('All FCS files have been converted to CSV files.', '\n', '-'*100, '\n')
 
 
     ###################################################
-    ####           2.计算        ####
+    ####           2. Calculation                  ####
     ###################################################
     file_list = os.listdir(csv_path)
     label_frequency_all = pd.DataFrame()
@@ -129,15 +125,15 @@ if __name__ == '__main__':
                             'CD20', 'CD16', 'HLA-DR', 'DNA1', 'DNA2', 'cisplatin',
                             'CD4', 'CD8a', 'CD11b']
 
-        # 1. 计算各个marker的标签矩阵
+        # 1. Calculate the label matrix for each marker
         label_df = markerRatioCalculation(sample_df)
         label_frequency = np.sum(label_df)/label_df.shape[0]
         label_frequency_df = pd.DataFrame(label_frequency).T
         label_frequency_df.index = [sample_id]
         label_frequency_all = label_frequency_all.append(label_frequency_df)
-        print('Marker ratio calculation has finished!', '\n')
+        print('Marker ratio calculation has finished!', '\n', '-'*100, '\n')
 
-        # 2. 计算特定亚群的比率
+        # 2. Calculate the ratio of a specific subgroup
         ratio_merge_df = subsetsRatioCalculation(label_df)
         ratio_df = ratio_merge_df.T
         ratio_df['subset'] = list(ratio_df.index)
@@ -145,7 +141,6 @@ if __name__ == '__main__':
         ratio_df.index = [i for i in range(ratio_df.shape[0])]
         ratio_df = ratio_df[['subset', 'frequency']]
         ratio_df['frequency'] = ratio_df['frequency'].apply(lambda x: x*100)
-        print('Subset ratio calculation has finished!', '\n')
         ratio_df.to_excel(sample_path+'subset_ratio.xlsx', index=False)
         ratio_merge_df.index = [sample_id]
         ratio_all = ratio_all.append(ratio_merge_df)
@@ -160,21 +155,22 @@ if __name__ == '__main__':
         real_df.to_excel(sample_path+'real_df.xlsx', index=False)
         real_merge_df.index = [sample_id]
         real_all = real_all.append(real_merge_df)
+        print('Subset ratio calculation has finished!', '\n', '-'*100, '\n')
 
 
-        # 3. 计算置信区间相对值
+        # 3. Calculate the relative value of a confidence interval
         real_df_copy = copy.deepcopy(real_df)
         real_df_adjust = confidence_adjuest(real_df_copy)
         confidence_df = confidence_calculation(real_df_adjust)
         confidence_df.to_excel(sample_path+'confidence.xlsx', index=False)
-        print('Confidence calculation has finished!', '\n')
         confidence_merge_df = confidence_df.T
         confidence_merge_df.columns = list(confidence_df['subset'].values)
         confidence_merge_df = confidence_merge_df.iloc[1:, :]
         confidence_merge_df.index = [sample_id]
         confidence_all = confidence_all.append(confidence_merge_df)
+        print('Confidence calculation has finished!', '\n', '-'*100, '\n')
 
-        # 4. 计算免疫年龄
+        # 4. Calculate immune age
         age_df, ratio34_df = predict_age(ratio_df)
         frequency_list = [info, 'x']
         frequency_list.extend(list(ratio34_df['frequency'].values))
@@ -185,39 +181,44 @@ if __name__ == '__main__':
         age_df.columns = ['immune age']
         age_df.to_excel(sample_path+'immune_age.xlsx', index=False)
         ratio34_df.to_excel(sample_path+'subset34_ratio.xlsx', index=False)
-        print('Immune age calculation has finished!', '\n')
         immune_age_all = immune_age_all.append(age_df)
         ratio34_all = ratio34_all.append(ratio34_df)
+        print('Immune age calculation has finished!', '\n', '-'*100, '\n')
 
-        # 5. 提取免疫损伤矩阵
+        # 5. Extracting immune damage matrix
         impair_df = immuneImpairmentMatrix(ratio_df, sample_id)
-        print('Immune impairment matrix has finished!', '\n')
         impair_all = impair_all.append(impair_df)
+        print('Immune impairment matrix has finished!', '\n', '-'*100, '\n')
 
-        # 6. 肺癌风险预测
+        # 6. Lung cancer risk prediction
         lung_cancer_prob = lung_cancer_ratio(real_df)
         lung_df = pd.DataFrame([lung_cancer_prob])
         lung_df.index = [sample_id]
         lung_df.columns = ['probability']
         lung_df.to_excel(sample_path+'lung_cancer.xlsx')
         lung_cancer_all = lung_cancer_all.append(lung_df)
-        
-        # 7. 肝癌风险预测
+        print('Lung cancer risk prediction has finished!', '\n', '-'*100, '\n')
+
+        # 7. Liver cancer risk prediction
         liver_cancer_prob = liver_cancer_ratio(real_df)
         liver_df = pd.DataFrame([liver_cancer_prob])
         liver_df.index = [sample_id]
         liver_df.columns = ['probability']
         liver_df.to_excel(sample_path+'liver_cancer.xlsx')
         liver_cancer_all = liver_cancer_all.append(liver_df)
-        
-        # 8. 结直肠癌风险预测
+        print('Liver cancer risk prediction has finished!', '\n', '-'*100, '\n')
+
+        # 8. Colorectal cancer risk prediction
         colorectal_cancer_prob = colorectal_cancer_ratio(real_df)
         colorectal_df = pd.DataFrame([colorectal_cancer_prob])
         colorectal_df.index = [sample_id]
         colorectal_df.columns = ['probability']
         colorectal_df.to_excel(sample_path+'colorectal_cancer.xlsx')
         colorectal_cancer_all = colorectal_cancer_all.append(colorectal_df)
-        
+        print('Colorectal cancer risk prediction has finished!', '\n', '-'*100, '\n')
+
+        print('Sample %s has finished. Start next.' % sample_id)
+
     ratio_all.to_excel(output_path+'ratio_all.xlsx')
     real_all.to_excel(output_path+'real_all.xlsx')
     confidence_all.to_excel(output_path+'confidence_all.xlsx')
@@ -229,7 +230,7 @@ if __name__ == '__main__':
     liver_cancer_all.to_excel(output_path+'liver_cancer_all.xlsx')
     colorectal_cancer_all.to_excel(output_path+'colorectal_cancer_all.xlsx')
 
-    # 提取置信区间66亚群比率
+    # Extract the confidence interval 66 subgroup ratios
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
     select_subsets = list(select_subsets_df['subset'].values)
     confidence_66_ratio = real_all.loc[:, select_subsets].T
@@ -238,7 +239,7 @@ if __name__ == '__main__':
 
 
     ###################################################
-    ####           3. 免疫损伤预处理                ####
+    ####  3. Immune impairment preconditioning     ####
     ###################################################
     os.makedirs(output_path+'immune_impairment/')
     os.makedirs(output_path+'immune_impairment/per_sample_data/')
@@ -264,4 +265,3 @@ if __name__ == '__main__':
         sample_df = sample_df[sample_df['year'].isin(year_list)]
         sample_df.to_csv(output_path+'immune_impairment/per_sample_data/%s.csv' % sample_id,
                          index=False)
-
