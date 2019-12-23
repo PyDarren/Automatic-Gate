@@ -101,6 +101,7 @@ if __name__ == '__main__':
     label_frequency_all = pd.DataFrame()
     ratio_all = pd.DataFrame()
     real_all = pd.DataFrame()
+    real_adjust_all = pd.DataFrame()
     confidence_all = pd.DataFrame()
     immune_age_all = pd.DataFrame()
     ratio34_all = pd.DataFrame()
@@ -169,6 +170,10 @@ if __name__ == '__main__':
         confidence_merge_df.index = [sample_id]
         confidence_all = confidence_all.append(confidence_merge_df)
         print('Confidence calculation has finished!', '\n', '-'*100, '\n')
+        adjust_df = pd.DataFrame(real_df_adjust['frequency'].values).T
+        adjust_df.columns = list(real_df_adjust['subset'].values)
+        adjust_df.index = [sample_id]
+        real_adjust_all = real_adjust_all.append(adjust_df)
 
         # 4. Calculate immune age
         age_df, ratio34_df = predict_age(ratio_df)
@@ -233,7 +238,7 @@ if __name__ == '__main__':
     # Extract the confidence interval 66 subgroup ratios
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
     select_subsets = list(select_subsets_df['subset'].values)
-    confidence_66_ratio = real_all.loc[:, select_subsets].T
+    confidence_66_ratio = real_adjust_all.loc[:, select_subsets].T
     confidence_66_ratio = confidence_66_ratio.multiply(100)
     confidence_66_ratio.to_excel(output_path+'confidence_66_ratio.xlsx')
 
