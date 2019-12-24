@@ -239,7 +239,6 @@ if __name__ == '__main__':
     select_subsets_df = pd.read_excel('C:/Users/pc/OneDrive/PLTTECH/Project/00_immune_age_project/Rawdata/置信区间选择.xlsx')
     select_subsets = list(select_subsets_df['subset'].values)
     confidence_66_ratio = real_adjust_all.loc[:, select_subsets].T
-    confidence_66_ratio = confidence_66_ratio.multiply(100)
     confidence_66_ratio.to_excel(output_path+'confidence_66_ratio.xlsx')
 
 
